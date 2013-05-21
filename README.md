@@ -69,7 +69,8 @@ Load the following address in your browser:
 http://localhost/media-server/index.php
 ```
 
-You will be redirected to the login page and if you did not update the users' section in the configuration file yet, you can use the following login and password :
+You will be redirected to the login page and if you did not update the users' section in the configuration file yet, you can use the following information :
 ```bash
-admin / admin
+login: admin
+password: admin
 ```
