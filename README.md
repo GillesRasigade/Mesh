@@ -63,7 +63,7 @@ nano config.ini
 
 ## Test it !
 
-Load in your browser the following address :
+Load the following address in your browser:
 
 ```bash
 http://localhost/media-server/index.php
