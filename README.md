@@ -11,11 +11,15 @@ The user interface is developed in HTML5, Javascript and CSS. No additional lang
 
 # Getting started
 
+## Get the source
+
 Fetch the source code in a proper folder on your media server:
 
 ```bash
 git clone https://github.com/billou-fr/media-manager.git
 ```
+
+## Prepare your system
 
 Create symbolic link in the default Apache2 folder (or simply use your own Virtualhost !):
 
@@ -47,4 +51,12 @@ chown -R www-data: /var/log/media-server
 
 touch /var/log/media-server/application.log
 chown -R www-data: /var/log/media-server/application.log
+```
+
+## Test it !
+
+Load in your browser the following address :
+
+```bash
+http://localhost/media-server/index.php
 ```
