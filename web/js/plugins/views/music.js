@@ -82,19 +82,22 @@
                         
                                 var p = path + '/' + json[i];
                                 
+//                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
+                                if ( json[i] ) {
                                 
-                                var $tr = $('<tr class="music-song" data-path="'+p+'"></tr>');
-                                
-                                for ( var d in $m.view.music.data ) {
-                                    $tr.append( '<td class="song-'+d+' '+$m.view.music.data[d].class+'"></td>' );
+                                    var $tr = $('<tr class="music-song entry" data-path="'+p+'"></tr>');
+
+                                    for ( var d in $m.view.music.data ) {
+                                        $tr.append( '<td class="song-'+d+' '+$m.view.music.data[d].class+'"></td>' );
+                                    }
+
+                                    $tr.find('.song-track').text( $tbody.find('tr').length + 1 );
+                                    $tr.find('.song-title').text( json[i] );
+
+                                    console.log( 77777 , $tr )
+
+                                    $tbody.append( $tr );
                                 }
-                                
-                                $tr.find('.song-track').text( $tbody.find('tr').length + 1 );
-                                $tr.find('.song-title').text( json[i] );
-                                
-                                console.log( 77777 , $tr )
-                                
-                                $tbody.append( $tr );
                                 
                                 i++; f[0]();
                                 

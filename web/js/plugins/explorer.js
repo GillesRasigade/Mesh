@@ -61,7 +61,7 @@
                         
                         case $target.closest( '.album' ).length > 0 : $target = $target.closest( '.album' );
                         case $target.hasClass( 'album' ) :
-                            var path = $target.attr('data-path');
+                            var path = $target.attr('data-path').replace( /^[^:]+:\/\// , '' );
                             var nav = $( '#explorer-tree-nav a[data-path="'+path+'"]' );
                             if ( nav.length ) {// Already loaded folder
                                 nav.trigger( 'click' );
@@ -107,20 +107,33 @@
                 // Search form binding :
                 $m.events.bind( 'submit' , '#form-filter' , function ( event ) {
                     
+                    var search = $('#s').val();
+                    
                     $m.api.get({
                         c:'file',
                         a:'search',
                         path: $m.state.path,
-                        search: $( event.target ).val()
+                        search: search
                     },
                     function( json ){
                         
-                        if ( $( 'search-panel' ).length == 0 ) {
+                        $('#search-results').remove();
+                        
+                        if ( $('#search-results').length == 0 ) {
+                            
+                            console.log( json );
+                            var $results = $('<div id="search-results" class="column folder" data-level="0" data-path="search://'+$m.state.path+'" style="width: 100%;">'+
+                                '<div class="content"></div>'+
+                                '</div>');
+                        
+                            $m.explorer.elt.append( $results );
+                            
+                            $results.addClass('active').siblings('.active').removeClass('active');
                         
                             for ( var type in json ) {
                                 if ( $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
-                                   // $m.view[type].load( p , json[type] );
-                                   console.log( 'Search : object type = ' + type );
+                                    $m.view[type].load( 'search://'+$m.state.path , json[type] );
+                                    console.log( 'Search : object type = ' + type );
                                 }
                             }
                         }
@@ -335,24 +348,33 @@
                                     // Filter inputs already loaded :
                                     for ( var type in json ) {
                                         for ( var i in json[type] ) {
-                                            if ( $('*[data-path$="'+json[type][i]+'"]',$folder).length ) {
-                                                delete json[type][i];
+                                            if ( $('.entry[data-path$="'+json[type][i]+'"]',$folder).length ) {
+                                                json[type].splice(i, 1);
                                             }
                                         }
                                     }
                                     
-                                    var processed = false;
+                                    processing = false;
                                     for ( var type in json ) {
-                                        if ( $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
-                                            processed = true;
-                                            $m.view[type].load( p , json[type] );
+                                        if ( json[type].length > 0 ) {
+                                            processing = true;
+                                            break;
+                                        }
+                                    }
+                                    
+                                    var processed = false;
+                                    if ( processing ) {
+                                        for ( var type in json ) {
+                                            if ( $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
+                                                processed = true;
+                                                $m.view[type].load( p , json[type] );
+                                            }
                                         }
                                     }
 
                                     if ( !processed ) {
                                         $('.folder.active .scroll-detector',$m.explorer.elt).remove();
                                     }
-                                    
                                     setTimeout(function(){ $m.state.loading = false; }, 1000 );
 
                                 });

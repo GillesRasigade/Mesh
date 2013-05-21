@@ -169,7 +169,8 @@
                             if ( i < json.length ) {
                                 var p = path + '/' + json[i];
                                 
-                                if ( $('.entry[data-path="'+p+'"]').length == 0 ) {
+//                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
+                                if ( json[i] ) {
 
                                     $m.api.get({ c: 'file', a: 'access', path: p },function( data ) {
 

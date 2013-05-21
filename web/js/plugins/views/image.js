@@ -51,7 +51,8 @@
                                 var c = i%$m.view.image.columns.number+1
                                 //(function(path,c){
                                 
-                                if ( $('.entry[data-path="'+p+'"]').length == 0 ) {
+//                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
+                                if ( json[i] ) {
                                     
                                     var image = new Image();
                                     var $div = $('<div class="image" data-path="'+p+'"></div>');

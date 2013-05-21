@@ -162,6 +162,11 @@ class Api_Utils {
             }
         }
         
+        // Special key path :
+        if ( isset($result['path']) && preg_match('/^[^:]+:\/\//',$result['path']) ) {
+            $result['path'] = preg_replace('/^[^:]+:\/\//','',$result['path']);
+        }
+        
         return $result;
     }
     

@@ -50,43 +50,47 @@
                         
                                 var p = path+'/'+json[i];
                                 
-                                // Photo positioning :
-                                var h = -1; var column = Math.ceil(Math.random()*$m.view.pdf.columns.number);
-                                var $f = $folder.parent();
-                                for ( var c = 1 ; c <= $m.view.pdf.columns.number ; c++ ) {
-                                    var $c = $folder.find('.pdfs > .column:nth-child('+c+') > .column-content');
-                                    
-                                    
-                                    if ( !$f.hasClass('active') )
-                                        $f.css({'position':'absolute','visibility':'hidden', 'display':'block'});
+//                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
+                                if ( json[i] ) {
+                                
+                                    // Photo positioning :
+                                    var h = -1; var column = Math.ceil(Math.random()*$m.view.pdf.columns.number);
+                                    var $f = $folder.parent();
+                                    for ( var c = 1 ; c <= $m.view.pdf.columns.number ; c++ ) {
+                                        var $c = $folder.find('.pdfs > .column:nth-child('+c+') > .column-content');
 
-                                    var height = $c.height();
 
-                                    if ( !$f.hasClass('active') )
-                                        $f.css({'position':'','visibility':'', 'display':''});
+                                        if ( !$f.hasClass('active') )
+                                            $f.css({'position':'absolute','visibility':'hidden', 'display':'block'});
 
-                                    
-                                    if ( h == -1 || height < h ) {
-                                        h = height; column = c;
+                                        var height = $c.height();
+
+                                        if ( !$f.hasClass('active') )
+                                            $f.css({'position':'','visibility':'', 'display':''});
+
+
+                                        if ( h == -1 || height < h ) {
+                                            h = height; column = c;
+                                        }
                                     }
+
+                                    var title = json[i] ;
+                                    var details = [];
+                                    if ( title.match(/^[\d-,]+ /) ) {
+                                        details.push( title.replace(/^([\d-,]+) .*/,'$1') );
+                                        title = title.replace(/^[\d-,]+ /,'');
+                                    }
+
+                                    //title="'+json['folder'][i]+'"
+                                    var $div = $('<a title="Open this pdf file" target="_blank" data-path="'+p+'" href="'+$m.view.pdf.src(p)+'" class="pdf">'+
+                                            '<img class="pdf-img" src="'+$m.view.pdf.src(p,'thumb')+'" style="height: auto; padding: 0px; margin: 0px; border: 0px;"/>'+
+                                            //'<span class="actions"><i class="icon-remove delete-file"></i></span>'+
+                                            '<span title="'+json[i]+'" class="pdf-title">'+title+'</span>'+
+                                            '<span class="pdf-title details">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
+                                        '</a>');
+
+                                    $folder.find('.pdfs > .column:nth-child('+column+') > .column-content').append($div);
                                 }
-                                
-                                var title = json[i] ;
-                                var details = [];
-                                if ( title.match(/^[\d-,]+ /) ) {
-                                    details.push( title.replace(/^([\d-,]+) .*/,'$1') );
-                                    title = title.replace(/^[\d-,]+ /,'');
-                                }
-                                
-                                //title="'+json['folder'][i]+'"
-                                var $div = $('<a title="Open this pdf file" target="_blank" data-path="'+p+'" href="'+$m.view.pdf.src(p)+'" class="pdf">'+
-                                        '<img class="pdf-img" src="'+$m.view.pdf.src(p,'thumb')+'" style="height: auto; padding: 0px; margin: 0px; border: 0px;"/>'+
-                                        //'<span class="actions"><i class="icon-remove delete-file"></i></span>'+
-                                        '<span title="'+json[i]+'" class="pdf-title">'+title+'</span>'+
-                                        '<span class="pdf-title details">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
-                                    '</a>');
-                                    
-                                $folder.find('.pdfs > .column:nth-child('+column+') > .column-content').append($div);
                                 
                                 i++; f[0]();
                             } else f[1]();

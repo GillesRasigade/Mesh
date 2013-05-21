@@ -29,7 +29,7 @@
                 
                 },
                 
-                load: function ( path , json ) {    
+                load: function ( path , json ) {
                 
                     
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
@@ -41,10 +41,11 @@
                         function () {
                         
                             if ( i < json.length ) {
-                        
-                                var p = path+'/'+json[i];
                                 
-                                if ( $('.entry[data-path="'+p+'"]').length == 0 ) {
+                                var p = ( path )+'/'+json[i];
+                                
+//                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
+                                if ( json[i] ) {
                                 
                                     // Photo positioning :
                                     var h = -1; var column = Math.ceil(Math.random()*$m.view.folder.columns.number);

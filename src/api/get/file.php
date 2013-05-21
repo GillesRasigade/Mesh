@@ -186,7 +186,10 @@ class Api_Get_File {
             
             $search = preg_replace('/ /','.*', $search);
         
-            $cmd = 'find "'. $path .'" -maxdepth 5 -iregex "'. $search .'"';
+            chdir( $path );
+//            $cmd = 'find "'. $path .'" -maxdepth 5 -iregex "'. $search .'"';
+            $cmd = 'find . -maxdepth 5 -iregex "'. $search .'" | sed "s/\.\///"';
+            //$cmd = 'ls --group-directories-first -X "'. $search .'"';
             
         } else {
             $cmd = 'ls --group-directories-first -X "'. $path .'"';
