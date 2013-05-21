@@ -81,22 +81,20 @@ if ( empty($_SESSION['timestamp']) ) {
         
         <div id="top">
             
-            <div id="filter-panel">
-                <form id="form-filter" class="form-search">
-                    <div class="input-append">
-                      <input type="search" id="s" name="s" value="" placeholder="Search" class="span2 search-query" />
-                      <button type="submit" class="btn"><i class="icon-search"></i>&nbsp;</button>
-                    </div>
-                </form>
-            </div>
-            
             <div id="navigation-panel" class="tab-pane row-fluid">
+                <div id="filter-panel">
+                    <form id="form-filter" class="form-search">
+                        <div class="input-append">
+                          <input type="search" id="s" name="s" value="" placeholder="Search" class="search-query tablet" />
+                          <button type="submit" class="btn tablet"><i class="icon-search"></i>&nbsp;</button>
+                        </div>
+                    </form>
+                </div>
                 
                 <div id="menu-dropdown" style="float: left; margin-top: 0.6em;" class="dropdown">
                     <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="icon-file"></i>
                     </a>
-                    
                     
                     <ul class="dropdown-menu">
 
@@ -107,7 +105,7 @@ if ( empty($_SESSION['timestamp']) ) {
                 </div>
                 
                 
-                <div style="max-width: 50%; float: left; overflow-x: scroll;">
+                <div class="mini-scroll" style="max-width: 65%; float: left; overflow-x: scroll;">
                     <ul id="explorer-tree-nav" class="breadcrumb" style="overflow: hidden; white-space: nowrap;"></ul>
                 </div>
             </div>

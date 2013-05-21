@@ -23,11 +23,11 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
 }
 ::-webkit-scrollbar-track:hover {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0);
 }
 ::-webkit-scrollbar-thumb {
     background: rgba(0,0,0,0.1);
@@ -57,10 +57,12 @@ body {
 }
 
 #filter-panel {
+    width: 25%;
     float: right;
     margin-right: 2em;
     margin-top: 0.35em;
     margin-left: -100%;
+    text-align: right;
 }
 
 #top, #mini-player {
@@ -891,9 +893,9 @@ body {
         margin-left: 0em;
     }*/
     
-    #explorer-tree-nav li:not(.visible) {
+    /*#explorer-tree-nav li:not(.visible) {
         display: none;
-    }
+    }*/
     
     #explorer { margin-top: 4em; }
     #explorer-tree i.icon { margin-top: 0.25em; }
@@ -917,3 +919,9 @@ body {
 
 
 
+
+
+
+@media only screen and (max-width : 480px) {
+    .mini-tablet, .tablet, .desktop { display: none !important; }
+}

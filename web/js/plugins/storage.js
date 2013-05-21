@@ -3,23 +3,26 @@
         storage: {
             // Set a parameter as a JSON value in the localStorage or as a cookie if not supported :
             set: function ( key , value ) {
-            
-                // Update the media configuration or state value :
-                ns = key.split('.');
-                if ( ns.length > 1 ) $m[ns[0]][ns[1]] = value;
-            
-                // Replacement of the parameter key to prefix it with the project namespace :
-                key = '$m.' + key;
-//                eval( key + ' = ' + value );
-            
-                // JSON value stringify :
-                value = JSON.stringify( value );
                 
-                console.log( 'storage.set' , key , value );
+                if ( value !== undefined ) {
             
-                // Store the value :
-                if ( window.localStorage ) window.localStorage.setItem( key , value );
-                else document.cookie = key + '=' + value;
+                    // Update the media configuration or state value :
+                    ns = key.split('.');
+                    if ( ns.length > 1 ) $m[ns[0]][ns[1]] = value;
+
+                    // Replacement of the parameter key to prefix it with the project namespace :
+                    key = '$m.' + key;
+    //                eval( key + ' = ' + value );
+
+                    // JSON value stringify :
+                    value = JSON.stringify( value );
+
+                    console.log( 'storage.set' , key , value );
+
+                    // Store the value :
+                    if ( window.localStorage ) window.localStorage.setItem( key , value );
+                    else document.cookie = key + '=' + value;
+                }
             },
             
             // Get a specific value from local storage :

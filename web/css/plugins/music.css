@@ -34,8 +34,3 @@
     background-color: #3e80e0 !important;
     color: white;
 }
-
-
-@media only screen and (max-width : 480px) {
-    .mini-tablet, .tablet, .desktop { display: none; }
-}
