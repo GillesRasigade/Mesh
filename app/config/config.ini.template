@@ -17,9 +17,9 @@ servers['local']        = '/api.php'                                # Applicatio
 
 [types]
 types['server']         = '\.server$'
-types['folder']         = '__DIRECTORY__'
-types['image']         = '(jpe?g|png)$'
-types['video']         = '(ogg|mpeg|avi|mov)$'
+types['folder']         = '__DIRECTORY__'                           # Special keywoard used to identify directories
+types['image']         = '(jpe?g|png)$'                             # JPEG or PNG.
+types['video']         = '(ogg|mpeg|avi|mov)$'                      # Video extensions but might interfere with audio files also
 types['music']         = '(mp3|m4a)$'
 types['pdf']         = '\.pdf$'
 types['card']         = '\.card\.json$'
