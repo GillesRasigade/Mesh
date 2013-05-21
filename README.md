@@ -17,8 +17,32 @@ Fetch the source code in a proper folder on your media server:
 git clone https://github.com/billou-fr/media-manager.git
 ```
 
-Create folders and files (default values are used hereafter):
+Create symbolic link in the default Apache2 folder (or simply use your own Virtualhost !):
 
 ```bash
 sudo ln -s ./web /var/www/media-server
+```
+
+Create directories used by the application and manage permissions:
+
+1. Main directory where all media files are located:
+
+```bash
+mkdir /usr/local/media-server
+```
+
+2. Directory used to store the application data:
+
+```bash
+mkdir /etc/media-server
+```
+
+3. Log file directory:
+
+```bash
+mkdir /var/log/media-server;
+chown -R www-data: /var/log/media-server
+
+touch /var/log/media-server/application.log
+chown -R www-data: /var/log/media-server/application.log
 ```
