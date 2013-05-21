@@ -53,6 +53,14 @@ touch /var/log/media-server/application.log
 chown -R www-data: /var/log/media-server/application.log
 ```
 
+## Create and update the application configuration file:
+
+```bash
+cd ./app/config
+cp config.ini.template config.ini
+nano config.ini
+```
+
 ## Test it !
 
 Load in your browser the following address :
@@ -60,3 +68,5 @@ Load in your browser the following address :
 ```bash
 http://localhost/media-server/index.php
 ```
+
+You will be redirected to the login page and if you did not update the users' section in the configuration file yet, you can use the following login and password : admin / admin
