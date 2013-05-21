@@ -36,13 +36,13 @@ if ( empty($_SESSION['timestamp']) ) {
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <link rel="apple-touch-startup-image" href="images/default-album.gif" />
     
-        <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet"/>
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.js"></script-->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <!--link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet"/-->
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.js"></script>
         
-        <script src="external/js/jquery.min.js"></script>
+        <!--script src="external/js/jquery.min.js"></script-->
         <!--link href="external/css/bootstrap-combined.min.css" rel="stylesheet"/-->
-        <script src="external/js/bootstrap.js"></script>
+        <!--script src="external/js/bootstrap.js"></script-->
         
         <!--link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"-->
         
