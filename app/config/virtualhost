@@ -1,0 +1,12 @@
+
+<VirtualHost *:80>
+  ServerName media.rasigade.fr
+  DocumentRoot /var/www/media/
+  DirectoryIndex index.php
+
+  <Directory "/var/www/media/">
+   AllowOverride All
+   Allow from All
+  </Directory>	
+</VirtualHost>
+
