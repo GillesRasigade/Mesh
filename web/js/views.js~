@@ -1,0 +1,305 @@
+(function($){
+    window.media = $.extend( window.media !== undefined ? window.media : {} , {
+        view: {
+            getCounts: function ( json ) {
+                var counts = {
+                    folder: ( json.folder ? json.folder.length : 0 ),
+                    image: ( json.image ? json.image.length : 0 ),
+                    music: ( json.music ? json.music.length : 0 ),
+                    video: ( json.video ? json.video.length : 0 ),
+                    file: ( json.file ? json.file.length : 0 ),
+                    cards: 0,
+                    albums: 0
+                };
+                
+                for ( var f in json.file ) {
+                    if ( json.file[f].match( /card-\d+.*\.json$/ ) ) {
+                        counts.cards++;
+                    } else if ( json.file[f].match( /album-\d+.*\.json$/ ) ) {
+                        counts.albums++;
+                    }
+                }
+                
+                return counts;
+            },
+            dispatch: function ( json ) {
+                var counts = media.view.getCounts( json );
+                
+                var targetView = currentView = $('#view-switcher .dropdown-menu a.active').attr('href');
+                
+                console.log( 30 , counts );
+                
+                switch ( true ) {
+                    case targetView != '#explorer-music-panel' && counts.music > 0:
+                        $('#view-switcher a[href*="music"]').click();
+                        return true;
+                        break;
+                    case targetView != '#explorer-image-panel' && counts.image > counts.file:
+                        $('#view-switcher a[href*="image"]').click();
+                        return true;
+                        break;
+                    case targetView == '#explorer-music-panel' && ( !json.music || json.music.length == 0 ):
+                        $('#view-switcher a[href*="image"]').click();
+                        return true;
+                        break;
+                    case targetView != '#explorer-card-panel' && ( counts.cards > 0 ):
+                        $('#view-switcher a[href*="card"]').click();
+                        return true;
+                        break;
+                }
+                
+                // Update the view change :
+                if ( targetView != currentView ) {
+                    $('#view-switcher a[href="'+targetView+'"]').addClass('active').siblings().removeClass('active');
+                    $(targetView).show().siblings().hide();
+                    
+                    switch( targetView ) {
+                        case '#explorer-image-panel':
+                            media.view.image.list(json);
+                            break;
+                        case '#explorer-video-panel':
+                            media.view.video.list(json);
+                            break;
+                        case '#explorer-card-panel':
+                            media.view.card.list(json);
+                            break;
+                        default:
+                            media.view.file.list(json);
+                            break;
+                    }
+                    
+                    return true;
+                }
+                
+                return false;
+            },
+            change: function ( event , json ) {
+            
+            console.log( event );
+            
+                // Get the real functional target element :
+                var $target = event instanceof $.Event ? $( event.target ) : $( event );
+                
+                console.log( $target );
+                
+                if ( !$target.attr('href') ) $target = $target.closest('a').length ? $target.closest('a') : $target.find('a').first();
+                
+                
+                
+                console.log( $target , $target.attr('href') );
+                
+                // Read the panel id :
+                var href = $target.attr('href');
+                
+                
+                
+                //if ( !(event instanceof $.Event) ) $(href).show().siblings().hide();
+                
+                // Switch button :
+                if ( $target.closest('.dropdown-menu').length ) {
+                    $target.closest('ul').find('.active').removeClass('active');
+                    $target.addClass('active').parent().addClass('active');
+                    $('#view-switcher .dropdown-toggle i').attr('class', $target.find('i').attr('class') );
+                } else
+                    $target.toggleClass('active');
+                
+                media.config.setConfig( 'view' , href.replace(/#explorer-([^-]+)-panel/,'$1') );
+                
+                $('#left').scrollTop(0);
+                
+                $( href ).show().siblings().hide();
+                
+                if ( $target.find('.icon-search').length && $target.hasClass('active') ) {
+                    
+                    //$('#explorer-tree-nav').hide();
+                    $('#search').show().focus();
+                
+                } else {
+                
+                    //$('#search').val('').hide();
+                    $('#explorer-tree-nav').show();
+                
+                    switch ( href ) {
+                        // Navigation links :
+                        case '#explorer-tree-panel':
+                            
+                            $('#explorer-tree').empty();
+                            
+                            if ( json !== undefined ) media.view.file.list(json);
+                            else media.api.get({c:'file',a:'list',path: media.token.path},function(json){
+                                media.view.file.list(json);
+                            });
+                            break;
+                        case '#explorer-image-panel':
+                        
+                            $('#explorer-image .column-content').empty();
+                            
+                            if ( json !== undefined ) media.view.image.list(json);
+                            else media.api.get({c:'image',a:'list',path: media.token.path},function(json){
+                                media.view.image.list(json);
+                            });
+                            break;
+                        case '#explorer-music-panel':
+                        
+                            $('#explorer-music').empty();
+                            
+                            media.view.image.details( media.token.path );
+                            
+                            if ( json !== undefined ) media.view.music.list(json);
+                            else media.api.get({c:'music',a:'list',path: media.token.path},function(json){
+                                media.view.music.list(json);
+                            });
+                            break;
+                            
+                        case '#explorer-video-panel':
+                        
+                            $('#explorer-video').empty();
+                            
+                            if ( json !== undefined ) media.view.music.list(json);
+                            else media.api.get({c:'file',a:'list',path: media.token.path},function(json){
+                                media.view.video.list(json);
+                            });
+                            break;
+                        
+                        case '#explorer-card-panel':
+                        
+                            $('#explorer-card').empty();
+                            
+                            if ( json !== undefined ) media.view.card.list(json);
+                            else media.api.get({c:'file',a:'list',path: media.token.path},function(json){
+                                media.view.card.list(json);
+                            });
+                            break;
+                    }
+                }
+            },
+        
+        
+        
+            video: {
+                count: 0,
+                initialize: function () {
+                    media.view.image.columns.initialize();
+                    
+                    $('body').append(media.image.controls);
+                },
+                columns: {
+                    width: 240, number: 3,
+                    initialize: function () {
+                        $('#explorer-video, #explorer-video-folder').empty();
+                        if ( $('#explorer-image > .column').length == 0 ) {
+                            media.view.video.number = Math.ceil( $('#left').width() / media.view.video.columns.width );
+                        
+                            for ( var i = 0 ; i < media.view.video.columns.number ; i++ ) {
+                                $('#explorer-video, #explorer-video-folder').append('<div class="column" style="width: '+(100/media.view.video.columns.number)+'%;"><div class="column-content"></div></div>');
+                            }
+                        }
+                    },
+                },
+                list: function ( json , scroll ) {
+                    json = json !== undefined ? json : media.video.json;
+                    media.video.json = json;
+                    
+                    if ( scroll === undefined ) {
+                        media.view.video.columns.initialize();
+                    
+                        $('#explorer-video-folder .column-content, #explorer-video .column-content').empty();
+                        media.video.count = 0;
+                        
+                        media.view.file.updateNav();
+                    }
+                    
+                    if ( $('#explorer-video-panel .scroll-detector').length == 0 ) {
+                        $('#explorer-video-panel').append('<div class="scroll-detector" style="float: left; clear: both;"></div>');
+                    }
+                    
+                    for ( var i in json['folder'] ) {
+                        var p = media.token.path+'/'+json['folder'][i];
+                        
+                        // Photo positioning :
+                        var h = -1; var column = c;
+                        for ( var c = 1 ; c <= media.view.image.columns.number ; c++ ) {
+                            var $c = $('#explorer-image-folder > .column:nth-child('+c+') > .column-content');
+                            if ( h == -1 || $c.height() < h ) {
+                                h = $c.height(); column = c;
+                            }
+                        }
+                        
+                        $('#explorer-video-folder > .column:nth-child('+column+') > .column-content').append('<a title="'+json['folder'][i]+'" data-path="'+p+'" href="javascript:void(0)" class="btn img-polaroid" style="background-image: url(\''+media.image.getUrl(p,'thumb')+'\')"><span>'+json['folder'][i]+'</span></a>');
+                    }
+                    
+                    var count = json['video'].length;
+                    for ( var i in json['video'] ) {
+                        var path = media.token.path + '/' + json['video'][i];
+                        (function(path,c){
+                            
+                            var image = new Image();
+                            var $div = $('<div class="image"></div>');
+                            
+                            var $controls = $('<div class="controls">'+
+                                '<div class="btn-toolbar">'+
+                                    '<div class="btn-group">'+
+                                        '<button class="btn btn-mini btn-link"><i class="icon-download"></i></button>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>');
+                            
+                            var $img = $('<img data-preview="'+media.image.getUrl(path,'preview')+'" src="'+media.image.getUrl(path+'.jpg','thumb')+'" style="width: 100%; display: none; margin-bottom: -1em;"/>');
+                            
+                            /*
+                            var totalHeight = -1;
+                            $('#explorer-image > .column').each(function(i,o){
+                                var h = $(o).height();
+                                if ( totalHeight == -1 || h < totalHeight ) {
+                                    c = i+1; totalHeight = h;
+                                }
+                            });
+                            console.log(c);
+                            */
+                            
+                            //$('#explorer-image > .column:nth-child('+c+') > .column-content').append( $div.append( $controls ).append( $img ) );
+                            $('#explorer-video > .column:nth-child('+c+') > .column-content').append( $div.append( $img ) );
+                            
+                            image.onload = function () {
+                            
+                                $img.css('margin-bottom', '0em');
+                                
+                                //$('#explorer-image > .column:nth-child('+c+') > .column-content').append('<img src="'+media.image.getUrl(path,'thumb')+'" style="width: 100%;"/>');
+                                $img.fadeIn();
+                            }
+                            image.src = media.image.getUrl(path+'.jpg','thumb');
+                            
+                            //$('#explorer-image').append('<div style="float: left;"><img src="'+media.image.getUrl(path,'thumb')+'"/></div>');
+                        })(path,i%media.view.video.columns.number+1);
+                    }
+                    
+                    media.video.count += media.api.utils.fileCount( media.video.json );
+                    
+                    if ( count > 0 ) {
+                        setTimeout(function(){
+                            $('#left').trigger('scroll.media');
+                        },250);
+                    }
+                },
+                details: function ( path ) {
+            
+                    var token = path.replace(/.*token=([^&]+).*/,'$1');
+                    if ( token != path ) {
+                        var t = media.api.utils.readToken( token );
+                        path = t.path;
+                    }            
+                    $details = $('#details-home').attr('data-type','video');//.animate({opacity: 0})
+                    $('#right').scrollTop(0);
+
+                    var src = media.api.utils.getUrl('file','access',{ path: path });
+                    
+                    var $media = $('.media',$details);
+                    
+                    $media.empty().append('<video src="'+src+'" autoplay="autoplay" controls="controls" style="width: 100%;"/>');
+                    
+                    
+                }
+            }
+        }
+    });
+})(jQuery);

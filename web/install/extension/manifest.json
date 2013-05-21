@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+
+  "name": "Media Explorer",
+  "description": "Media explorer",
+  "version": "1.0",
+  
+  "icons": {
+    "32": "favicon-32.png",
+    "64": "favicon-64.png",
+    "128": "favicon-128.png"
+  },
+
+  "permissions": [
+    "http://www.rasigade.fr/"
+  ],
+  "browser_action": {
+    "default_icon": "favicon.png",
+    "default_popup": "popup.html"
+  }
+}

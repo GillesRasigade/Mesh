@@ -1,0 +1,129 @@
+.pdf {
+    display: block;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0.5em 0.25em;
+    
+    background-image: url('../images/default-album.gif');
+    text-decoration: none !important;
+    
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    
+    /*
+    border-top: 0.5em solid transparent;
+    */
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    
+    margin-top: 1em;
+}
+
+.pdf .pdf-title {
+    display: block;
+    line-height: 2em;
+    padding-left: 0.5em;
+    padding: 0.5em 0.25em 0.5em 1em;
+    
+    color: black;
+    
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    font-size: 0.9em;
+    
+    background-color: white;
+}
+
+.pdf .pdf-title.details {
+    font-size: 0.8em;
+    color: #999;
+    padding-top: 0px;
+    margin-top: -1em;
+}
+
+.pdf .pdf-title__ {
+    display: block;
+    line-height: 2em;
+    padding-left: 0.5em;
+    
+    color: rgba(255,255,255,0.5);
+    text-shadow: none;
+    
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    font-size: 0.9em;
+    
+    margin-top: -2em;
+    
+    background-color: rgba(255,255,255,0);
+    
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.pdf {
+    text-decoration: none;
+}
+
+/*
+.pdf .pdf-title {
+    color: rgba(255,255,255,0.75);
+    
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+    
+    background-color: rgba(0,0,0,0);
+    
+    background-image: -ms-linear-gradient(left, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 85%);
+    background-image: -moz-linear-gradient(left, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 85%);
+    background-image: -o-linear-gradient(left, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 85%);
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(0,0,0,0.75)), color-stop(0.85, rgba(0,0,0,0)));
+    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 85%);
+    background-image: linear-d4d8e3gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 85%);
+}
+
+.pdf:hover .pdf-title {
+    color: white;
+    
+    background-color: rgba(0,0,0,0.85);
+}*/
+
+/*#explorer .card:hover {
+    border-color: white;
+}*/
+
+.pdf .img-polaroid {
+    display: block;
+    height: 10em;
+    margin-top: 0em;
+    /*margin-bottom: 3em;*/
+    
+    border-radius: 0px;
+    
+    background-color: transparent;
+    background-position-x: 15%;
+    background-position-y: 15%;
+    background-size: 100%;
+    background-image: url('../images/default-album.gif');
+    
+    /*border-width: 0px 0px 1px 0px;*/
+    /*border: 1px solid rgba(0,0,0,0.15);*/
+    border-width: 0px;
+    
+    /*
+    -webkit-box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+	box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+	*/
+	
+}

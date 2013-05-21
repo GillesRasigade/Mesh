@@ -1,0 +1,159 @@
+#album-editor {
+    width: 99.5%;
+    /*height: 100%;*/
+    overflow: auto;
+    padding-top: 2em;
+}
+
+#album-editor .album-title {
+    margin: 2em 0em -1em 0em;
+    font-size: 1.2em;
+    text-align: center;
+    border: 0px;
+    background: transparent;
+    width: 100%;
+    outline: none;
+    box-shadow: none;
+}
+
+#album-editor .album-wrapper {  
+    width: 297mm;
+    height: 210mm;
+    margin: 2em;
+    position: relative;
+    
+    -webkit-box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+	box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+}
+
+#album-editor .album-wrapper .album-page-controls {
+    display: block;
+    left: 0em;
+    position: absolute;
+    bottom: -2em;
+    text-decoration: none;
+    
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
+    filter: alpha(opacity=25);
+    -moz-opacity: 0.25;
+    -khtml-opacity: 0.25;
+    opacity: 0.25;
+    
+    -webkit-transition: opacity 0.3s;
+    -moz-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
+#album-editor .album-wrapper .album-page-controls.album-controls-right {
+    left: auto;
+    right: 0em;
+}
+
+#album-editor .album-wrapper .album-page-controls:hover {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+}
+
+#album-editor .album-wrapper .page-name {
+    position: absolute;
+    top: -0em;
+    font-size: 0.6em;
+    right: 0em;
+    margin: 0em 1em;
+    color: #666;
+    border: 0px;
+    background: transparent;
+    width: auto;
+    outline: none;
+    box-shadow: none;
+    text-align: right;
+}
+#album-editor .album-wrapper div.page-name {
+    top: auto;
+    bottom: 0em;
+    color: #aaa;
+}
+
+#album-editor .album-wrapper .album-page-left .page-name {
+    left: 0em;
+    text-align: left;
+}
+
+#album-editor .album-wrapper .album-page,
+#album-editor .album-wrapper .album-page-left,
+#album-editor .album-wrapper .album-page-right {
+    width: 50%;
+    height: 100%;
+    background: white;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 2px solid transparent;
+    border-top: 2px solid transparent;
+}
+
+#album-editor .album-wrapper .album-page.selected {
+    border-color: rgba(0,0,255,0.25);
+}
+
+#album-editor .album-wrapper .album-page.right,
+#album-editor .album-wrapper .album-page-right {
+    float: right;
+    
+    background-image: -ms-linear-gradient(left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 25%);
+    background-image: -moz-linear-gradient(left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 25%);
+    background-image: -o-linear-gradient(left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 25%);
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(0,0,0,0.5)), color-stop(0.25, rgba(0,0,0,0)));
+    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 5%);
+    background-image: linear-d4d8e3gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 25%);
+    
+    border-left: 1px solid rgba(0,0,0,0.15);
+    margin-left: -1px;
+}
+
+#album-editor .album-wrapper .album-page.left,
+#album-editor .album-wrapper .album-page-left {
+    
+    background-image: -ms-linear-gradient(left, rgba(0,0,0,0) 75%, rgba(0,0,0,0.5) 10%);
+    background-image: -moz-linear-gradient(left, rgba(0,0,0,0) 75%, rgba(0,0,0,0.5) 100%);
+    background-image: -o-linear-gradient(left, rgba(0,0,0,0) 75%, rgba(0,0,0,0.5) 100%);
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(0.75, rgba(0,0,0,0)), color-stop(1, rgba(0,0,0,0.5)));
+    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0) 95%, rgba(0,0,0,0.1) 100%);
+    background-image: linear-d4d8e3gradient(to right, rgba(0,0,0,0) 75%, rgba(0,0,0,0.5) 100%);
+    
+}
+
+#album-editor .album-image.selected {
+    border: 2px solid red !important;
+}
+
+#album-editor .album-image,
+#album-editor .album-text,
+#album-editor .album-image img {
+    position: absolute;
+}
+
+#album-editor .album-image img {
+    max-width: none;
+    max-height: none;
+}
+
+#album-editor .album-image {
+    overflow: hidden;
+}
+
+#album-editor .album-text textarea {
+    border-color: transparent;
+    box-shadow: none;
+    background: transparent;
+    text-align: center;
+}
+
+#album-editor .album-text:hover textarea,
+#album-editor .album-text textarea:focus {
+    border-color: #ddd;
+    /*background: white;*/
+}

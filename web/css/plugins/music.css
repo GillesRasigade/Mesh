@@ -1,0 +1,41 @@
+
+.music.type > .title {
+    float: left;
+    margin: -1em auto 0.5em 1em;
+    padding: 1em 1em 0.5em 0em;
+    font-size: 1.5em;
+}
+
+/*.music.type > .title {
+    float: right;
+    padding: 1em 1em 0.5em 0em;
+    font-size: 1.5em;
+}*/
+
+.music.type > table {
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.25);
+}
+.music-song {
+    cursor: pointer;
+}
+
+.music-song td {
+    -webkit-transition: background-color 0.5s;
+    -moz-transition: background-color 0.5s;
+    -o-transition: background-color 0.5s;
+    transition: background-color 0.5s;
+}
+
+.music-song:hover td {
+    background-color: #f9edbe !important;
+}
+
+.music-song.active td {
+    background-color: #3e80e0 !important;
+    color: white;
+}
+
+
+@media only screen and (max-width : 480px) {
+    .mini-tablet, .tablet, .desktop { display: none; }
+}

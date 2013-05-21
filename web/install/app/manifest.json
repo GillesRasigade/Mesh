@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "Media Explorer",
+  "version": "1",
+  "permissions": ["webview"],
+  "icons": {
+    "32": "favicon-32.png",
+    "64": "favicon-64.png",
+    "128": "favicon-128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  }
+}

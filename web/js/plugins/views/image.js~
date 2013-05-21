@@ -1,0 +1,92 @@
+(function($){
+    window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
+        view: {
+        
+            image: {
+            
+                src: function ( path , mode ) {
+                    return $m.api.utils.url('image','access',{
+                        path: path, mode: mode !== undefined ? mode : 'full'
+                    });
+                },
+            
+            
+                columns: {
+                    width: 320, number: 3,
+                },
+                initialize: function( path ) {
+                
+                    var $folder = $( '.folder[data-path="'+path+'"] .content' );
+                    
+                    if ( $folder.length ) {
+                    
+                        $folder.find('.images').remove();
+                            
+                        var $folders = $('<div class="images type"></div>');
+                        
+                        $m.view.image.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.image.columns.width ));
+                    
+                        for ( var i = 0 ; i < $m.view.image.columns.number ; i++ ) {
+                            $folders.append('<div class="column" style="width: '+(100/$m.view.image.columns.number)+'%;"><div class="column-content"></div></div>');
+                        }
+                        
+                        $folder.append( $folders );
+                    }
+                
+                },
+                
+                load: function ( path , json , initialize ) {
+                
+                    if ( initialize === true ) $m.view.image.initialize( path );
+                    
+                    var $folder = $( '.folder[data-path="'+path+'"] .content' );
+                    var i = 0;
+                    var f = [
+                        function () {
+                        
+                            if ( i < json.length ) {
+                        
+                                var p = path + '/' + json[i];
+                                (function(path,c){
+                                    
+                                    var image = new Image();
+                                    var $div = $('<div class="image"></div>');
+                                    
+                                    var $img = $('<img draggable="true" data-preview="'+$m.view.image.src(path,'preview')+'" src="'+$m.view.image.src(path,'thumb')+'" style="width: 100%; display: none;"/>');
+                                    
+                                    image.onload = function () {
+                                        // Photo positioning :
+                                        var h = -1; var column = c !== undefined ? c : 1;
+                                        for ( var c = 1 ; c <= $m.view.image.columns.number ; c++ ) {
+                                            var $c = $folder.find('.images > .column:nth-child('+c+') > .column-content');
+                                            
+                                            $c.closest('.folder').css({'position':'absolute','visibility':'hidden', 'display':'block'});
+                                            var height = $c.height();
+                                            $c.closest('.folder').css({'position':'','visibility':'', 'display':''});
+                                            
+                                            
+                                            if ( h == -1 || height < h ) {
+                                                h = height; column = c;
+                                            }
+                                        }
+                                        
+                                        $folder.find('.images > .column:nth-child('+column+') > .column-content').append( $div.append( $img ) );
+                                                                        
+                                        $img.fadeIn();
+                                        i++; f[0]();
+                                    }
+                                    
+                                    image.src = $m.view.image.src(path,'thumb');
+                                    
+                                })(p,i%$m.view.image.columns.number+1);
+                                
+                            }
+                                
+                            
+                        }
+                    ]; f[0]();
+                },
+            },
+        }
+    } );
+})(jQuery);

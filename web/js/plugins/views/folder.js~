@@ -1,0 +1,84 @@
+(function($){
+    window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
+        view: {
+            folder: {
+                columns: {
+                    width: 320, number: 3,
+                },
+                initialize: function( path ) {
+                
+                    var $folder = $( '.folder[data-path="'+path+'"] .content' );
+                    
+                    if ( $folder.length ) {
+                    
+                        $folder.find('.folders').remove();
+                            
+                        var $folders = $('<div class="folders type"></div>');
+                        
+                        $m.view.folder.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.folder.columns.width ));
+                    
+                        for ( var i = 0 ; i < $m.view.folder.columns.number ; i++ ) {
+                            $folders.append('<div class="column" style="width: '+(100/$m.view.folder.columns.number)+'%;"><div class="column-content"></div></div>');
+                        }
+                        
+                        $folder.append( $folders );
+                    }
+                
+                },
+                
+                load: function ( path , json , initialize ) {
+                
+                    if ( initialize === true ) $m.view.folder.initialize( path );
+                    
+                    var $folder = $( '.folder[data-path="'+path+'"] .content' );
+                    var i = 0;
+                    var f = [
+                        function () {
+                        
+                            if ( i < json.length ) {
+                        
+                                var p = path+'/'+json[i];
+                                
+                                // Photo positioning :
+                                var h = -1; var column = Math.ceil(Math.random()*$m.view.folder.columns.number);
+                                for ( var c = 1 ; c <= $m.view.folder.columns.number ; c++ ) {
+                                    var $c = $folder.find('.folders > .column:nth-child('+c+') > .column-content');
+                                    
+                                    
+                                    $c.closest('.folder').css({'position':'absolute','visibility':'hidden', 'display':'block'});
+                                    var height = $c.height();
+                                    $c.closest('.folder').css({'position':'','visibility':'', 'display':''});
+                                    
+                                    
+                                    if ( h == -1 || height < h ) {
+                                        h = height; column = c;
+                                    }
+                                }
+                                
+                                console.log( 58 , c , h );
+                                
+                                var title = json[i] ;
+                                var details = [];
+                                if ( title.match(/^[\d-,]+ /) ) {
+                                    details.push( title.replace(/^([\d-,]+) .*/,'$1') );
+                                    title = title.replace(/^[\d-,]+ /,'');
+                                }
+                                
+                                //title="'+json['folder'][i]+'"
+                                var $div = $('<a data-path="'+p+'" href="javascript:void(0)" class="album">'+
+                                        '<span class="album-img img-polaroid" style="background-image: url(\''+$m.view.image.src(p,'thumb')+'\')"></span>'+
+                                        '<span title="'+json[i]+'" class="album-title">'+title+'</span>'+
+                                        '<span class="album-title details">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
+                                    '</a>');
+                                    
+                                $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
+                                
+                                i++; f[0]();
+                            }
+                        }
+                    ]; f[0]();
+                }
+            },
+        }
+    } );
+})(jQuery);

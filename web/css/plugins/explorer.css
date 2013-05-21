@@ -1,0 +1,87 @@
+#explorer {
+    margin: 3em 0em;
+    /*height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;*/
+}
+
+#explorer > .column {
+    /*float: right;*/
+    width: 33.33%;
+    height: 100%;
+    overflow: auto;
+    display: none;
+    position: relative;
+    left: 0%;
+    opacity: 1;
+    
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+#explorer > .column.fadein {
+    opacity: 0.5;
+}
+
+#explorer > .column.active {
+    display: inline-block;
+}
+
+#explorer > .column.ingoing {
+    display: inline-block;
+    left: -100%;
+}
+
+#explorer > .column.outgoing {
+    display: inline-block;
+    left: 100%;
+}
+
+#explorer > .column > .content {
+    padding: 1em;
+}
+
+#explorer > .column:not(:last-child) > .content {
+    border-left: 1px solid #ddd;
+}
+
+#explorer > .column > *:last-child {
+    margin-bottom: 25%;
+}
+
+
+#explorer > .column .type:not(:first-child) {
+    margin-top: 1em;
+}
+
+
+#explorer-tree-nav li.active a {
+    color: #333;
+    font-weight: bold;
+}
+
+
+#explorer .folder .content .type {
+    position: relative;
+}
+
+/** MUSIC **/
+#explorer .music.type {
+    margin-left: -1em;
+    margin-right: -1em;
+}
+
+#explorer .music.type table th:first-child,
+#explorer .music.type table td:first-child {
+    padding-left: 1em;
+}
+
+#explorer .music.type table th:last-child,
+#explorer .music.type table td:last-child {
+    padding-right: 1em;
+}
+
+
+
