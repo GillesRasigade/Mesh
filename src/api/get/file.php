@@ -136,11 +136,14 @@ class Api_Get_File {
         
             switch  ( $pattern ) {
                 case '__DIRECTORY__':
-                    if ( is_dir( $path . DIRECTORY_SEPARATOR . $file ) ) $type = $typeId;
+                    if ( is_dir( $path . DIRECTORY_SEPARATOR . $file ) ||
+                            is_dir( $file ) ) $type = $typeId;
                     break;
                 
                 case '__FILE__':
-                    if ( is_file( $path . DIRECTORY_SEPARATOR . $file ) ) $type = $typeId;
+                    
+                    if ( is_file( $path . DIRECTORY_SEPARATOR . $file ) ||
+                            is_file( $file ) ) $type = $typeId;
                     break;
                 
                 default:
