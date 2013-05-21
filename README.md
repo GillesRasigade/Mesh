@@ -29,12 +29,14 @@ Create directories used by the application and manage permissions:
 
 ```bash
 mkdir /usr/local/media-server
+chown -R www-data: /usr/local/media-server
 ```
 
 - Directory used to store the application data:
 
 ```bash
 mkdir /etc/media-server
+chown -R www-data: /etc/media-server
 ```
 
 - Log file directory:
