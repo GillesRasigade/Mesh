@@ -1,18 +1,19 @@
 # Configuration file :
 #
 
-limit                   = 50
+[general]
+limit                   = 50                                        # Default number of results returned by the API
 
 [path]
-path                    = '/usr/local/media-server'
-data                    = '/etc/media-server'
-logs                    = '/var/log/media-server/application.log'
+path                    = '/usr/local/media-server'                 # Path where all files are stored in local disk
+data                    = '/etc/media-server'                       # Path where to store application files (thumbs, data, etc.)
+logs                    = '/var/log/media-server/application.log'   # Log path
 
 [log]
-level                   = 7
+level                   = 4                                         # Application log level
 
 [servers]
-servers['local']        = '/api.php'
+servers['local']        = '/api.php'                                # Application API URL
 
 [types]
 types['server']         = '\.server$'
