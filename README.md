@@ -11,4 +11,14 @@ The user interface is developed in HTML5, Javascript and CSS. No additional lang
 
 # Getting started
 
-Fetch the source code 
+Fetch the source code in a proper folder on your media server:
+
+```bash
+git clone https://github.com/billou-fr/media-manager.git
+```
+
+Create folders and files (default values are used hereafter):
+
+```bash
+sudo ln -s ./web /var/www/media-server
+```
