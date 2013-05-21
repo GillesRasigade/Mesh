@@ -1,6 +1,6 @@
 
 <VirtualHost *:80>
-  ServerName media.rasigade.fr
+  ServerName media.server.fr
   DocumentRoot /var/www/media/
   DirectoryIndex index.php
 
