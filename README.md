@@ -26,19 +26,14 @@ sudo ln -s ./web /var/www/media-server
 Create directories used by the application and manage permissions:
 
 1. Main directory where all media files are located:
-
 ```bash
 mkdir /usr/local/media-server
 ```
-
 2. Directory used to store the application data:
-
 ```bash
 mkdir /etc/media-server
 ```
-
 3. Log file directory:
-
 ```bash
 mkdir /var/log/media-server;
 chown -R www-data: /var/log/media-server
