@@ -1,4 +1,3 @@
-
 <VirtualHost *:80>
   ServerName media.server.fr
   DocumentRoot /var/www/media/
@@ -10,3 +9,18 @@
   </Directory>	
 </VirtualHost>
 
+
+<VirtualHost *:443>
+  ServerName media.server.fr
+  DocumentRoot /var/www/media/
+  DirectoryIndex index.php
+  
+  SSLEngine on
+  SSLCertificateFile /etc/apache2/ssl/media-manager.crt
+	SSLCertificateKeyFile /etc/apache2/ssl/media-manager.pem
+
+  <Directory "/var/www/media/">
+   AllowOverride All
+   Allow from All
+  </Directory>  
+</VirtualHost>
