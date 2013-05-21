@@ -179,17 +179,25 @@ class Api_Get_File {
         if ( array_key_exists('search',$p) ) {
             $search = $p['search'];
             
-            if ( !preg_match('/^\^/',$search) ) $search = ' ' . $search;
-            if ( !preg_match('/\$$/',$search) ) $search = $search . ' ';
+//            if ( !preg_match('/^\^/',$search) ) $search = ' ' . $search;
+//            if ( !preg_match('/^\^/',$search) ) $search = '^' . $search;
+//            if ( !preg_match('/\$$/',$search) ) $search = $search . ' ';
+//            if ( !preg_match('/\$$/',$search) ) $search = $search . '$';
             
-            $search = preg_replace('/(\.|\(|\)|\[|\])/',"\\\\$1",$search);
+//            $search = preg_replace('/(\.|\(|\)|\[|\])/',"\\\\$1",$search);
             
-            $search = preg_replace('/ /','.*', $search);
-        
-            chdir( $path );
+//            $search = preg_replace('/ /','.*', $search);
+            $search = preg_replace('/ +/','.*', $search);
+            
 //            $cmd = 'find "'. $path .'" -maxdepth 5 -iregex "'. $search .'"';
             $cmd = 'find . -maxdepth 5 -iregex "'. $search .'" | sed "s/\.\///"';
-            //$cmd = 'ls --group-directories-first -X "'. $search .'"';
+//            $cmd = 'ls --group-directories-first -X "'. $path . $search .'"';
+//            $cmd = 'ls --group-directories-first -X "'.$path.'"* | grep -i "'. $search .'"';
+            $cmd = 'ls --group-directories-first -X "'.$path.'"* | grep -i "'. $search .'"';
+            
+            chdir( $path );
+            // REF : http://stackoverflow.com/a/1786903
+            $cmd = 'ls -R1 . | while read l; do case $l in *:) d=${l%:};; "") d=;; *) echo "$d/$l";; esac; done | grep -i "'. $search .'" | sed "s/\.\///"';
             
         } else {
             $cmd = 'ls --group-directories-first -X "'. $path .'"';

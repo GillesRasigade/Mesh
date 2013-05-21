@@ -285,8 +285,13 @@
                             '<span class="divider">/</span>'+
                             '<a data-path="'+path+'" href="javascript:void(0);">'+( path == '' ? '<i class="icon-home" style="pointer-events: none;"></i>' : name )+'</a>'+
                         '</li>');
+                
+                console.log( 289 , $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').length , $m.explorer.nav.find('li[data-level="'+(level+1)+'"]').length )
+                
                 if ( $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').length ) {
                     $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').after( $link )
+                } else if ( $m.explorer.nav.find('li[data-level="'+(level+1)+'"]').length ) {
+                    $m.explorer.nav.find('li[data-level="'+(level+1)+'"]').before( $link )
                 } else {
                     $m.explorer.nav.prepend( $link );
                 }
