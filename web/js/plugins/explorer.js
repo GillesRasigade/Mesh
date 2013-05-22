@@ -109,6 +109,8 @@
                     
                     var search = $('#s').val();
                     
+                    $('#filter-panel').addClass('loading');
+                    
                     $m.api.get({
                         c:'file',
                         a:'search',
@@ -118,6 +120,7 @@
                     function( json ){
                         
                         $('#search-results').remove();
+                        $('#filter-panel').removeClass('loading');
                         
                         if ( $('#search-results').length == 0 ) {
                             
@@ -286,14 +289,19 @@
                             '<a data-path="'+path+'" href="javascript:void(0);">'+( path == '' ? '<i class="icon-home" style="pointer-events: none;"></i>' : name )+'</a>'+
                         '</li>');
                 
-                console.log( 289 , $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').length , $m.explorer.nav.find('li[data-level="'+(level+1)+'"]').length )
+                console.log( 289 + ' level : ' , level , folders , path , $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').length , $m.explorer.nav.find('li[data-level="'+(level+1)+'"]').length )
                 
                 if ( $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').length ) {
-                    $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').after( $link )
+                    $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').after( $link );
                 } else if ( $m.explorer.nav.find('li[data-level="'+(level+1)+'"]').length ) {
-                    $m.explorer.nav.find('li[data-level="'+(level+1)+'"]').before( $link )
+                    $m.explorer.nav.find('li[data-level="'+(level+1)+'"]').before( $link );
                 } else {
-                    $m.explorer.nav.prepend( $link );
+                    var $li = $m.explorer.nav.find('li:last-child');
+                    if ( $li.length ) {
+                        var l = parseInt($li.attr('data-level'),10);
+                        if ( l < level ) $m.explorer.nav.append( $link );
+                        else $m.explorer.nav.prepend( $link );
+                    } else $m.explorer.nav.prepend( $link );
                 }
             },
             addFolder: function ( level , folders , path , c ) {
@@ -310,9 +318,16 @@
                     
                     $column.prepend( $content );
                     if ( $('.folder[data-level="'+(level-1)+'"]').length ) {
-                        $('.folder[data-level="'+(level-1)+'"]').after( $column )
+                        $('.folder[data-level="'+(level-1)+'"]').after( $column );
+                    } else if ( $('.folder[data-level="'+(level-1)+'"]').length ) {
+                        $('.folder[data-level="'+(level-1)+'"]').before( $column );
                     } else {
-                        $m.explorer.elt.prepend( $column );
+                        var $folder = $('.folder:last-child');
+                        if ( $folder.length ) {
+                            var l = parseInt($folder.attr('data-level'),10);
+                            if ( l < level ) $m.explorer.elt.append( $column );
+                            else $m.explorer.elt.prepend( $column );
+                        } else $m.explorer.elt.prepend( $column );
                     }
                     
                     $m.events.bind( 'scroll' , '#'+path.replace(/[^0-9a-z]/gi,'-') , $m.explorer.events.scroll );

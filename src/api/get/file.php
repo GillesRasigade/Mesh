@@ -197,7 +197,7 @@ class Api_Get_File {
             
             chdir( $path );
             // REF : http://stackoverflow.com/a/1786903
-            $cmd = 'ls -R1 . | while read l; do case $l in *:) d=${l%:};; "") d=;; *) echo "$d/$l";; esac; done | grep -i "'. $search .'" | sed "s/\.\///"';
+            $cmd = 'ls -L -R1 . | while read l; do case $l in *:) d=${l%:};; "") d=;; *) echo "$d/$l";; esac; done | grep -i "'. $search .'" | sed "s/\.\///"';
             
         } else {
             $cmd = 'ls --group-directories-first -X "'. $path .'"';

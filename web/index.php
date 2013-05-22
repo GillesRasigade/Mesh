@@ -103,6 +103,7 @@ if ( empty($_SESSION['timestamp']) ) {
             <div id="navigation-panel" class="tab-pane row-fluid">
                 <div id="filter-panel">
                     <form id="form-filter" class="form-search">
+                        <button class="btn btn-link" style="margin-left: -3em; float: left; margin-right: -100%;color: #888;"><i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>&nbsp;</button>
                         <div class="input-append">
                           <input type="search" id="s" name="s" value="" placeholder="Search" class="search-query tablet" />
                           <button type="submit" class="btn tablet"><i class="icon-search"></i>&nbsp;</button>
