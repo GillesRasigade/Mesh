@@ -34,8 +34,17 @@
                             break;
                             
                         case $target.hasClass( 'file-download' ) || $target.closest( '.file-download' ).length > 0 :
-                            var path = $target.closest('.album, .image').attr('data-path');
-                            window.location.href = $m.api.utils.url('file','download',{path: path});
+                            var path = $target.closest('.entry').attr('data-path');                            
+                            
+//                            var $a = $('<a target="_blank" href="'+$m.api.utils.url('file','download',{path: path})+'">&nbsp;</a>');
+//                            $('body').append( $a );
+//                            setTimeout(function(){
+//                                $a.click();
+//                            },150);
+//                            $a.remove();
+//                            window.location.href = $m.api.utils.url('file','download',{path: path});
+                            window.open($m.api.utils.url('file','download',{path: path}), '_blank');
+                            return false;
                             break;
                             
                         case $target.hasClass( 'image-cover' ) || $target.closest( '.image-cover' ).length > 0 :

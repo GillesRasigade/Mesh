@@ -88,13 +88,16 @@
                                     }
 
                                     //title="'+json['folder'][i]+'"
-                                    var $div = $('<a target="_blank" data-path="'+p+'" href="'+$m.view.video.src(p)+'" class="video entry">'+
+                                    var $div = $('<div data-path="'+p+'" class="video entry">'+
                                             '<img class="video-img" src="'+$m.view.video.src(p,'thumb')+'" style="height: auto; padding: 0px; margin: 0px; border: 0px;"/>'+
                                             '<i class="video-over icon-play-sign"></i>'+
-                                            '<span class="actions"><i class="icon-facetime-video"></i></span>'+
+                                            '<span class="actions">'+
+                                                '<a target="_blank" href="'+$m.view.video.src(p)+'" class="icon-facetime-video" style="color: black;"></a>'+
+                                                '<div class="btn btn-link file-download"><i class="icon-download"></i></div>'+
+                                            '</span>'+
                                             '<span title="'+json[i]+'" class="video-title">'+title+'</span>'+
                                             '<span class="video-title details">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
-                                        '</a>');
+                                        '</div>');
 
                                     $folder.find('.videos > .column:nth-child('+column+') > .column-content').append($div);
                                 }

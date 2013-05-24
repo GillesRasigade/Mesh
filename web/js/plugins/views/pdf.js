@@ -84,7 +84,9 @@
                                     //title="'+json['folder'][i]+'"
                                     var $div = $('<a title="Open this pdf file" target="_blank" data-path="'+p+'" href="'+$m.view.pdf.src(p)+'" class="pdf">'+
                                             '<img class="pdf-img" src="'+$m.view.pdf.src(p,'thumb')+'" style="height: auto; padding: 0px; margin: 0px; border: 0px;"/>'+
-                                            //'<span class="actions"><i class="icon-remove delete-file"></i></span>'+
+//                                            '<span class="actions">'+
+//                                                '<div class="btn btn-link file-download"><i class="icon-download"></i></div>'+
+//                                            '</span>'+
                                             '<span title="'+json[i]+'" class="pdf-title">'+title+'</span>'+
                                             '<span class="pdf-title details">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
                                         '</a>');

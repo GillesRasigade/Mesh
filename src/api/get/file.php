@@ -256,7 +256,7 @@ class Api_Get_File {
         return $r;
     }
     
-    public function downloadAction (){ 
+    public function downloadAction ( $p = NULL ){ 
         global $config;
     
         $p = $p != NULL ? $p : Api_Utils::readToken();
