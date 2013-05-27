@@ -113,7 +113,7 @@ if ( empty($_SESSION['timestamp']) ) {
                 
                 <div id="menu-dropdown" style="float: left; margin-top: 0.6em;" class="dropdown">
                     <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="icon-file"></i>
+                        <i class="icon-ellipsis-vertical"></i>
                     </a>
                     
                     <ul class="dropdown-menu">
@@ -121,6 +121,18 @@ if ( empty($_SESSION['timestamp']) ) {
                         <li class="divider last"></li>
 
                         <li><a href="login.php"><i class=" icon-signout"></i> logout (<?php echo $_SESSION['login'] ?>)</a></li>
+                    </ul>
+                </div>
+                
+                <div id="servers-dropdown" style="float: left; margin-top: 0.6em; margin-right: -0.5em;" class="dropdown">
+                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="icon-sitemap"></i>
+                    </a>
+                    
+                    <ul class="dropdown-menu">
+                        <?php foreach ( $config['servers'] as $server => $url ): ?>
+                        <li><a href="javascript:void(0);" title="<?php echo $url; ?>"><i class="icon-group"></i> &nbsp; <?php echo $server; ?></a></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 

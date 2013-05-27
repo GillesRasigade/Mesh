@@ -24,6 +24,15 @@
             nav: $('#explorer-tree-nav'),
             init: function() {
                 
+                $m.events.bind( 'click' , '#servers-dropdown .dropdown-menu li' , function ( event ) {
+                    var $li = $( event.target ).closest('li');
+                    $li.addClass('active').siblings('.active').removeClass('active');
+                    
+                   $m.url.api = $li.find('> a').attr('title');
+                   $m.explorer.path('');
+                    
+                });
+                
                 $m.events.bind( 'click' , '#explorer' , function ( event ) {
                     var $target = $( event.target );
                     
@@ -198,7 +207,7 @@
                             $folder.siblings('.active').addClass( outgoing );
 
                             setTimeout(function(){
-                                $folder.addClass('active').addClass( ingoing )
+                                $folder.addClass('active').addClass( ingoing ).focus();
 
                                 setTimeout(function(){
                                     $folder.removeClass(ingoing);
