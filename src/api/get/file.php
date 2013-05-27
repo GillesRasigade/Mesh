@@ -468,7 +468,14 @@ class Api_Get_File {
                 
             }
             
-            echo Api_Utils::outputJson( $counts );
+            // Folder size calculation :
+            $size = Api_Utils::exec( 'du -chl | tail -n 1' );
+            $size = preg_replace( '/\t.*$/','',$size[0]);
+            
+            echo Api_Utils::outputJson( array(
+                'size' => $size,
+                'counts' => $counts
+            ));
             die();
         
         } else if ( file_exists( $path ) ) {

@@ -80,7 +80,7 @@
                                             '<i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>'+
                                             '<span class="album-img img-polaroid" style="background-image: url(\''+$m.view.image.src(p,'thumb')+'\')"></span>'+
                                             '<span class="actions">'+
-                                                '<div class="btn btn-link folder-download"><i class="icon-download"></i></div>'+
+                                                '<div title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i></div>'+
                                                 '<i class="icon-remove delete-folder"></i>'+
                                             '</span>'+
                                             '<span title="'+json[i]+'" class="album-title">'+title+'</span>'+
@@ -102,8 +102,8 @@
                                 $m.api.get({c:'file',a:'details',path: p},function(details){
 
                                     var $details = $o;
-                                    for ( var t in details ) {
-                                        if ( details[t] > 0 && !t.match(/(hidden)/)) {
+                                    for ( var t in details.counts ) {
+                                        if ( details.counts[t] > 0 && !t.match(/(hidden)/)) {
                                             var icon = t;
                                             switch ( t ) {
                                                 case 'folder': icon = 'folder-open'; break;
@@ -112,9 +112,15 @@
                                                 case 'card': icon = 'list-alt'; break;
                                                 case 'pdf': icon = 'book'; break;
                                             }
-                                            $details.append( '<i class="icon-'+icon+'"></i> '+details[t]+' &nbsp;');
+                                            $details.append( '<i class="icon-'+icon+'" title="'+details.counts[t]+' '+t+(details.counts[t]>1?'s':'')+'"> '+details.counts[t]+'</i> &nbsp;');
                                         }
                                     }
+                                    
+//                                    $details.append('<i class="icon-info-sign" title="'+details.size+'"></i> &nbsp;')
+                                    $details.append('<i class="icon-hdd" title="Total size: '+details.size+'"> '+details.size+'</i> &nbsp;')
+                                    
+                                    if ( details.size.match(/G$/) ) $o.closest('.album').find('.folder-download').remove();
+                                    else $o.closest('.album').find('.folder-download').show();
 
                                     //if ( i < json['folder'].length-1 ) { i++; setTimeout(function(){ f[0](i); },50); }
                                     if ( $('.album .album-title.details:not(.updated)').length ) f[1]();   ;

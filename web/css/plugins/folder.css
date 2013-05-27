@@ -21,7 +21,23 @@
     float: right;
     margin-left: -100%;
     padding: 0.5em;
-    color: #aaa;
+    position: relative;
+    background: white;
+}
+
+.type.folders .album .actions *,
+.type.folders .album .details {
+    color: #ccc !important;
+    
+    -webkit-transition: color 0.3s;
+    -moz-transition: color 0.3s;
+    -o-transition: color 0.3s;
+    transition: color 0.3s;
+}
+
+.type.folders .album:hover .actions *,
+.type.folders .album:hover .details {
+    color: #777 !important;
 }
 
 .album .icon-spinner {
