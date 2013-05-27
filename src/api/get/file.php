@@ -271,7 +271,9 @@ class Api_Get_File {
             chdir( $path );
             
             Api_Utils::exec('zip -9 -r '.$tmpFile.' ./');
-
+            
+            header('Content-Type: application/force-download');
+            header('Content-Disposition: attachment; filename="'.preg_replace('/^.*\//','',$path).'.ZIP"');
             header('Content-Disposition: attachment; filename="'.preg_replace('/^.*\//','',$path).'.zip"');
 
             readfile( $tmpFile );
