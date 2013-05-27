@@ -80,6 +80,7 @@
                                             '<i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>'+
                                             '<span class="album-img img-polaroid" style="background-image: url(\''+$m.view.image.src(p,'thumb')+'\')"></span>'+
                                             '<span class="actions">'+
+                                                '<div class="btn btn-link folder-download"><i class="icon-download"></i></div>'+
                                                 '<i class="icon-remove delete-folder"></i>'+
                                             '</span>'+
                                             '<span title="'+json[i]+'" class="album-title">'+title+'</span>'+
@@ -102,13 +103,14 @@
 
                                     var $details = $o;
                                     for ( var t in details ) {
-                                        if ( details[t] > 0 ) {
+                                        if ( details[t] > 0 && !t.match(/(hidden)/)) {
                                             var icon = t;
                                             switch ( t ) {
                                                 case 'folder': icon = 'folder-open'; break;
                                                 case 'image': icon = 'picture'; break;
                                                 case 'video': icon = 'film'; break;
                                                 case 'card': icon = 'list-alt'; break;
+                                                case 'pdf': icon = 'book'; break;
                                             }
                                             $details.append( '<i class="icon-'+icon+'"></i> '+details[t]+' &nbsp;');
                                         }

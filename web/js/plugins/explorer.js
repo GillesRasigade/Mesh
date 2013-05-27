@@ -28,6 +28,12 @@
                     var $target = $( event.target );
                     
                     switch ( true ) {
+                        case $target.hasClass( 'folder-download' ) || $target.closest( '.folder-download' ).length > 0 :
+                            var path = $target.closest('.entry').attr('data-path');
+                            window.open($m.api.utils.url('file','zip',{path: path}), '_blank');
+                            return false;
+                            break;
+                        
                         case $target.hasClass( 'delete-folder' ) || $target.closest( '.delete-folder' ).length > 0 :
                             var path = $target.closest('.album, .image').attr('data-path');
                             $m.explorer.events.deleteFolder( path );

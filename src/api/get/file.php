@@ -256,6 +256,34 @@ class Api_Get_File {
         return $r;
     }
     
+    public function zipAction ( $p = NULL ) {
+        global $config;
+    
+        $p = $p != NULL ? $p : Api_Utils::readToken();
+        
+        
+        
+        if ( array_key_exists('path',$p) ) {
+            $path = $config['path'] . $p['path'];
+            
+            $tmpFile = '/tmp/' . uniqid() . uniqid() . '.zip';
+            
+            chdir( $path );
+            
+            Api_Utils::exec('zip -9 -r '.$tmpFile.' ./');
+
+            header('Content-Disposition: attachment; filename="'.preg_replace('/^.*\//','',$path).'.zip"');
+
+            readfile( $tmpFile );
+
+            Api_Utils::exec('rm -f ' . $tmpFile);
+            
+            die();
+        }
+        
+        die();
+    }
+    
     public function downloadAction ( $p = NULL ){ 
         global $config;
     
