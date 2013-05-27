@@ -104,9 +104,9 @@ if ( empty($_SESSION['timestamp']) ) {
                 <div id="filter-panel">
                     <form id="form-filter" class="form-search">
                         <div class="input-append">
-                            <button class="btn btn-link" style="float: left; color: #888;"><i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>&nbsp;</button>
-                          <input type="search" id="s" name="s" value="" placeholder="Search" class="search-query tablet" />
-                          <button type="submit" class="btn tablet"><i class="icon-search"></i>&nbsp;</button>
+                            <button class="btn btn-link" style="float: left; color: #888; margin-top: 0.35em;"><i class="icon-spinner icon-spin icon-large" style="inline-block;">&nbsp;</i></button>
+                            <input type="search" id="s" name="s" value="" placeholder="Search" class="search-query tablet" />
+                            <button type="submit" class="btn tablet"><i class="icon-search"></i>&nbsp;</button>
                         </div>
                     </form>
                 </div>

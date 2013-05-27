@@ -94,8 +94,6 @@
                                     $tr.find('.song-track').text( $tbody.find('tr').length + 1 );
                                     $tr.find('.song-title').text( json[i] );
 
-                                    console.log( 77777 , $tr )
-
                                     $tbody.append( $tr );
                                 }
                                 
@@ -106,10 +104,7 @@
                             
                         },
                         function() {
-                            console.log( 'here' , path , {
-                                c:'music', a:'list', path: path,
-                                offset: offset, limit: json.length
-                            });
+                            
                             setTimeout(function(){// Why ???
                                 $m.api.get({
                                     c:'music', a:'list', path: path,
@@ -137,8 +132,6 @@
                                 c:'music', a:'list', path: path,
                                 offset: offset, limit: json.length
                             },function(json){
-                                
-                                console.log( json )
 
                                 if ( json && json.length ) {
                                     for ( var i in json ) {
@@ -149,8 +142,6 @@
                                         if ( $tr.length == 0 ) {
                                             $tr = $('<tr class="music-song" data-path="'+p+'" data-name="'+json[i].path+'"></tr>');
                                         
-                                            console.log ( i , p , json[i] );
-
                                             for ( var d in $m.view.music.data ) {
                                                 $tr.append( '<td class="song-'+d+' '+$m.view.music.data[d].class+'">'+
                                                     ( json[i][d] !== undefined ? json[i][d] : '' )+
@@ -252,7 +243,6 @@
 
                                 var f = function () {
                                     $m.view.music.player.updateTime();
-                                    console.log( 'update time' );
 
                                     $m.view.music.player.tictac++;
                                     if ( $m.view.music.player.tictac > $m.view.music.player.delay ) {
@@ -290,7 +280,6 @@
 
                             // MP3 source URL generation :
                             var src = $m.api.utils.url('file','access',{ path: path });
-                            console.log( 'src' , src );
 
                             //$('#audio-player > object').get(0).SetVariable("method:setUrl", src);
                             //document.getElementById('audio-player-flash').SetVariable("method:setUrl", src);
@@ -339,7 +328,6 @@
                         if ( $m.view.music.player.current ) {
                             $m.api.get({c:'file',a:direction,path: $m.view.music.player.current},function(json){
                                 if ( json.path ) {
-                                    console.log( json );
                                     $m.view.music.player.play( json.path , json.name );
                                 }
                             });

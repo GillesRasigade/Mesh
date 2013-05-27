@@ -31,12 +31,9 @@
 
                     // Replacement of the parameter key to prefix it with the project namespace :
                     key = '$m.' + key;
-    //                eval( key + ' = ' + value );
 
                     // JSON value stringify :
                     value = JSON.stringify( value );
-
-                    console.log( 'storage.set' , key , value );
 
                     // Store the value :
                     if ( window.localStorage ) window.localStorage.setItem( key , value );

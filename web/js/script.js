@@ -113,25 +113,10 @@
                 },
                 // Events binding :
                 function () {
-                    /*for ( var event in $m.events ) {
-                        for ( var i in $m.events[event] ) {
-                            var target = $m.events[event][i];
-                            var $elt = undefined;
-                            switch ( target ) {
-                                case 'document':
-                                    $elt = $( document ); break;
-                                case 'window':
-                                    $elt = $( window ); break;
-                                default:
-                                    $elt = $( target ); break;
-                            }
-                            
-                            if ( $elt )
-                                $elt.bind( event+'.$m' , { type: event } , $m.event);
-                        }
-                    }*/
-                    
-                    //$m.events.bind( 'click' , 'window' , function( event ) { alert('okok'); });
+                    // URL parameters reading :
+//                    var p = window.location.search.replace(/^\?/,'').split('&');
+//                    $m.url = {};
+//                    for ( var i in p ) $m.url[ p[i].replace(/=.*$/,'') ] = p[i].replace(/[^=]+=/,'');
                     
                     f[3]();
                 },

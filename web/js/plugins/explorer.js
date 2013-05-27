@@ -63,8 +63,6 @@
                             var angle = $target.attr('data-value');
                             var path = $target.closest('.image').attr('data-path');
                             
-                            console.log( 'rotate' , path , angle );
-                            
                             $m.api.put({ c: 'image', a: 'rotate', path: path, angle: angle
                             },function(json){
                                 if ( json.status == 'success' ) {
@@ -139,7 +137,6 @@
                         
                         if ( $('#search-results').length == 0 ) {
                             
-                            console.log( json );
                             var $results = $('<div id="search-results" class="column folder" data-level="0" data-path="search://'+$m.state.path+'" style="width: 100%;">'+
                                 '<div class="content"></div>'+
                                 '</div>');
@@ -151,7 +148,6 @@
                             for ( var type in json ) {
                                 if ( $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
                                     $m.view[type].load( 'search://'+$m.state.path , json[type] );
-                                    console.log( 'Search : object type = ' + type );
                                 }
                             }
                         }
@@ -266,7 +262,6 @@
                                 // Add folder to the explorer :
                                 $m.explorer.addFolder( i , folders , p , 2 );
                                 $m.api.get({c:'file',a:'list',path: p},function(json){
-                                    $m.log(json);
                                     
                                     for ( var type in json ) {
                                         if ( $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
@@ -303,8 +298,6 @@
                             '<span class="divider">/</span>'+
                             '<a data-path="'+path+'" href="javascript:void(0);">'+( path == '' ? '<i class="icon-home" style="pointer-events: none;"></i>' : name )+'</a>'+
                         '</li>');
-                
-                console.log( 289 + ' level : ' , level , folders , path , $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').length , $m.explorer.nav.find('li[data-level="'+(level+1)+'"]').length )
                 
                 if ( $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').length ) {
                     $m.explorer.nav.find('li[data-level="'+(level-1)+'"]').after( $link );
@@ -357,8 +350,6 @@
                     
                     if ( $m.state.loading != true ) {
                         
-                        console.log( 213 , $m.state.loading );
-                
                         $('.folder.active .scroll-detector',$m.explorer.elt).each(function(i,o){
                             o = $(o);
                             var position = o.position();
@@ -377,8 +368,6 @@
                                 if ( $('#search').val() ) request['search'] = $('#search').val();
 
                                 $m.api.get(request,function(json){
-                                    
-                                    console.log( 234 , json );
                                     
                                     // Filter inputs already loaded :
                                     for ( var type in json ) {

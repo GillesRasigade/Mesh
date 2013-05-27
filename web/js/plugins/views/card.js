@@ -62,8 +62,6 @@
                 update: function ( event ) {
                     var $target = $( event.target ).closest('.card');
                     
-                    console.log( 'CARD update : ' , $target.attr('data-path') );
-                    
                     $m.api.get({ c: 'file', a: 'access', path: $target.attr('data-path') },function( json ) {
                         $('#card-creation-form *[name="path"]').val( $target.attr('data-path') );
                     

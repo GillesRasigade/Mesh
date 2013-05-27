@@ -98,7 +98,6 @@
                             $('.album .album-title.details:not(.updated)').first().each(function(i,o){
                                 var $o = $(o).addClass('updated');
                                 var p = $o.closest('.album').attr('data-path');
-                                console.log(p);
                                 $m.api.get({c:'file',a:'details',path: p},function(details){
 
                                     var $details = $o;
