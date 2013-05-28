@@ -124,7 +124,7 @@ if ( empty($_SESSION['timestamp']) ) {
                     </ul>
                 </div>
                 
-                <div id="servers-dropdown" style="float: left; margin-top: 0.6em; margin-right: -0.5em;" class="dropdown">
+                <div id="servers-dropdown" style="float: left; margin-top: 0.6em; margin-right: 0.5em;" class="dropdown">
                     <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="icon-sitemap"></i>
                     </a>
@@ -132,9 +132,9 @@ if ( empty($_SESSION['timestamp']) ) {
                     <ul class="dropdown-menu">
                         <?php foreach ( $config['servers'] as $server => $url ): ?>
                         <li>
-                            <a href="javascript:void(0);" title="<?php echo $url; ?>">
+                            <a data-url="<?php echo $url; ?>" title="Explore files on <?php echo $server; ?>" href="javascript:void(0);">
                                 <img class="img-circle" src="<?php echo preg_replace('/\/[^\/]+$/' , '/images/server-icon.png', $url); ?>" />
-                                     <?php echo $server; ?><br/>
+                                <span title="Go to this server" onClick="window.location = '<?php echo preg_replace('/\/[^\/]+$/' , '/index.php', $url); ?>';" target="_top"><?php echo $server; ?></span>
                             </a>
                         </li>
                         <?php endforeach; ?>

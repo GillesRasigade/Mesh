@@ -96,6 +96,7 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
         <script type="text/javascript" src="js/script.js"></script>
     </head>
     <body>
+        <?php if ( empty($_SESSION['timestamp']) ): ?>
         <script type="text/javascript">
             $(document).ready(function(){
             
@@ -137,5 +138,6 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
                 <input type="submit" class="btn btn-primary"/>
             </form>
         </div>
+        <?php endif; ?>
     </body>
 </html>

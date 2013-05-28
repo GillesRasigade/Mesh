@@ -107,12 +107,18 @@ body {
 
 #servers-dropdown .dropdown-menu a img {
     display: block;
-    margin: 0.5em auto;
+    margin: 1em auto 0.5em auto;
     max-height: 5em;
     background: white;
     box-shadow: inset 0px 0px 1em rgba(0,0,0,0.25);
     padding: 0.5em;
 }
+#servers-dropdown .dropdown-menu a span:hover { text-decoration: underline; }
+
+.dropdown-menu > .active > a {
+    background: #888;
+}
+
 
 #servers-dropdown .dropdown-toggle {
     background-size: 75%;

@@ -121,7 +121,7 @@
                 function () {
                     
                     // 
-                    $server = $('#servers-dropdown .dropdown-menu a[title="'+$m.state.api+'"]').closest('li');
+                    $server = $('#servers-dropdown .dropdown-menu a[data-url="'+$m.state.api+'"]').closest('li');
                     if ( $server.length ) {
                         $server.addClass('active').siblings('.active').removeClass('active');
                         //$('#servers-dropdown .dropdown-toggle').empty().append( $server.find('img').clone() );

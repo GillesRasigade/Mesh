@@ -34,7 +34,7 @@
                             .empty().html('<i class="icon-caret-down">&nbsp;</i>');
                     }
                     
-                    $m.state.api = $li.find('> a').attr('title');
+                    $m.state.api = $li.find('> a').attr('data-url');
                    
                     // Save the new path to the UI 
                     $m.storage.set( 'state.api' , $m.state.api );
