@@ -70,7 +70,17 @@ switch ( $method ) {
             $timestamp2 = NULL;
             if ( array_key_exists('timestamp',$_SESSION) ) {
                 $timestamp2 = $_SESSION['timestamp'];
+            } else if ( array_key_exists('timestamp',$auth) ) { // Anonymous connection - Not yet managed
+                $timestamp2 = $auth['Timestamp2'];
+                
+                // Check validation :
+                if ( mktime() - round(floatval($timestamp2)/1000) >= 3600 ) {
+                    $timestamp2 = NULL;
+                }
+                
+            }
             
+            if ( $timestamp2 !== NULL ) {
                 error_log( 'timestamp = ' . $timestamp );
                 error_log( 'timestamp2 = ' . $timestamp2 );
                 error_log( 'hash = ' . $hash );
@@ -81,8 +91,6 @@ switch ( $method ) {
                         break;
                     }
                 }
-            } else { // Anonymous connection - Not yet managed
-                $timestamp2 = $auth['Timestamp2'];
             }
             
             if ( !$isAuthenticated ) {
