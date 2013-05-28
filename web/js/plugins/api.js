@@ -29,7 +29,7 @@
                     $m.api.xhrPool.length = 0
                 },
                 url: function ( controller , action , token , api ) {
-                    api = api !== undefined ? api : window.$m.url.api;
+                    api = api !== undefined ? api : window.$m.state.api;
                     return api+'?c='+controller+'&a='+action+'&'+
                         'auth='+$m.api.utils.getAuth()+'&'+
                         'token='+$m.api.utils.token(token);
@@ -92,7 +92,7 @@
                     "AuthenticationHash": Sha256.hash( timestamp + hash ) ,
                 };
                 
-                var api = data.api !== undefined ? data.api : window.$m.url.api;
+                var api = data.api !== undefined ? data.api : window.$m.state.api;
                 delete data.api;
                 
                 //$m.api.utils.abortAll();

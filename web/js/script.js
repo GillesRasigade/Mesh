@@ -27,7 +27,8 @@
             focused: true,      // Window focus (used for desktop notifications)
             plugins: [],        // Loaded modules
 //            path: '/Images/Photos/2013/2013-03-02 Photos d\'essai au reflex'
-            path: ''
+            path: '',
+            api: 'api.php'
         },
         
         
@@ -65,10 +66,6 @@
                 'js/plugins/views/video.js',
                 'css/plugins/video.css',
             ],
-        },
-        url: {
-            current: window.location.href.replace(/\?#.*$/,''),
-            api: window.location.href.replace(/\/[^\/]*$/,'/api.php')
         },
         
         
@@ -122,7 +119,16 @@
                 },
                 // Finalization :
                 function () {
-                
+                    
+                    // 
+                    $server = $('#servers-dropdown .dropdown-menu a[title="'+$m.state.api+'"]').closest('li');
+                    if ( $server.length ) {
+                        $server.addClass('active').siblings('.active').removeClass('active');
+                        //$('#servers-dropdown .dropdown-toggle').empty().append( $server.find('img').clone() );
+                        $('#servers-dropdown .dropdown-toggle').addClass('server').css( 'background-image' , 'url("'+$server.find('img').attr('src')+'")' )
+                            .empty().html('<i class="icon-caret-down">&nbsp;</i>');
+                    }
+                    
                     $m.state.tac = (new Date()).getTime();
                     $m.state.loadingTime = $m.state.tac - $m.state.tic;
                 

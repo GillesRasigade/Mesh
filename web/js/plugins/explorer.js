@@ -28,10 +28,20 @@
                     var $li = $( event.target ).closest('li');
                     $li.addClass('active').siblings('.active').removeClass('active');
                     
-                   $m.url.api = $li.find('> a').attr('title');
-                   $m.explorer.elt.empty();
-                   $m.explorer.nav.empty();
-                   $m.explorer.path('');
+                    if ( $li.length ) {
+                        $li.addClass('active').siblings('.active').removeClass('active');
+                        $('#servers-dropdown .dropdown-toggle').css( 'background-image' , 'url("'+$li.find('img').attr('src')+'")' )
+                            .empty().html('<i class="icon-caret-down">&nbsp;</i>');
+                    }
+                    
+                    $m.state.api = $li.find('> a').attr('title');
+                   
+                    // Save the new path to the UI 
+                    $m.storage.set( 'state.api' , $m.state.api );
+                   
+                    $m.explorer.elt.empty();
+                    $m.explorer.nav.empty();
+                    $m.explorer.path('');
                     
                 });
                 
