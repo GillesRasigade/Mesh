@@ -114,6 +114,19 @@ body {
     padding: 0.5em;
 }
 
+#servers-dropdown .dropdown-toggle {
+    background-size: 75%;
+    background-position: 0px !important;
+    background-repeat: no-repeat;
+    margin-right: 0.5em;
+}
+
+#servers-dropdown .dropdown-toggle.server i {
+    display: block;
+    position: relative;
+    right: -175%;
+}
+
 .scroll-detector {
     clear: both;
     padding: 1em;
