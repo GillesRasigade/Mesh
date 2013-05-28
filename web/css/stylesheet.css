@@ -101,6 +101,19 @@ body {
     box-shadow: 0px 0px 8px rgba(0,0,0,0.5);
 }
 
+#servers-dropdown .dropdown-menu a {
+    text-align: center;
+}
+
+#servers-dropdown .dropdown-menu a img {
+    display: block;
+    margin: 0.5em auto;
+    max-height: 5em;
+    background: white;
+    box-shadow: inset 0px 0px 1em rgba(0,0,0,0.25);
+    padding: 0.5em;
+}
+
 .scroll-detector {
     clear: both;
     padding: 1em;

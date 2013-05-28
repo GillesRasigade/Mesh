@@ -131,7 +131,12 @@ if ( empty($_SESSION['timestamp']) ) {
                     
                     <ul class="dropdown-menu">
                         <?php foreach ( $config['servers'] as $server => $url ): ?>
-                        <li><a href="javascript:void(0);" title="<?php echo $url; ?>"><i class="icon-group"></i> &nbsp; <?php echo $server; ?></a></li>
+                        <li>
+                            <a href="javascript:void(0);" title="<?php echo $url; ?>">
+                                <img class="img-circle" src="<?php echo preg_replace('/\/[^\/]+$/' , '/images/server-icon.png', $url); ?>" />
+                                     <?php echo $server; ?><br/>
+                            </a>
+                        </li>
                         <?php endforeach; ?>
                     </ul>
                 </div>

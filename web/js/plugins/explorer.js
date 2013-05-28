@@ -29,6 +29,8 @@
                     $li.addClass('active').siblings('.active').removeClass('active');
                     
                    $m.url.api = $li.find('> a').attr('title');
+                   $m.explorer.elt.empty();
+                   $m.explorer.nav.empty();
                    $m.explorer.path('');
                     
                 });
