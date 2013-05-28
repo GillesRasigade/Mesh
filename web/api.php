@@ -70,7 +70,7 @@ switch ( $method ) {
             $timestamp2 = NULL;
             if ( array_key_exists('timestamp',$_SESSION) ) {
                 $timestamp2 = $_SESSION['timestamp'];
-            } else if ( array_key_exists('timestamp',$auth) ) { // Anonymous connection - Not yet managed
+            } else if ( array_key_exists('Timestamp2',$auth) ) { // Anonymous connection - Not yet managed
                 $timestamp2 = $auth['Timestamp2'];
                 
                 // Check validation :
