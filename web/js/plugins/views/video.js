@@ -132,7 +132,7 @@
                                 $entry.prepend('<object class="video-player" type="application/x-vlc-plugin" data="'+json.url+'" width="100%">'+
                                     '<param name="movie" value="'+json.url+'"/>'+
                                     '<embed type="application/x-vlc-plugin" name="video1" '+
-                                    'autoplay="no" loop="no" width="400" height="300"'+
+                                    'autoplay="no" loop="no" width="100%"'+
                                     'target="'+json.url+'" />'+
                                     '<a href="'+json.url.replace(/^http:/,'vlc:')+'">Open in VLC</a>'+
                                '</object>');
