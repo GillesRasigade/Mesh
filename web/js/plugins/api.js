@@ -102,7 +102,7 @@
                     data: d,
                     dataType: 'jsonp',
                     headers: auth,
-                    crossDomain: true,
+                    //crossDomain: true,
                     beforeSend: function(jqXHR) {
                         $m.api.xhrPool.push( jqXHR );
                     },

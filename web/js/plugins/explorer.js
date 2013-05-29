@@ -103,6 +103,12 @@
                                 $m.explorer.path( path , true );
                             }
                             break;
+                        
+                        case $target.closest( '.video-play' ).length > 0 : $target = $target.closest( '.video-play' );
+                        case $target.hasClass( 'video-play' ):
+                            var path = $target.closest('.entry').attr('data-path');
+                            $m.view.video.play( path );
+                            break;
                     }
                 });
                 

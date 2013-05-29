@@ -48,7 +48,8 @@
     position: relative;
     text-align: center;
     width: 100%;
-    top: -2em;
+    top: -1.5em;
+    height: 1em;
     font-size: 5em;
     margin-bottom: -1em;
     color: rgba(255,255,255,0.25);

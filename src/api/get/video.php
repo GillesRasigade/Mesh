@@ -90,4 +90,51 @@ class Api_Get_Video extends Api_Get_File {
         
         die();
     }
+    
+    // Execute 
+    public function streamAction ( $p = NULL ) {
+        global $config;
+    
+        $p = Api_Utils::readToken();
+        
+        if ( array_key_exists('path',$p) ) {
+            $path = $config['path'] . $p['path'];
+            
+            if ( file_exists( $path ) ) {
+                
+                echo Api_Utils::outputJson( array(
+                    'url' => 'rtsp://192.168.0.22:8080/' . $_REQUEST['token'] . '.sdp'
+                ));
+                
+                // Non blocking process execution syntax :
+                // REF : http://forum.videolan.org/viewtopic.php?f=4&t=39124
+                // REF : http://www.videolan.org/doc/play-howto/en/ch04.html
+                // REF : http://www.videolan.org/doc/streaming-howto/en/ch04.html
+                    $result = Api_Utils::exec('cvlc  -vvv \''.$path.'\' --sout \'#transcode{vcodec=mp2v,vb=512,scale=1}:rtp{dst=192.168.0.22,port=1234,sdp=rtsp://192.168.0.22:8080/'.$_REQUEST['token'].'.sdp}\' > /dev/null 2>&1 &');
+//                $result = Api_Utils::exec('cvlc  -vvv "'.$path.'" --sout \'#transcode{vcodec=mp2v,vb=512,scale=0.25}:standard{access=http,mux=ts,dst=192.168.0.22:8080,sdp=http://192.168.0.22:8080/'.'token'.'.sdp}\' > /dev/null 2>&1 &');
+                
+                die();
+                
+            }
+        }
+        
+    }
+    
+    public function stopAction ( $p = NULL ) {
+        global $config;
+    
+        $p = Api_Utils::readToken();
+        
+        if ( array_key_exists('stream',$p) ) {
+            $stream = $p['stream'];
+            
+            $result = Api_Utils::exec('kill -9 $(ps -ef | grep vlc | grep "'.$stream.'" | grep -v grep | awk \'{print $2}\')');
+            
+            echo Api_Utils::outputJson( array(
+                'success' => 'Stream stopped'
+            ));
+            
+            die();
+        }
+    }
 }

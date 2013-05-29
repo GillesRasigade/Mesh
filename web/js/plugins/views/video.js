@@ -92,7 +92,8 @@
                                             '<img class="video-img" src="'+$m.view.video.src(p,'thumb')+'" style="height: auto; padding: 0px; margin: 0px; border: 0px;"/>'+
                                             '<i class="video-over icon-play-sign"></i>'+
                                             '<span class="actions">'+
-                                                '<a target="_blank" href="'+$m.view.video.src(p)+'" class="icon-facetime-video" style="color: black;"></a>'+
+                                                //'<a target="_blank" href="'+$m.view.video.src(p)+'" class="icon-facetime-video" style="color: black;"></a>'+
+                                                '<div class="btn btn-link video-play"><i class="icon-facetime-video"></i></div>'+
                                                 '<div class="btn btn-link file-download"><i class="icon-download"></i></div>'+
                                             '</span>'+
                                             '<span title="'+json[i]+'" class="video-title">'+title+'</span>'+
@@ -113,6 +114,43 @@
                             });
                         }
                     ]; f[0]();
+                },
+                
+                // Stream video file with VLC and display result :
+                play: function ( path ) {
+                    
+                    var $entry = $('.folder.active .video.entry[data-path="'+path+'"]');
+                    var $player = $entry.find('.video-player');
+                    
+                    if ( $entry.length && $player.length == 0 ) {
+                    
+                        $m.api.get({ c:'video', a:'stream', path: path },function(json){
+
+                            if ( json && json.url ) {
+
+                                $entry.find('.video-img').hide();
+                                $entry.prepend('<object class="video-player" type="application/x-vlc-plugin" data="'+json.url+'" width="100%">'+
+                                    '<param name="movie" value="'+json.url+'"/>'+
+                                    '<embed type="application/x-vlc-plugin" name="video1" '+
+                                    'autoplay="no" loop="no" width="400" height="300"'+
+                                    'target="'+json.url+'" />'+
+                                    '<a href="'+json.url.replace(/^http:/,'vlc:')+'">Open in VLC</a>'+
+                               '</object>');
+                       
+                               $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
+                       
+                            }
+
+                        });
+                        
+                    } else {
+                        $m.api.get({ c:'video', a:'stop', stream: $player.attr('data') },function(json){
+                            $player.remove();
+                            $entry.find('.video-img').show();
+                            $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
+                        });
+                    }
+                    
                 }
             },
         }
