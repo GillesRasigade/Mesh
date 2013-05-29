@@ -68,29 +68,35 @@ switch ( $method ) {
             $isAnonymous = FALSE;
             
             $timestamp2 = NULL;
-            if ( array_key_exists('timestamp',$_SESSION) ) {
-                $timestamp2 = $_SESSION['timestamp'];
-            } else if ( array_key_exists('Timestamp2',$auth) ) { // Anonymous connection - Not yet managed
-                $timestamp2 = $auth['Timestamp2'];
-                
-                // Check validation :
-                if ( mktime() - round(floatval($timestamp2)/1000) >= 3600 ) {
-                    $timestamp2 = NULL;
-                }
-                
-            }
             
-            if ( $timestamp2 !== NULL ) {
-                error_log( 'timestamp = ' . $timestamp );
-                error_log( 'timestamp2 = ' . $timestamp2 );
-                error_log( 'hash = ' . $hash );
-                foreach ( $config['users'] as $login => $password ) {
-                    if ( $hash == hash( 'sha256' , $timestamp . hash( 'sha256' , $timestamp2 . '|' . $login . '|' . $password ) ) ) {
-                        $isAuthenticated = TRUE;
-                        if ( isset( $config[$login] ) ) $config['user'] = $config[$login];
-                        break;
+            // Check request timestamp delay :
+            if ( mktime() - round(floatval($timestamp)/1000) < 60 ) {
+            
+                if ( array_key_exists('timestamp',$_SESSION) ) {
+                    $timestamp2 = $_SESSION['timestamp'];
+                } else if ( array_key_exists('Timestamp2',$auth) ) { // Anonymous connection - Not yet managed
+                    $timestamp2 = $auth['Timestamp2'];
+
+                    // Check authentication timestamp delay :
+                    if ( mktime() - round(floatval($timestamp2)/1000) >= 3600 ) {
+                        $timestamp2 = NULL;
+                    }
+
+                }
+
+                if ( $timestamp2 !== NULL ) {
+                    error_log( 'timestamp = ' . $timestamp );
+                    error_log( 'timestamp2 = ' . $timestamp2 );
+                    error_log( 'hash = ' . $hash );
+                    foreach ( $config['users'] as $login => $password ) {
+                        if ( $hash == hash( 'sha256' , $timestamp . hash( 'sha256' , $timestamp2 . '|' . $login . '|' . $password ) ) ) {
+                            $isAuthenticated = TRUE;
+                            if ( isset( $config[$login] ) ) $config['user'] = $config[$login];
+                            break;
+                        }
                     }
                 }
+                
             }
             
             if ( !$isAuthenticated ) {
