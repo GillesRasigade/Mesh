@@ -145,7 +145,7 @@
                         var sha = $('.git-sha').text().trim();
                         console.log( commits );
                         if ( commits.length && commits[0].sha !== sha ) {
-                            $('.git-sha').after(' | <span class="git-new-version" title="...or you need to commit your code :).">New version available !</span>');
+                            $('.git-sha').after(' | <a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="...or you need to commit your code :).">New version available !</a>');
                         }
                     });
                 
