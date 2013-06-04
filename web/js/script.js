@@ -147,6 +147,7 @@
                         if ( commits.length && commits[0].sha !== sha ) {
                             $('.git-sha').after(' | <a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="...or you need to commit your code :).">New version available !</a>');
                             
+                            // Perform the auto-update process :
                             $m.api.get({c:'github',a:'pull'},function( json ){
                                 if ( json.status == 'success' ) location.reload();
                             });
