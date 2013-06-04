@@ -143,8 +143,9 @@
                     // Read Git/Github versions to offer update :
                     $m.api.get({c:'github',a:'commits'},function( commits ){
                         var sha = $('.git-sha').text().trim();
+                        console.log( commits );
                         if ( commits.length && commits[0].sha !== sha ) {
-                            $('.git-sha').after(' | New version available !');
+                            $('.git-sha').after(' | <span class="git-new-version" title="...or you need to commit your code :).">New version available !</span>');
                         }
                     });
                 

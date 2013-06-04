@@ -72,6 +72,11 @@ body {
     color: #aaa;
 }
 
+.git-new-version {
+    color: #ff6666;
+    cursor: help;
+}
+
 
 #top {
     position: fixed;
