@@ -141,13 +141,12 @@
                     $m.explorer.path( path );
                     
                     // Read Git/Github versions to offer update :
-//                    $m.api.get({c:'github',a:'commits'},function( commits ){
-//                        console.log( commits );
-//                        var sha = $('.git-sha').text().trim();
-//                        for ( var i in commits ) {
-//                            console.log( commits[i].sha == sha );
-//                        }
-//                    });
+                    $m.api.get({c:'github',a:'commits'},function( commits ){
+                        var sha = $('.git-sha').text().trim();
+                        if ( commits.length && commits[0].sha !== sha ) {
+                            $('.git-sha').after(' | New version available !');
+                        }
+                    });
                 
                 }
             ]; f[0]();
