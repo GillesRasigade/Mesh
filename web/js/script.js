@@ -139,6 +139,15 @@
                     // Set current path 
                     var path = $m.state.path; //$m.state.path = '';
                     $m.explorer.path( path );
+                    
+                    // Read Git/Github versions to offer update :
+//                    $m.api.get({c:'github',a:'commits'},function( commits ){
+//                        console.log( commits );
+//                        var sha = $('.git-sha').text().trim();
+//                        for ( var i in commits ) {
+//                            console.log( commits[i].sha == sha );
+//                        }
+//                    });
                 
                 }
             ]; f[0]();

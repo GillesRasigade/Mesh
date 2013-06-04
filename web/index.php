@@ -147,5 +147,9 @@ if ( empty($_SESSION['timestamp']) ) {
                 </div>
             </div>
         </div>
+        
+        <div style="position: fixed;bottom: 0.5em;left: 0.5em;font-size: 0.8em;">
+            <a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a> | <span title="<?php echo $git; ?>" class="git-sha"><?php echo $git; ?></span>
+        </div>
     </body>
 </html>

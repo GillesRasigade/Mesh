@@ -51,8 +51,8 @@
                                 var c = i%$m.view.image.columns.number+1
                                 //(function(path,c){
                                 
-//                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
-                                if ( json[i] ) {
+                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
+//                                if ( json[i] ) {
                                     
                                     var image = new Image();
                                     var $div = $('<div class="image entry" data-path="'+p+'" title="'+p.replace(/.*\//,'')+'" data-toggle="tooltip"></div>');

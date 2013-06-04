@@ -44,8 +44,8 @@
                                 
                                 var p = ( path )+'/'+json[i];
                                 
-//                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
-                                if ( json[i] ) {
+                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
+//                                if ( json[i] ) {
                                 
                                     // Photo positioning :
                                     var h = -1; var column = Math.ceil(Math.random()*$m.view.folder.columns.number);

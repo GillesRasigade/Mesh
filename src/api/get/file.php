@@ -195,9 +195,11 @@ class Api_Get_File {
 //            $cmd = 'ls --group-directories-first -X "'.$path.'"* | grep -i "'. $search .'"';
             $cmd = 'ls --group-directories-first -X "'.$path.'"* | grep -i "'. $search .'"';
             
-            chdir( $path );
+//            chdir( $path );
             // REF : http://stackoverflow.com/a/1786903
             $cmd = 'ls -L -R1 . | while read l; do case $l in *:) d=${l%:};; "") d=;; *) echo "$d/$l";; esac; done | grep -i "'. $search .'" | sed "s/\.\///"';
+            
+            $cmd = 'cd "'.$path.'"; ' . $cmd;
             
         } else {
             $cmd = 'ls --group-directories-first -X "'. $path .'"';
@@ -268,9 +270,9 @@ class Api_Get_File {
             
             $tmpFile = '/tmp/' . uniqid() . uniqid() . '.zip';
             
-            chdir( $path );
+//            chdir( $path );
             
-            Api_Utils::exec('zip -9 -r '.$tmpFile.' ./');
+            Api_Utils::exec('cd "'.$path.'"; zip -9 -r '.$tmpFile.' ./');
             
             header('Content-Type: application/force-download');
             header('Content-Disposition: attachment; filename="'.preg_replace('/^.*\//','',$path).'.ZIP"');
@@ -304,7 +306,7 @@ class Api_Get_File {
         chdir( '../../web' );
         
         // TODO : Improve this...
-        $temporaryFolder = '.tmp';
+        $temporaryFolder = $config['tmp'];
         if ( !is_dir( $temporaryFolder ) ) mkdir( $temporaryFolder );
         chdir( $temporaryFolder );
         
@@ -329,7 +331,7 @@ class Api_Get_File {
                         error_log( 'mime = ' . $mime );
                         //header("Content-Type: " . $mime );
                         
-                        header('Location: ' . preg_replace( '/api.php/' , '.tmp/' . $tmpFile , $_SERVER['REQUEST_URI']));
+                        header('Location: ' . preg_replace( '/api.php/' , $config['tmp'] . '/' . $tmpFile , $_SERVER['REQUEST_URI']));
                         die();
                         
                         //header("Content-Type: audio/mp3");
@@ -450,7 +452,6 @@ class Api_Get_File {
         $path = $config['path'] . $p['path'];
         
         if ( is_dir( $path ) ) {
-            chdir( $path );
         
             $counts = array();
             foreach ( $config['types'] as $type => $pattern ) {
@@ -458,12 +459,12 @@ class Api_Get_File {
                 switch  ( $pattern ) {
                     case '__DIRECTORY__':
                         $cmd = 'ls --directory */';
-                        $count = Api_Utils::exec( $cmd . ' | wc -l' );
+                        $count = Api_Utils::exec( 'cd "'.$path.'";' . $cmd . ' | wc -l' );
                         $counts[$type] = intval( $count[0] );
                         break;
                     default:
                         $cmd = 'find "'. $path .'" -iregex ".*'. preg_replace( '/(\(|\)|\||\$)/' , "\\\\$1", $pattern ) .'"';
-                        $count = Api_Utils::exec( $cmd . ' | wc -l' );
+                        $count = Api_Utils::exec( 'cd "'.$path.'";' . $cmd . ' | wc -l' );
                         $counts[$type] = intval( $count[0] );
                         break;
                 }

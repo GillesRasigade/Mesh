@@ -63,6 +63,15 @@ body {
     color: #333;
 }
 
+.git-sha {
+    display: inline-block;
+    max-width: 5em;
+    cursor: help;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #aaa;
+}
+
 
 #top {
     position: fixed;

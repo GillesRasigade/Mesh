@@ -82,8 +82,8 @@
                         
                                 var p = path + '/' + json[i];
                                 
-//                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
-                                if ( json[i] ) {
+                                if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
+//                                if ( json[i] ) {
                                 
                                     var $tr = $('<tr class="music-song entry" data-path="'+p+'"></tr>');
 
