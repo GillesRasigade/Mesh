@@ -21,11 +21,13 @@
 
 [general]
 limit                   = 50                                        # Default number of results returned by the API
+test                    = ''
 
 [path]
 path                    = '/usr/local/media-server'                 # Path where all files are stored in local disk
 data                    = '/etc/media-server'                       # Path where to store application files (thumbs, data, etc.)
 logs                    = '/var/log/media-server/application.log'   # Log path
+tmp                     = '.tmp'
 
 [log]
 level                   = 4                                         # Application log level
