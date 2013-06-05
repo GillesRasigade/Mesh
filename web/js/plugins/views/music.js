@@ -173,7 +173,7 @@
                         if ( $('#music-player').length == 0 ) {
                             
                             $('body').append( '<div id="mini-player">'+
-                                '<div class="splash"><img src="" id="mini-player-splash-cover" /></div>'+
+                                //'<div class="splash"><img src="" id="mini-player-splash-cover" /></div>'+
                                 '<div class="progress-bar">'+
                                     '<div class="time-to-left">&nbsp;</div>'+
                                     '<div class="current-time">&nbsp;</div>'+
