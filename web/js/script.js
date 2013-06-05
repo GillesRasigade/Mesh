@@ -37,6 +37,9 @@
             columns: 1,
             views: [],      // List of possible views
             externals: [
+                'external/js/base64.js',
+                'external/js/sha256.js',
+            
                 'js/utils/utils.js',
             
                 'js/plugins/events.js',
@@ -72,11 +75,15 @@
         // Public methods :
         log: function ( message ) { if ( $m.state.debug ) console.log( message ); },
         init: function () {
+        
             // Resources to load :
             $m.state.loading = jQuery.extend(true, [], $m.config.externals);
             
             // Tic Tac computation :
             $m.state.tic= (new Date()).getTime();
+            
+            // Loading started :
+            $m.log( 'Loading started...' );
         
             // Asynchronous initialization process :
             var f = [
@@ -84,6 +91,7 @@
                 function () {
                     if ( $m.state.loading.length > 0 ) {
                     
+                        $m.log( '> Loading : ' + $m.state.loading[0] );
                         $m.loadExternalResource( $m.state.loading[0] , function(){
                             $m.state.loading.shift(); f[0]();
                         });
@@ -96,12 +104,17 @@
                 },
                 // User Interface configuration loading :
                 function () {
+                
+                    $m.log( '> Loading UI parameters' );
                     // Loop on all possible UI configuration parameters :
                     for ( var type in { config:1 , state:1 } ) {
                         if ( $m[type] !== undefined ) {
                             for ( var parameter in $m[type] ) {
                                 var v = $m.storage.get( type+'.'+parameter );
-                                if ( v !== null ) $m[ type ][ parameter ] = v;
+                                console.log( parameter + ' ' + typeof(v) );
+                                if ( v !== null && v!== undefined ) $m[ type ][ parameter ] = v;
+                                
+                                console.log( type+'.'+parameter+': '+$m[ type ][ parameter ] );
                             }
                         }
                     }
@@ -120,6 +133,7 @@
                 // Finalization :
                 function () {
                     
+                    $m.log( '> Servers dropdown update' );
                     // 
                     $server = $('#servers-dropdown .dropdown-menu a[data-url="'+$m.state.api+'"]').closest('li');
                     if ( $server.length ) {
@@ -138,6 +152,7 @@
                     
                     // Set current path 
                     var path = $m.state.path; //$m.state.path = '';
+                    
                     $m.explorer.path( path );
                     
                     // Read Git/Github versions to offer update :

@@ -58,7 +58,16 @@
                     if ( val != document.cookie ) value = val;
                 }
                 
-                return JSON.parse( value !== 'undefined' ? value : '' );
+                // Android WebView JSON.parse does not correctly evaluate '' or 'null' or 'undefined' :
+                try {
+                    return JSON.parse( value !== 'undefined' ? value : '' );
+                } catch ( e ) {
+                    return 
+                        value.match( /^\{.*\}$/ ) ? JSON.parse( value ) : 
+                            ( value.match( /^[0-9\.]+$/ ) ? eval( value ) :
+                                ( value != '' && value != 'undefined' && value != 'null' ? value : null )
+                            );
+                }
             },
             
             // Remove key from local storage :
@@ -68,7 +77,7 @@
                 } else if ( document.cookie.match( new RegExp( '(?:^|;)'+key+'=' ) ) !== undefined ) {
                     document.cookie = key + '=';
                 }
-            },
+            }
         }
     });   
 })(jQuery);
