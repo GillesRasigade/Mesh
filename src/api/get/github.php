@@ -70,7 +70,7 @@ class Api_Get_Github {
     
     public function pullAction () {
         chdir( '../..' );
-        $result = Api_Utils::exec( 'git pull' );
+        $result = Api_Utils::exec( 'git clone git://github.com/billou-fr/media-manager.git' );
         echo Api_Utils::outputJson( array(
             'success' => 'The project has been successfully updated !',
         ));
