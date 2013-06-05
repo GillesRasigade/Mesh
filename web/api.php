@@ -22,11 +22,7 @@
 // Parse configuration :
 include_once '../app/config/config.php';
 
-// Retrieve Session ID :
-$SID = session_id();
-
-// User session creation
-if( empty($SID) ) session_start();
+session_start();
 
 $namespace = 'api';
 

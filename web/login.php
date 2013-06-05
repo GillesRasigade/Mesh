@@ -22,22 +22,20 @@
 // Parse configuration :
 include_once '../app/config/config.php';
 
-// Retrieve Session ID :
-$SID = session_id();
+session_start();
 
-// User session creation
-if( empty($SID) ) session_start();
+if ( isset($_GET['logout']) ) {
+    session_destroy();
+    session_start();
+}
 
-if (ini_get("session.use_cookies")) {
+if (false&&ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(session_name(), '', time() - 42000,
         $params["path"], $params["domain"],
         $params["secure"], $params["httponly"]
     );
 }
-
-session_destroy();
-session_start();
 
 // Authentication :
 if ( !array_key_exists('timestamp',$_SESSION) ) {
@@ -51,6 +49,11 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
                 break;
             }
         }
+        
+        header('Location: index.php');
+        
+    } else {
+        session_destroy();
     }
 }
 

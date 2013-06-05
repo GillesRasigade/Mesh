@@ -67,4 +67,13 @@ class Api_Get_Github {
     public function needPullAction () {
         //git status -uno
     }
+    
+    public function pullAction () {
+        chdir( '../..' );
+        $result = Api_Utils::exec( 'git pull' );
+        echo Api_Utils::outputJson( array(
+            'success' => 'The project has been successfully updated !',
+        ));
+        die();
+    }
 }

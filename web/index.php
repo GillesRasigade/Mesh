@@ -22,11 +22,7 @@
 // Parse configuration :
 include_once '../app/config/config.php';
 
-// Retrieve Session ID :
-$SID = session_id();
-
-// User session creation
-if( empty($SID) ) session_start();
+session_start();
 
 if ( empty($_SESSION['timestamp']) ) {
     header('Location: login.php');
@@ -120,7 +116,7 @@ if ( empty($_SESSION['timestamp']) ) {
 
                         <li class="divider last"></li>
 
-                        <li><a href="login.php"><i class=" icon-signout"></i> logout (<?php echo $_SESSION['login'] ?>)</a></li>
+                        <li><a href="login.php?logout"><i class=" icon-signout"></i> logout (<?php echo $_SESSION['login'] ?>)</a></li>
                     </ul>
                 </div>
                 
@@ -149,7 +145,7 @@ if ( empty($_SESSION['timestamp']) ) {
         </div>
         
         <div style="position: fixed;bottom: 0.5em;left: 0.5em;font-size: 0.8em;">
-            <a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a> | <span title="<?php echo $git; ?>" class="git-sha"><?php echo $git; ?></span>
+            <a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a> | <a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha"><?php echo $git; ?></a>
         </div>
     </body>
 </html>

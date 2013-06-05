@@ -58,6 +58,7 @@
                         case $target.hasClass( 'delete-folder' ) || $target.closest( '.delete-folder' ).length > 0 :
                             var path = $target.closest('.album, .image').attr('data-path');
                             $m.explorer.events.deleteFolder( path );
+                            return false;
                             break;
                             
                         case $target.hasClass( 'file-download' ) || $target.closest( '.file-download' ).length > 0 :
@@ -100,8 +101,12 @@
                             if ( nav.length ) {// Already loaded folder
                                 nav.trigger( 'click' );
                             } else {
+                                
+                                $('a[data-path="'+path+'"]',$m.explorer.elt).addClass('loading').siblings('.loading').removeClass('loading');
+                                
                                 $m.explorer.path( path , true );
                             }
+                            return false;
                             break;
                         
                         case $target.closest( '.video-play' ).length > 0 : $target = $target.closest( '.video-play' );
@@ -179,7 +184,6 @@
                             }
                         }
                     });
-
                     
                     event.stopPropagation();
                     event.preventDefault();
