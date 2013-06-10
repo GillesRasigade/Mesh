@@ -22,6 +22,9 @@
         explorer: {
             elt: $('#explorer'),
             nav: $('#explorer-tree-nav'),
+            
+            tree: {},
+            
             init: function() {
                 
                 $m.events.bind( 'click' , '#servers-dropdown .dropdown-menu li' , function ( event ) {

@@ -144,7 +144,7 @@ if ( empty($_SESSION['timestamp']) ) {
             </div>
         </div>
         
-        <div style="position: fixed;bottom: 0.5em;left: 0.5em;font-size: 0.8em;">
+        <div id="application-details">
             <a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a> | <a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha"><?php echo $git; ?></a>
         </div>
     </body>
