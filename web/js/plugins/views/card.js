@@ -198,7 +198,7 @@
 
                                         $card.fadeIn();
 
-                                        i++; f[0]()
+                                        setTimeout(function(){ i++; f[0](); },25);
                                     });
                                 } else {
                                     i++; f[0]();

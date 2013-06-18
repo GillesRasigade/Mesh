@@ -3,6 +3,10 @@
         view: {
         
             video: {
+                
+                config: {
+                    vlc: false
+                },
             
                 src: function ( path , mode ) {
                     return $m.api.utils.url( mode == 'thumb' ? 'video' : 'file' , mode == 'thumb' ? 'access' : 'access' , {
@@ -15,6 +19,16 @@
                     width: 320, number: 3,
                 },
                 initialize: function( path ) {
+            
+                    if ( window.navigator !== undefined && navigator.mimeTypes !== undefined ) {
+                        for ( var i in navigator.mimeTypes ) {
+                            if ( navigator.mimeTypes[i] && navigator.mimeTypes[i].type && navigator.mimeTypes[i].type.match(/x-vlc-plugin/) ) {
+                                $m.view.video.config.vlc = true;
+                                break;
+                            }
+                        }
+                    }
+                
                 
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
@@ -35,7 +49,7 @@
                 
                 },
                 
-                load: function ( path , json ) {    
+                load: function ( path , json ) {
                 
                     
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
@@ -103,7 +117,7 @@
                                     $folder.find('.videos > .column:nth-child('+column+') > .column-content').append($div);
                                 }
                                 
-                                i++; f[0]();
+                                setTimeout(function(){ i++; f[0](); },25);
                             } else f[1]();
                         },  
                         function() {
@@ -122,29 +136,41 @@
                     var $entry = $('.folder.active .video.entry[data-path="'+path+'"]');
                     var $player = $entry.find('.video-player');
                     
-                    if ( $entry.length && $player.length == 0 ) {
+                    if ( $entry.length && $('.icon-stop',$entry).length == 0 ) {
                     
                         $m.api.get({ c:'video', a:'stream', path: path },function(json){
 
                             if ( json && json.url ) {
+                                $entry.attr('data-src',json.url);
 
-                                $entry.find('.video-img').hide();
-                                $entry.prepend('<object class="video-player" type="application/x-vlc-plugin" data="'+json.url+'" width="100%">'+
-                                    '<param name="movie" value="'+json.url+'"/>'+
-                                    '<embed type="application/x-vlc-plugin" name="video1" '+
-                                    'autoplay="no" loop="no" width="100%"'+
-                                    'target="'+json.url+'" />'+
-                                    '<a href="'+json.url.replace(/^http:/,'vlc:')+'">Open in VLC</a>'+
-                               '</object>');
-                       
-                               $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
-                       
+                                if ( $m.view.video.config.vlc ) {
+
+                                    $entry.find('.video-img').hide();
+                                    $entry.prepend('<object class="video-player" type="application/x-vlc-plugin" data="'+json.url+'" width="100%">'+
+                                        '<param name="movie" value="'+json.url+'"/>'+
+                                        '<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" name="video1" '+
+                                        'autoplay="no" loop="no" width="100%"'+
+                                        'target="'+json.url+'" />'+
+                                        '<a href="'+json.url.replace(/^http:/,'vlc:')+'">Open in VLC</a>'+
+                                   '</object>');
+                                   
+                                } else {
+                                    //window.open(json.url.replace(/^http:/,'vlc:'), '_blank');
+                                    window.location = json.url.replace(/^http:/,'vlc:');
+//                                    var $a = $('<a target="_blank" src="'+json.url.replace(/^http:/,'vlc:')+'"/>');
+//                                    $('body').append($a);
+//                                    setTimeout(function(){ $a.click().remove(); },150);
+                                }
+                                
+                                $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
+                                
                             }
 
                         });
                         
                     } else {
-                        $m.api.get({ c:'video', a:'stop', stream: $player.attr('data') },function(json){
+                        $m.api.get({ c:'video', a:'stop', stream: $entry.attr('data-src') },function(json){
+                            $entry.attr('data-src','');
                             $player.remove();
                             $entry.find('.video-img').show();
                             $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');

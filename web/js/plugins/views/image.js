@@ -51,54 +51,58 @@
                                 var c = i%$m.view.image.columns.number+1
                                 //(function(path,c){
                                 
+//                                console.log( i , c , p );
+                                
                                 if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
 //                                if ( json[i] ) {
                                     
-                                    var image = new Image();
-                                    var $div = $('<div class="image entry" data-path="'+p+'" title="'+p.replace(/.*\//,'')+'" data-toggle="tooltip"></div>');
-                                    
-                                    var $img = $('<img draggable="true" data-preview="'+$m.view.image.src(p,'preview')+'" src="'+$m.view.image.src(p,'thumb')+'" style="width: 100%; display: none;"/>');
-                                    
-                                    image.onload = function () {
-                                        //if ( initialize !== true ) return true;
-                                        // Photo positioning :
-                                        var h = -1; var column = c !== undefined ? c : 1;
-                                        var $f = $folder.parent();
-                                        for ( var c = 1 ; c <= $m.view.image.columns.number ; c++ ) {
-                                            var $c = $folder.find('.images > .column:nth-child('+c+') > .column-content');
-                                            
-                                            if ( !$f.hasClass('active') )
-                                                $f.css({'position':'absolute','visibility':'hidden', 'display':'block'});
-                                            
-                                            var height = $c.height();
+                                    (function(p,c){
+                                        var image = new Image();
+                                        var $div = $('<div class="image entry" data-path="'+p+'" title="'+p.replace(/.*\//,'')+'" data-toggle="tooltip"></div>');
 
-                                            if ( !$f.hasClass('active') )
-                                                $f.css({'position':'','visibility':'', 'display':''});
-                                            
-                                            
-                                            if ( h == -1 || height < h ) {
-                                                h = height; column = c;
+                                        var $img = $('<img draggable="true" data-preview="'+$m.view.image.src(p,'preview')+'" src="'+$m.view.image.src(p,'thumb')+'" style="width: 100%; display: none;"/>');
+
+                                        image.onload = function () {
+                                            //if ( initialize !== true ) return true;
+                                            // Photo positioning :
+                                            var h = -1; var column = c !== undefined ? c : 1;
+                                            var $f = $folder.parent();
+                                            for ( var c = 1 ; c <= $m.view.image.columns.number ; c++ ) {
+                                                var $c = $folder.find('.images > .column:nth-child('+c+') > .column-content');
+
+                                                if ( !$f.hasClass('active') )
+                                                    $f.css({'position':'absolute','visibility':'hidden', 'display':'block'});
+
+                                                var height = $c.height();
+
+                                                if ( !$f.hasClass('active') )
+                                                    $f.css({'position':'','visibility':'', 'display':''});
+
+
+                                                if ( h == -1 || height < h ) {
+                                                    h = height; column = c;
+                                                }
                                             }
+
+                                            $folder.find('.images > .column:nth-child('+column+') > .column-content').append(
+                                                $div.append( $img )
+                                                    .append( '<div class="actions">'+
+                                                        '<div class="btn btn-link image-rotate" data-value="-90"><i class="icon-rotate-left"></i></div>'+
+                                                        '<div class="btn btn-link image-rotate" data-value="90"><i class="icon-rotate-right"></i></div>'+
+
+                                                        '<div class="btn btn-link file-download"><i class="icon-download"></i></div>'+
+
+                                                        '<div class="btn btn-link image-cover"><i class="icon-picture"></i></div>'+
+
+                                                        '<div class="btn btn-link delete-folder"><i class="icon-remove"></i></div>'+
+                                                        '</div>') );
+
+                                            $img.fadeIn();
+                                            setTimeout(function(){ i++; f[0](); },25);
                                         }
-                                        
-                                        $folder.find('.images > .column:nth-child('+column+') > .column-content').append(
-                                            $div.append( $img )
-                                                .append( '<div class="actions">'+
-                                                    '<div class="btn btn-link image-rotate" data-value="-90"><i class="icon-rotate-left"></i></div>'+
-                                                    '<div class="btn btn-link image-rotate" data-value="90"><i class="icon-rotate-right"></i></div>'+
-                                                    
-                                                    '<div class="btn btn-link file-download"><i class="icon-download"></i></div>'+
-                                                    
-                                                    '<div class="btn btn-link image-cover"><i class="icon-picture"></i></div>'+
-                                                    
-                                                    '<div class="btn btn-link delete-folder"><i class="icon-remove"></i></div>'+
-                                                    '</div>') );
-                                                                        
-                                        $img.fadeIn();
-                                        i++; f[0]();
-                                    }
-                                    
-                                    image.src = $m.view.image.src(p,'thumb');
+
+                                        image.src = $m.view.image.src(p,'thumb');
+                                    })(p,c);
                                 } else {
                                     i++; f[0]();
                                 }

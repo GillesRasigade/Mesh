@@ -102,17 +102,32 @@ class Api_Get_Video extends Api_Get_File {
             
             if ( file_exists( $path ) ) {
                 
+                $host  = $_SERVER['HTTP_HOST'];
+                $port = mt_rand(5000,6000);
+                
+                // Random port definition allows multiple streaming on the same server :
+                // TODO : store somewhere already used ports to get determinist port allocation process.
+                $rtsp = 'rtsp://'.$host.':'.$port.'/' . $_REQUEST['token'] . '.sdp';
+                
                 echo Api_Utils::outputJson( array(
-                    'url' => 'rtsp://192.168.0.22:8080/' . $_REQUEST['token'] . '.sdp'
+                    'url' => $rtsp
                 ));
+                
+                // Building VLC command line for VOD :
+                $cmd = 'cvlc  -vvv \''.$path.'\' '.
+                    ':sub-file=\''.preg_replace('/\.[^\.]+$/','',$path).'.srt\' '.
+                    '--sout \''.
+                        '#transcode{vcodec=mp2v,vb=512,scale=1}'.
+                        ':rtp{mux=ts,dst='.$host.',port='.$port.',sdp='.$rtsp.'}'.
+                    '\' > /dev/null 2>&1 &';
                 
                 // Non blocking process execution syntax :
                 // REF : http://forum.videolan.org/viewtopic.php?f=4&t=39124
                 // REF : http://www.videolan.org/doc/play-howto/en/ch04.html
                 // REF : http://www.videolan.org/doc/streaming-howto/en/ch04.html
-                    $result = Api_Utils::exec('cvlc  -vvv \''.$path.'\' --sout \'#transcode{vcodec=mp2v,vb=512,scale=1}:rtp{dst=192.168.0.22,port=1234,sdp=rtsp://192.168.0.22:8080/'.$_REQUEST['token'].'.sdp}\' > /dev/null 2>&1 &');
-//                $result = Api_Utils::exec('cvlc  -vvv "'.$path.'" --sout \'#transcode{vcodec=mp2v,vb=512,scale=0.25}:standard{access=http,mux=ts,dst=192.168.0.22:8080,sdp=http://192.168.0.22:8080/'.'token'.'.sdp}\' > /dev/null 2>&1 &');
-                
+//                    $result = Api_Utils::exec('cvlc  -vvv \''.$path.'\' --sout \'#transcode{vcodec=mp2v,vb=512,scale=1}:rtp{sdp='.$rtsp.'}\' > /dev/null 2>&1 &');                
+                $result = Api_Utils::exec( $cmd );
+                    
                 die();
                 
             }

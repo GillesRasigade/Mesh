@@ -18,6 +18,18 @@
  * ========================================================== */
 
 (function($){
+    
+    // REF : http://stackoverflow.com/questions/8897289/how-to-check-if-element-is-off-screen
+    jQuery.expr.filters.offscreen = function(el) {
+        var p = $('.folder.active',$m.explorer.elt).scrollTop();
+        return (
+//            (el.offsetLeft + el.offsetWidth) < 0 
+            ( el.offsetTop + el.offsetHeight) < p
+//            || (el.offsetLeft > window.innerWidth || el.offsetTop > window.innerHeight)
+            || ( -p + el.offsetTop > p+window.innerHeight)
+        );
+    };
+    
     window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
         explorer: {
             elt: $('#explorer'),
@@ -308,7 +320,7 @@
                                         $m.explorer.goto( $m.explorer.elt.find('.folder:last-child').attr('data-path') );
                                     }
                                     
-                                    i--; setTimeout( f[0] , 250 );
+                                    i--; setTimeout( f[0] , 2500 );
                                 });
                             } else {
                                 i--; f[0]();
@@ -381,6 +393,9 @@
             
             events: {
                 scroll: function ( event ) {
+                    
+//                    $('.folder.active .entry.image:offscreen').css('visibility','hidden');
+//                    $('.folder.active .entry.image:not(:offscreen)').css('visibility','visible');
                     
                     if ( $m.state.loading != true ) {
                         

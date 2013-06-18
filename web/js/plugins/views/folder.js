@@ -90,7 +90,7 @@
                                     $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
                                 }
                                 
-                                i++; f[0]();
+                                setTimeout(function(){ i++; f[0](); },25);
                             } else f[1]();
                         },
                         function() {
