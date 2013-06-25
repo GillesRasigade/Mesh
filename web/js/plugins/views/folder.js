@@ -83,7 +83,7 @@
                                                 '<div title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i></div>'+
                                                 '<i class="icon-remove delete-folder"></i>'+
                                             '</span>'+
-                                            '<span title="'+json[i]+'" class="album-title">'+title+'</span>'+
+                                            '<span title="'+json[i]+'" class="album-title">'+title.replace(/.*\//,'')+'</span>'+
                                             '<span class="album-title details">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
                                         '</a>');
 

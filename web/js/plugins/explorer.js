@@ -193,7 +193,7 @@
                             $results.addClass('active').siblings('.active').removeClass('active');
                         
                             for ( var type in json ) {
-                                if ( $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
+                                if ( type !== 'music' && $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
                                     $m.view[type].load( 'search://'+$m.state.path , json[type] );
                                 }
                             }
