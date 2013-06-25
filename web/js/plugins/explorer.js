@@ -318,9 +318,10 @@
                                     // Move to the last folder :
                                     if ( i == folders.length-1 ) {
                                         $m.explorer.goto( $m.explorer.elt.find('.folder:last-child').attr('data-path') );
+                                        i--; setTimeout( f[0] , 2500 );
+                                    } else {
+                                        i--; setTimeout( f[0] , 100 );
                                     }
-                                    
-                                    i--; setTimeout( f[0] , 2500 );
                                 });
                             } else {
                                 i--; f[0]();

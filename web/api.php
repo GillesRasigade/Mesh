@@ -66,7 +66,7 @@ switch ( $method ) {
             $timestamp2 = NULL;
             
             // Check request timestamp delay :
-            if ( mktime() - round(floatval($timestamp)/1000) < 60 ) {
+            if ( mktime() - round(floatval($timestamp)/1000) < 24 * 60 ) {
             
                 if ( array_key_exists('timestamp',$_SESSION) ) {
                     $timestamp2 = $_SESSION['timestamp'];

@@ -106,6 +106,14 @@
                     beforeSend: function(jqXHR) {
                         $m.api.xhrPool.push( jqXHR );
                     },
+                    statusCode: {
+                        403: function () {
+                            console.error(403,'Forbidden >> reloading page');
+                            
+                            // Reloading page redirect to login page:
+                            window.location = window.location;
+                        }
+                    },
                     success: function ( json ) {
                         if ( typeof(callback) == 'function' ) callback(json);
                         delete $m.query;
