@@ -110,8 +110,10 @@
                         403: function () {
                             console.error(403,'Forbidden >> reloading page');
                             
-                            // Reloading page redirect to login page:
-                            window.location = window.location;
+                            if ( !window.location.href.match('/login.php/') ) {
+                                // Reloading page redirect to login page:
+                                window.location = window.location;
+                            }
                         }
                     },
                     success: function ( json ) {
