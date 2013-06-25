@@ -197,6 +197,13 @@
                                     $m.view[type].load( 'search://'+$m.state.path , json[type] );
                                 }
                             }
+                            
+                            if ( $('.content > *',$results).length == 0 ) {
+                                $('.content',$results).append('<div style="text-align:center; padding: 3em; line-height: 1.5em; font-size: 2em; color: #aaa;">'+
+                                        '<i class="icon-frown"></i> Sorry, no result found.<br/>'+
+                                        '<span style="font-size: 0.75em; font-style: italic;">'+search+'</span>'+
+                                    '</div>')
+                            }
                         }
                     });
                     
