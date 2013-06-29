@@ -98,6 +98,7 @@ if ( empty($_SESSION['timestamp']) ) {
             <div class="prev"><i class="icon-arrow-left">&nbsp;</i></div>
             <div class="next"><i class="icon-arrow-right">&nbsp;</i></div>
             <div class="icon-remove close" onClick="$(this).prev().prev().prev().find('.content').empty().closest('#splash-screen').fadeOut();" style="color: white; padding: 0.25em; margin-left: -100%; font-size: 3em;">&nbsp;</div>
+            <div class="icon-spin icon-spinner" style="display: none; color: white;padding: 0.25em;font-size: 3em;opacity: 0.5;position: absolute;bottom: 0px;right: 0px;">&nbsp;</div>
         </div>
         
         <!--div class=""  style="position: absolute;left: 0px;right: 0px;top: 0px;bottom: 0px; z-index: 0;"-->
