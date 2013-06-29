@@ -45,7 +45,9 @@
                     switch ( true ) {
                         case $target.hasClass( 'next' ) || $target.closest( '.next' ).length > 0 :
                             var path = $target.closest('#splash-screen').find('.content .entry-show').attr('data-path');
+                            var $loader = $target.closest('#splash-screen').find('.icon-spin').fadeIn();
                             $m.api.get({c:'file',a:'next',path: path},function(json){
+                                $loader.fadeOut();
                                 if ( json && json.path ) {
                                     var $prev = $('.folder.active .entry[data-path="'+json.path+'"]',$m.explorer.elt);
                             
@@ -58,7 +60,9 @@
                             break;
                         case $target.hasClass( 'prev' ) || $target.closest( '.prev' ).length > 0 :
                             var path = $target.closest('#splash-screen').find('.content .entry-show').attr('data-path');
+                            var $loader = $target.closest('#splash-screen').find('.icon-spin').fadeIn();
                             $m.api.get({c:'file',a:'previous',path: path},function(json){
+                                $loader.fadeOut();
                                 if ( json && json.path ) {
                                     var $prev = $('.folder.active .entry[data-path="'+json.path+'"]',$m.explorer.elt);
                             
