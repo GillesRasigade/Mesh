@@ -115,6 +115,25 @@
                     ]; f[0]();
                 },
                 
+                show: function ( $entry ) {
+                    var $splash = $('#splash-screen');
+                    var path = $entry.attr('data-path');
+                    var src = $m.view.image.src(path,'full');
+                    
+                    //$splash.fadeOut();
+                    
+                    var image = new Image();
+                    image.onload = function () {
+                        $('.content',$splash).empty().show()
+                            .append('<img src="'+src+'" class="entry-show" data-path="'+path+'"/>').hide().fadeIn();
+                        
+                        if ( !$splash.is(':visible') ) $splash.fadeIn();
+                    }
+                    image.src = src;
+                    
+                    
+                },
+                
                 
                 
                 cover: function ( path ) {

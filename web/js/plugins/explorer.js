@@ -39,6 +39,38 @@
             
             init: function() {
                 
+                $m.events.bind( 'click' , '#splash-screen' , function ( event ) {
+                    var $target = $( event.target );
+                    
+                    switch ( true ) {
+                        case $target.hasClass( 'next' ) || $target.closest( '.next' ).length > 0 :
+                            var path = $target.closest('#splash-screen').find('.content .entry-show').attr('data-path');
+                            $m.api.get({c:'file',a:'next',path: path},function(json){
+                                if ( json && json.path ) {
+                                    var $prev = $('.folder.active .entry[data-path="'+json.path+'"]',$m.explorer.elt);
+                            
+                                    if ( $prev.length ) {
+                                        $prev.click();
+                                    }
+                                }
+                            });
+                            break;
+                            break;
+                        case $target.hasClass( 'prev' ) || $target.closest( '.prev' ).length > 0 :
+                            var path = $target.closest('#splash-screen').find('.content .entry-show').attr('data-path');
+                            $m.api.get({c:'file',a:'previous',path: path},function(json){
+                                if ( json && json.path ) {
+                                    var $prev = $('.folder.active .entry[data-path="'+json.path+'"]',$m.explorer.elt);
+                            
+                                    if ( $prev.length ) {
+                                        $prev.click();
+                                    }
+                                }
+                            });
+                            break;
+                    }
+                });
+                
                 $m.events.bind( 'click' , '#servers-dropdown .dropdown-menu li' , function ( event ) {
                     var $li = $( event.target ).closest('li');
                     $li.addClass('active').siblings('.active').removeClass('active');
@@ -128,6 +160,16 @@
                         case $target.hasClass( 'video-play' ):
                             var path = $target.closest('.entry').attr('data-path');
                             $m.view.video.play( path );
+                            break;
+                        
+                        case $target.closest('.entry').length > 0: $target = $target.closest('.entry');
+                        case $target.hasClass('entry'):
+                            var type = $target.attr('class').replace(/ .*$/,'');
+                            
+                            if ( $m.view && $m.view[type] && typeof($m.view[type].show) == 'function' ) {
+                                $m.view[type].show( $target );
+                            }
+                            
                             break;
                     }
                 });

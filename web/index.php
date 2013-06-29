@@ -86,7 +86,19 @@ if ( empty($_SESSION['timestamp']) ) {
     </head>
     <body>
         
-        
+        <div id="splash-screen">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="content"></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="prev"><i class="icon-arrow-left">&nbsp;</i></div>
+            <div class="next"><i class="icon-arrow-right">&nbsp;</i></div>
+            <div class="icon-remove close" onClick="$(this).prev().prev().prev().find('.content').empty().closest('#splash-screen').fadeOut();" style="color: white; padding: 0.25em; margin-left: -100%; font-size: 3em;">&nbsp;</div>
+        </div>
         
         <!--div class=""  style="position: absolute;left: 0px;right: 0px;top: 0px;bottom: 0px; z-index: 0;"-->
             <div class="tab-content">

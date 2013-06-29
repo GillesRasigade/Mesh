@@ -102,5 +102,57 @@
     padding-right: 1em;
 }
 
+/** SPLASH SCREEN **/
+#splash-screen {
+    position: fixed;
+    top: 0px; left: 0px; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 5000;
+    display: none;
+}
 
+#splash-screen .prev,
+#splash-screen .next {
+    position: absolute;
+    height: 100%;
+    width: 2em;
+    padding-top: 25%;
+    font-size: 3em;
+    color: white;
+    text-align: center;
+    opacity: 0.2;
+    
+    -webkit-transition: opacity 0.3s;
+    -moz-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
 
+#splash-screen .next {
+    right: 0px;
+}
+
+#splash-screen .prev:hover,
+#splash-screen .next:hover {
+    opacity: 0.5;
+}
+
+#splash-screen td {
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+}
+
+#splash-screen td * {
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
+    margin: 3% auto;
+    
+    border: 3px solid white;
+    -webkit-box-shadow: 0px 0px 8px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 8px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.5);
+}
