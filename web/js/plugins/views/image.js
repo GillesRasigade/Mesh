@@ -118,7 +118,7 @@
                 show: function ( $entry ) {
                     var $splash = $('#splash-screen');
                     var path = $entry.attr('data-path');
-                    var src = $m.view.image.src(path,'full');
+                    var src = $m.view.image.src(path,'preview');
                     
                     //$splash.fadeOut();
                     
