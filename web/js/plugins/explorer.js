@@ -43,6 +43,27 @@
                     var $target = $( event.target );
                     
                     switch ( true ) {
+                        case $target.closest( '.close' ).length > 0: $target = $target.closest( '.close' );
+                        case $target.hasClass( 'close' ):
+                            $target.prev().prev().prev().find('.content').empty().closest('#splash-screen').fadeOut();
+                            if ( $m.state.playTimeout !== undefined ) {
+                                clearTimeout( $m.state.playTimeout );
+                                delete $m.state.playTimeout;
+                            }
+                            break;
+                        case $target.closest( '.play' ).length > 0: $target = $target.closest( '.play' );
+                        case $target.hasClass( 'play' ):
+                            $target.find('i').toggleClass('icon-play').toggleClass('icon-pause');
+                            if ( $m.state.playTimeout !== undefined ) {
+                                clearTimeout( $m.state.playTimeout );
+                                delete $m.state.playTimeout;
+                            } else {
+                                $m.state.playTimeout = setTimeout(function(){
+                                    console.log( $target.next );
+                                    $target.next().click();
+                                },4000);
+                            }
+                            break;
                         case $target.hasClass( 'next' ) || $target.closest( '.next' ).length > 0 :
                             var path = $target.closest('#splash-screen').find('.content .entry-show').attr('data-path');
                             var $loader = $target.closest('#splash-screen').find('.icon-spin').fadeIn();

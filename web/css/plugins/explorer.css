@@ -111,8 +111,8 @@
     display: none;
 }
 
-#splash-screen .prev,
-#splash-screen .next {
+#splash-screen .btn-prev,
+#splash-screen .btn-next {
     position: absolute;
     height: 100%;
     width: 2em;
@@ -128,12 +128,36 @@
     transition: opacity 0.3s;
 }
 
-#splash-screen .next {
+#splash-screen .btn-next {
     right: 0px;
 }
 
-#splash-screen .prev:hover,
-#splash-screen .next:hover {
+#splash-screen .btn-prev:hover,
+#splash-screen .btn-next:hover {
+    opacity: 0.5;
+}
+
+#splash-screen .controls {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    font-size: 3em;
+    padding: 0.25em;
+    text-align: center;
+}
+
+#splash-screen .controls .btn {
+    text-decoration: none;
+    color: white;
+    opacity: 0.2;
+    
+    -webkit-transition: opacity 0.3s;
+    -moz-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
+
+#splash-screen .controls:hover .btn {
     opacity: 0.5;
 }
 

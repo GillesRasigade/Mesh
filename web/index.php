@@ -95,10 +95,17 @@ if ( empty($_SESSION['timestamp']) ) {
                 </tbody>
             </table>
             
-            <div class="prev"><i class="icon-arrow-left">&nbsp;</i></div>
-            <div class="next"><i class="icon-arrow-right">&nbsp;</i></div>
-            <div class="icon-remove close" onClick="$(this).prev().prev().prev().find('.content').empty().closest('#splash-screen').fadeOut();" style="color: white; padding: 0.25em; margin-left: -100%; font-size: 3em;">&nbsp;</div>
+            <div class="btn-prev prev"><i class="icon-arrow-left">&nbsp;</i></div>
+            <div class="btn-next next"><i class="icon-arrow-right">&nbsp;</i></div>
+            <div class="icon-remove close" style="color: white; padding: 0.25em; margin-left: -100%; font-size: 3em;">&nbsp;</div>
             <div class="icon-spin icon-spinner" style="display: none; color: white;padding: 0.25em;font-size: 3em;opacity: 0.5;position: absolute;bottom: 0px;right: 0px;">&nbsp;</div>
+            <div class="controls"style="position: fixed; bottom: 0px; width: 100%; font-size: 3em; padding: 0.25em; text-align: center;">
+                <div class="btn-group">
+                    <div class="btn btn-link prev"><i style="font-size: 3em;" class="icon-step-backward">&nbsp;</i></div>
+                    <div class="btn btn-link play"><i style="font-size: 3em;" class="icon-play">&nbsp;</i></div>
+                    <div class="btn btn-link next"><i style="font-size: 3em;" class="icon-step-forward">&nbsp;</i></div>
+                </div>
+            </div>
         </div>
         
         <!--div class=""  style="position: absolute;left: 0px;right: 0px;top: 0px;bottom: 0px; z-index: 0;"-->

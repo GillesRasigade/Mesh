@@ -103,8 +103,10 @@
                     dataType: 'jsonp',
                     headers: auth,
                     //crossDomain: true,
-                    beforeSend: function(jqXHR) {
-                        $m.api.xhrPool.push( jqXHR );
+                    beforeSend: function( request ) {
+                        $m.api.xhrPool.push( request );
+                        
+//                        request.setRequestHeader("Authority", $m.api.utils.token( auth ) );
                     },
                     statusCode: {
                         403: function () {
