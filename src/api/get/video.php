@@ -102,23 +102,30 @@ class Api_Get_Video extends Api_Get_File {
             
             if ( file_exists( $path ) ) {
                 
-                $host  = $_SERVER['HTTP_HOST'];
+                $host  = preg_replace('/:.*$/','',$_SERVER['HTTP_HOST']);
+//                $host = '82.226.94.148';
+//                $host = 'localhost';
                 $port = mt_rand(5000,6000);
                 
                 // Random port definition allows multiple streaming on the same server :
                 // TODO : store somewhere already used ports to get determinist port allocation process.
                 $rtsp = 'rtsp://'.$host.':'.$port.'/' . $_REQUEST['token'] . '.sdp';
+//                $rtsp = 'rtsp://:'.$port.'/' . $_REQUEST['token'] . '.sdp';
+//                $rtsp = 'rtsp://0.0.0.0:'.$port.'/' . $_REQUEST['token'] . '.sdp';
+//                $rtsp = 'rtsp://localhost:'.$port.'/' . $_REQUEST['token'] . '.sdp';
                 
                 echo Api_Utils::outputJson( array(
-                    'url' => $rtsp
+                    'url' => $rtsp//'rtsp://'.$host.':'.$port.'/' . $_REQUEST['token'] . '.sdp'
                 ));
                 
                 // Building VLC command line for VOD :
                 $cmd = 'cvlc  -vvv \''.$path.'\' '.
                     ':sub-file=\''.preg_replace('/\.[^\.]+$/','',$path).'.srt\' '.
                     '--sout \''.
-                        '#transcode{vcodec=mp2v,vb=512,scale=1}'.
+                        '#transcode{vcodec=mp2v,vb=512,scale=0.5}'.
                         ':rtp{mux=ts,dst='.$host.',port='.$port.',sdp='.$rtsp.'}'.
+//                        ':rtp{mux=ts,port='.$port.',sdp='.$rtsp.'}'.
+//                        ':rtp{sdp='.$rtsp.'}'.
                     '\' > /dev/null 2>&1 &';
                 
                 // Non blocking process execution syntax :

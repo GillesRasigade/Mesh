@@ -116,7 +116,7 @@
     position: absolute;
     height: 100%;
     width: 2em;
-    padding-top: 25%;
+    top: 50%;
     font-size: 3em;
     color: white;
     text-align: center;
@@ -164,9 +164,9 @@
 #splash-screen td {
     text-align: center;
     vertical-align: middle;
-    position: absolute;
     width: 100%;
     pointer-events: none;
+    position: absolute;
 }
 
 #splash-screen td * {

@@ -45,7 +45,7 @@
                     switch ( true ) {
                         case $target.closest( '.close' ).length > 0: $target = $target.closest( '.close' );
                         case $target.hasClass( 'close' ):
-                            $target.prev().prev().prev().find('.content').empty().closest('#splash-screen').fadeOut();
+                            $target.next().find('.content').empty().closest('#splash-screen').fadeOut();
                             if ( $m.state.playTimeout !== undefined ) {
                                 $target.parent().find('.icon-pause').toggleClass('icon-play').toggleClass('icon-pause');
                                 clearTimeout( $m.state.playTimeout );

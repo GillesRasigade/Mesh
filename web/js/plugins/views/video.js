@@ -33,6 +33,8 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.length ) {
+                        
+                        if ( $(window).width() < 480 ) $m.view.image.columns.width = $(window).width();
                     
                         $folder.find('.videos').remove();
                             
@@ -128,6 +130,14 @@
                             });
                         }
                     ]; f[0]();
+                },
+                
+                show: function ( $entry ) {
+                    var $splash = $('#splash-screen');
+                    var path = $entry.attr('data-path');
+                    
+                    $('.video-play',$entry).click();
+                    return false;
                 },
                 
                 // Stream video file with VLC and display result :

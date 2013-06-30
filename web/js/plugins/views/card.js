@@ -20,6 +20,8 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.length ) {
+                        
+                        if ( $(window).width() < 480 ) $m.view.image.columns.width = $(window).width();
                     
                         $folder.find('.cards').remove();
                             

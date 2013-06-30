@@ -19,6 +19,7 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.length ) {
+                        if ( $(window).width() < 480 ) $m.view.image.columns.width = $(window).width();
                     
                         $folder.find('.images').remove();
                             
@@ -130,8 +131,6 @@
                         if ( !$splash.is(':visible') ) $splash.fadeIn();
                     }
                     image.src = src;
-                    
-                    
                 },
                 
                 
