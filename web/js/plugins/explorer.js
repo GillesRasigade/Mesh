@@ -47,6 +47,7 @@
                         case $target.hasClass( 'close' ):
                             $target.prev().prev().prev().find('.content').empty().closest('#splash-screen').fadeOut();
                             if ( $m.state.playTimeout !== undefined ) {
+                                $target.parent().find('.icon-pause').toggleClass('icon-play').toggleClass('icon-pause');
                                 clearTimeout( $m.state.playTimeout );
                                 delete $m.state.playTimeout;
                             }
@@ -58,10 +59,12 @@
                                 clearTimeout( $m.state.playTimeout );
                                 delete $m.state.playTimeout;
                             } else {
-                                $m.state.playTimeout = setTimeout(function(){
-                                    console.log( $target.next );
+                                
+                                var next = function() {
                                     $target.next().click();
-                                },4000);
+                                    $m.state.playTimeout = setTimeout(next,4000);
+                                }
+                                $m.state.playTimeout = setTimeout(next,4000);
                             }
                             break;
                         case $target.hasClass( 'next' ) || $target.closest( '.next' ).length > 0 :
