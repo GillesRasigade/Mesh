@@ -21,7 +21,7 @@
                     
                     if ( $folder.length ) {
                         
-                        if ( $(window).width() < 480 ) $m.view.image.columns.width = $(window).width();
+                        if ( $(window).width() < 480 ) $m.view.card.columns.width = $(window).width();
                     
                         $folder.find('.cards').remove();
                             

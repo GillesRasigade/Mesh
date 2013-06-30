@@ -34,7 +34,7 @@
                     
                     if ( $folder.length ) {
                         
-                        if ( $(window).width() < 480 ) $m.view.image.columns.width = $(window).width();
+                        if ( $(window).width() < 480 ) $m.view.video.columns.width = $(window).width();
                     
                         $folder.find('.videos').remove();
                             
