@@ -3,6 +3,10 @@
         view: {
         
             pdf: {
+                
+                config: {
+                    viewer: false,
+                },
             
                 src: function ( path , mode ) {
                     return $m.api.utils.url('pdf','access',{
@@ -15,6 +19,15 @@
                     width: 320, number: 3,
                 },
                 initialize: function( path ) {
+            
+                    if ( window.navigator !== undefined && navigator.mimeTypes !== undefined ) {
+                        for ( var i in navigator.mimeTypes ) {
+                            if ( navigator.mimeTypes[i] && navigator.mimeTypes[i].type && navigator.mimeTypes[i].type.match(/pdf/) ) {
+                                $m.view.pdf.config.viewer = true;
+                                break;
+                            }
+                        }
+                    }
                 
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
@@ -84,14 +97,14 @@
                                     }
 
                                     //title="'+json['folder'][i]+'"
-                                    var $div = $('<a title="Open this pdf file" target="_blank" data-path="'+p+'" href="'+$m.view.pdf.src(p)+'" class="pdf">'+
+                                    var $div = $('<div title="Open this pdf file" target="_blank" data-path="'+p+'" href="'+$m.view.pdf.src(p)+'" class="pdf entry">'+
                                             '<img class="pdf-img" src="'+$m.view.pdf.src(p,'thumb')+'" style="height: auto; padding: 0px; margin: 0px; border: 0px;"/>'+
 //                                            '<span class="actions">'+
 //                                                '<div class="btn btn-link file-download"><i class="icon-download"></i></div>'+
 //                                            '</span>'+
                                             '<span title="'+json[i]+'" class="pdf-title">'+title+'</span>'+
                                             '<span class="pdf-title details">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
-                                        '</a>');
+                                        '</div>');
 
                                     $folder.find('.pdfs > .column:nth-child('+column+') > .column-content').append($div);
                                 }
@@ -107,7 +120,28 @@
                             });
                         }
                     ]; f[0]();
-                }
+                },
+                
+                show: function ( $entry ) {
+                    
+                    var $splash = $('#splash-screen');
+                    var path = $entry.attr('data-path');
+                    var src = $entry.attr('href');
+                    
+                    if ( $m.view.pdf.config.viewer ) {
+                    
+                        //$splash.fadeOut();
+                        if ( !$splash.is(':visible') ) $splash.fadeIn();
+
+                        $('.content',$splash).empty().show()
+                            .append('<iframe src="'+src+'" class="entry-show" style="background: #eee; width: 85%; height: 100%;" data-path="'+path+'"></iframe>');
+
+                        return false;
+                    } else {
+                        window.location = src;
+                    }
+                },
+                        
             },
         }
     } );
