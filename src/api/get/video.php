@@ -122,7 +122,7 @@ class Api_Get_Video extends Api_Get_File {
                 $cmd = 'cvlc  -vvv \''.$path.'\' '.
                     ':sub-file=\''.preg_replace('/\.[^\.]+$/','',$path).'.srt\' '.
                     '--sout \''.
-                        '#transcode{vcodec=mp2v,vb=512,scale=0.5}'.
+                        '#transcode{vcodec=mp2v,vb=512,scale=1}'.
                         ':rtp{mux=ts,dst='.$host.',port='.$port.',sdp='.$rtsp.'}'.
 //                        ':rtp{mux=ts,port='.$port.',sdp='.$rtsp.'}'.
 //                        ':rtp{sdp='.$rtsp.'}'.

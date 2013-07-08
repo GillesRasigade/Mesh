@@ -96,37 +96,41 @@
                             } else f[1]();
                         },
                         function() {
+                        
+                            setTimeout(function(){
                             
-                            $('.album .album-title.details:not(.updated)').first().each(function(i,o){
-                                var $o = $(o).addClass('updated');
-                                var p = $o.closest('.album').attr('data-path');
-                                $m.api.get({c:'file',a:'details',path: p},function(details){
+                                $('.album .album-title.details:not(.updated)').first().each(function(i,o){
+                                    var $o = $(o).addClass('updated');
+                                    var p = $o.closest('.album').attr('data-path');
+                                    $m.api.get({c:'file',a:'details',path: p},function(details){
 
-                                    var $details = $o;
-                                    for ( var t in details.counts ) {
-                                        if ( details.counts[t] > 0 && !t.match(/(hidden)/)) {
-                                            var icon = t;
-                                            switch ( t ) {
-                                                case 'folder': icon = 'folder-open'; break;
-                                                case 'image': icon = 'picture'; break;
-                                                case 'video': icon = 'film'; break;
-                                                case 'card': icon = 'list-alt'; break;
-                                                case 'pdf': icon = 'book'; break;
+                                        var $details = $o;
+                                        for ( var t in details.counts ) {
+                                            if ( details.counts[t] > 0 && !t.match(/(hidden)/)) {
+                                                var icon = t;
+                                                switch ( t ) {
+                                                    case 'folder': icon = 'folder-open'; break;
+                                                    case 'image': icon = 'picture'; break;
+                                                    case 'video': icon = 'film'; break;
+                                                    case 'card': icon = 'list-alt'; break;
+                                                    case 'pdf': icon = 'book'; break;
+                                                }
+                                                $details.append( '<i class="icon-'+icon+'" title="'+details.counts[t]+' '+t+(details.counts[t]>1?'s':'')+'"> '+details.counts[t]+'</i> &nbsp;');
                                             }
-                                            $details.append( '<i class="icon-'+icon+'" title="'+details.counts[t]+' '+t+(details.counts[t]>1?'s':'')+'"> '+details.counts[t]+'</i> &nbsp;');
                                         }
-                                    }
-                                    
-//                                    $details.append('<i class="icon-info-sign" title="'+details.size+'"></i> &nbsp;')
-                                    $details.append('<i class="icon-hdd" title="Total size: '+details.size+'"> '+details.size+'</i> &nbsp;')
-                                    
-                                    if ( details.size.match(/G$/) ) $o.closest('.album').find('.folder-download').remove();
-                                    else $o.closest('.album').find('.folder-download').show();
+                                        
+    //                                    $details.append('<i class="icon-info-sign" title="'+details.size+'"></i> &nbsp;')
+                                        $details.append('<i class="icon-hdd" title="Total size: '+details.size+'"> '+details.size+'</i> &nbsp;')
+                                        
+                                        if ( details.size.match(/G$/) ) $o.closest('.album').find('.folder-download').remove();
+                                        else $o.closest('.album').find('.folder-download').show();
 
-                                    //if ( i < json['folder'].length-1 ) { i++; setTimeout(function(){ f[0](i); },50); }
-                                    if ( $('.album .album-title.details:not(.updated)').length ) f[1]();   ;
+                                        //if ( i < json['folder'].length-1 ) { i++; setTimeout(function(){ f[0](i); },50); }
+                                        if ( $('.album .album-title.details:not(.updated)').length ) f[1]();   ;
+                                    });
                                 });
-                            });
+                            
+                            },250);
                         }
                     ]; f[0]();
                 }

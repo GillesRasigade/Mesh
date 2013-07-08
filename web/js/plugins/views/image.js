@@ -63,40 +63,41 @@
 
                                         var $img = $('<img draggable="true" data-preview="'+$m.view.image.src(p,'preview')+'" src="'+$m.view.image.src(p,'thumb')+'" style="width: 100%; display: none;"/>');
 
-                                        image.onload = function () {
-                                            //if ( initialize !== true ) return true;
-                                            // Photo positioning :
-                                            var h = -1; var column = c !== undefined ? c : 1;
-                                            var $f = $folder.parent();
-                                            for ( var c = 1 ; c <= $m.view.image.columns.number ; c++ ) {
-                                                var $c = $folder.find('.images > .column:nth-child('+c+') > .column-content');
+                                        //if ( initialize !== true ) return true;
+                                        // Photo positioning :
+                                        var h = -1; var column = c !== undefined ? c : 1;
+                                        var $f = $folder.parent();
+                                        for ( var c = 1 ; c <= $m.view.image.columns.number ; c++ ) {
+                                            var $c = $folder.find('.images > .column:nth-child('+c+') > .column-content');
 
-                                                if ( !$f.hasClass('active') )
-                                                    $f.css({'position':'absolute','visibility':'hidden', 'display':'block'});
+                                            if ( !$f.hasClass('active') )
+                                                $f.css({'position':'absolute','visibility':'hidden', 'display':'block'});
 
-                                                var height = $c.height();
+                                            var height = $c.height();
 
-                                                if ( !$f.hasClass('active') )
-                                                    $f.css({'position':'','visibility':'', 'display':''});
+                                            if ( !$f.hasClass('active') )
+                                                $f.css({'position':'','visibility':'', 'display':''});
 
 
-                                                if ( h == -1 || height < h ) {
-                                                    h = height; column = c;
-                                                }
+                                            if ( h == -1 || height < h ) {
+                                                h = height; column = c;
                                             }
+                                        }
 
-                                            $folder.find('.images > .column:nth-child('+column+') > .column-content').append(
-                                                $div.append( $img )
-                                                    .append( '<div class="actions">'+
-                                                        '<div class="btn btn-link image-rotate" data-value="-90"><i class="icon-rotate-left"></i></div>'+
-                                                        '<div class="btn btn-link image-rotate" data-value="90"><i class="icon-rotate-right"></i></div>'+
+                                        $folder.find('.images > .column:nth-child('+column+') > .column-content').append(
+                                            $div.append( $img )
+                                                .append( '<div class="actions">'+
+                                                    '<div class="btn btn-link image-rotate" data-value="-90"><i class="icon-rotate-left"></i></div>'+
+                                                    '<div class="btn btn-link image-rotate" data-value="90"><i class="icon-rotate-right"></i></div>'+
 
-                                                        '<div class="btn btn-link file-download"><i class="icon-download"></i></div>'+
+                                                    '<div class="btn btn-link file-download"><i class="icon-download"></i></div>'+
 
-                                                        '<div class="btn btn-link image-cover"><i class="icon-picture"></i></div>'+
+                                                    '<div class="btn btn-link image-cover"><i class="icon-picture"></i></div>'+
 
-                                                        '<div class="btn btn-link delete-folder"><i class="icon-remove"></i></div>'+
-                                                        '</div>') );
+                                                    '<div class="btn btn-link delete-folder"><i class="icon-remove"></i></div>'+
+                                                    '</div>') );
+
+                                        image.onload = function () {
 
                                             $img.fadeIn();
                                             setTimeout(function(){ i++; f[0](); },25);
@@ -122,13 +123,12 @@
                     var src = $m.view.image.src(path,'preview');
                     
                     //$splash.fadeOut();
+                    if ( !$splash.is(':visible') ) $splash.fadeIn();
                     
                     var image = new Image();
                     image.onload = function () {
                         $('.content',$splash).empty().show()
                             .append('<img src="'+src+'" class="entry-show" data-path="'+path+'"/>').hide().fadeIn();
-                        
-                        if ( !$splash.is(':visible') ) $splash.fadeIn();
                     }
                     image.src = src;
                 },

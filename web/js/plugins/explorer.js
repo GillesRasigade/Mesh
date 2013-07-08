@@ -298,7 +298,9 @@
 
                             setTimeout(function(){
                                 $('a[data-path="'+path+'"]',$m.explorer.elt).removeClass('loading');
-                                $folder.removeClass('fadein')
+                                $folder.removeClass('fadein');
+                                
+                                if ( $('.content > *',$folder).length === 0 ) $m.explorer.events.scroll();
                             },10);
                             /*$folder.siblings('.active').fadeOut(1000,function(){
 
@@ -384,22 +386,22 @@
                             
                                 // Add folder to the explorer :
                                 $m.explorer.addFolder( i , folders , p , 2 );
-                                $m.api.get({c:'file',a:'list',path: p},function(json){
-                                    
-                                    for ( var type in json ) {
-                                        if ( $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
-                                            $m.view[type].load( p , json[type] );
+                                if ( i == folders.length-1 ) {
+                                    $m.api.get({c:'file',a:'list',path: p},function(json){
+                                        
+                                        for ( var type in json ) {
+                                            if ( $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
+                                                $m.view[type].load( p , json[type] );
+                                            }
                                         }
-                                    }
                                     
-                                    // Move to the last folder :
-                                    if ( i == folders.length-1 ) {
+                                        // Move to the last folder :
                                         $m.explorer.goto( $m.explorer.elt.find('.folder:last-child').attr('data-path') );
-                                        i--; setTimeout( f[0] , 1000 );
-                                    } else {
+                                        i--; setTimeout( f[0] , 100 );
+                                    });
+                                } else {
                                         i--; setTimeout( f[0] , 100 );
                                     }
-                                });
                             } else {
                                 i--; f[0]();
                             }

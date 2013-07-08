@@ -86,7 +86,7 @@ if ( empty($_SESSION['timestamp']) ) {
     </head>
     <body>
         
-        <div id="splash-screen">
+        <div id="splash-screen" style="display: none;">
             <div class="icon-remove close" style="color: white; padding: 0.25em; margin-left: -100%; font-size: 3em;">&nbsp;</div>
             <table style="">
                 <tbody>
