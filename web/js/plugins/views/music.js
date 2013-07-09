@@ -39,7 +39,7 @@
                         var partId = $folder.closest('.folder').attr('id')+'__music';
                         var $folders = $('<div class="music type" id="'+partId+'" style="display: none;"></div>');
                         
-                        var $table = $('<table class="table table-striped" style="margin-top: -1.3em;"></table>');
+                        var $table = $('<table class="table table-striped" style="margin-top: -0.3em;"></table>');
                         var $thead = $('<thead></thead>');
                         var $tbody = $('<tbody></tbody>');
                         
