@@ -36,13 +36,13 @@
                     
                         $folder.find('.music').remove();
                             
-                        var $folders = $('<div class="music type"></div>');
+                        var $folders = $('<div class="music type" style="display: none;"></div>');
                         
-                        var $table = $('<table class="table table-striped"></table>');
+                        var $table = $('<table class="table table-striped" style="margin-top: -1.3em;"></table>');
                         var $thead = $('<thead></thead>');
                         var $tbody = $('<tbody></tbody>');
                         
-                        $folders.append( '<div class="title">' + path.replace( /.*\// , '' ) + '</div>' );
+                        //$folders.append( '<div class="title">' + path.replace( /.*\// , '' ) + '</div>' );
                         
                         //$thead.append( '<tr><th colspan="100">' + path.replace( /.*\// , '' ) + '</th></tr>' );
                         
@@ -57,6 +57,8 @@
                             .append( $tbody )
                         );
                         
+                        //$folders.append( '<div class="title">' + path.replace( /.*\// , '' ) + '</div>' );
+                        
                         $folder.append( $folders );
                         
                     }
@@ -67,6 +69,7 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.find( '.type.music' ).length === 0 ) $m.view.music.initialize( path );
+                    else $folder.find( '.type.music' ).show();
                     
                     var $tbody = $folder.find( '.music table tbody' );//$('<table class="table table-striped"></table>');
                     

@@ -46,45 +46,45 @@ class Api_Get_Image extends Api_Get_File {
         
         // Determination of the image dimensions :
         $width = imagesx($image);
-		$height = imagesy($image);
-		//$ratio = isset( $config['ratio'][ $p['mode'] ] ) ? $config['ratio'][ $p['mode'] ] : 1 ;
-		
-		$w = min( $width , $config[$p['mode']]['width'] );
-		$h = min( $height , $config[$p['mode']]['height'] );
-		
-		if ( $width > $height ) $h = $w * ( $height / $width );
-		else $w = $h * ( $width / $height );
-		
-		//$thumb = imagecreatetruecolor($width/$ratio, $height/$ratio);
-		$thumb = imagecreatetruecolor($w,$h);
-		imagecopyresampled($thumb, $image, 0, 0, 0, 0, $w, $h, $width, $height);
-		
-		if ( isset( $exif->orientation ) ) {
-		    switch ( $exif->orientation ) {
-		        case 2:
-		            
-		            break;
-	            case 3:
-	                $thumb = imagerotate($thumb, 180, 0);
-		            break;
-	            case 4:
-		            break;
-	            case 5:
-		            break;
-	            case 6:
-	                $thumb = imagerotate($thumb, -90, 0);
-		            break;
-	            case 7:
-		            break;
-	            case 8:
-	                $thumb = imagerotate($thumb, 90, 0);
-		            break;
-	        }
+            $height = imagesy($image);
+            //$ratio = isset( $config['ratio'][ $p['mode'] ] ) ? $config['ratio'][ $p['mode'] ] : 1 ;
+
+            $w = min( $width , $config[$p['mode']]['width'] );
+            $h = min( $height , $config[$p['mode']]['height'] );
+
+            if ( $width > $height ) $h = $w * ( $height / $width );
+            else $w = $h * ( $width / $height );
+
+            //$thumb = imagecreatetruecolor($width/$ratio, $height/$ratio);
+            $thumb = imagecreatetruecolor($w,$h);
+            imagecopyresampled($thumb, $image, 0, 0, 0, 0, $w, $h, $width, $height);
+
+            if ( isset( $exif->orientation ) ) {
+                switch ( $exif->orientation ) {
+                    case 2:
+
+                        break;
+                case 3:
+                    $thumb = imagerotate($thumb, 180, 0);
+                        break;
+                case 4:
+                        break;
+                case 5:
+                        break;
+                case 6:
+                    $thumb = imagerotate($thumb, -90, 0);
+                        break;
+                case 7:
+                        break;
+                case 8:
+                    $thumb = imagerotate($thumb, 90, 0);
+                        break;
+            }
         }
 		
-		imagejpeg($thumb, $path);
-		
-		imagedestroy($image);
+        imagejpeg($thumb, $path);
+
+        imagedestroy($image);
     }
     
     public function readExif ( $path ) {

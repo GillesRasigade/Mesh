@@ -75,10 +75,9 @@ if ( empty($_SESSION['timestamp']) ) {
         <script type="text/javascript" src="js/script.js"></script>
         
         <script type="text/javascript">
-            window.media = $.extend( window.media !== undefined ? window.media : {} , {
-                init: {
-                    servers: {<?php foreach ( $config['servers'] as $name => $url ) echo "\n'" . $name . "': '" . $url . "',"; ?>
-                    }
+            window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
+                state: {
+                    'typesOrder': [ 'folder' , 'music' , 'card' , 'video' , 'pdf' ]
                 }
             });
         </script>

@@ -464,6 +464,17 @@
                         } else $m.explorer.elt.prepend( $column );
                     }
                     
+                    // Prepare the folder element with ordered parts:
+                    if ( $m && $m.state && $m.state.typesOrder ) {
+                        for ( var i in $m.state.typesOrder ) {
+                            var type = $m.state.typesOrder[i];
+                            if ( $m.view && $m.view[type] && typeof($m.view[type].initialize) == 'function' ) {
+                                console.log('Initialize: '+type);
+                                $m.view[type].initialize( path );
+                            }
+                        }
+                    }
+                    
                     $m.events.bind( 'scroll' , '#'+path.replace(/[^0-9a-z]/gi,'-') , $m.explorer.events.scroll );
                     
                 }
