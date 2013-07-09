@@ -135,13 +135,61 @@
                 show: function ( $entry ) {
                     var $splash = $('#splash-screen');
                     var path = $entry.attr('data-path');
+                    var src = $m.view.image.src(path,'preview');
                     
-                    $('.video-play',$entry).click();
-                    return false;
+                    //$splash.fadeOut();
+                    if ( !$splash.is(':visible') ) $splash.fadeIn();
+                    
+                    var $player = $entry.find('.video-player');
+                    
+                    var f = function ( url ) {
+                        if ( $m.view.video.config.vlc ) {
+
+                            //$entry.find('.video-img').hide();
+                            $('.content',$splash).empty().show()
+                                .append('<object class="video-player entry-show" type="application/x-vlc-plugin" data-path="'+path+'" data="'+url+'" width="100%" height="100%">'+
+                                    '<param name="movie" value="'+url+'"/>'+
+                                    '<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" name="video1" '+
+                                    'autoplay="no" loop="no" width="100%"'+
+                                    'target="'+url+'" />'+
+                                    '<a href="'+url.replace(/^http:/,'vlc:')+'">Open in VLC</a>'+
+                                '</object>');
+
+                        } else {
+                            window.location = json.url.replace(/^http:/,'vlc:');
+                        }
+                    }
+                    
+                    if ( $entry.length && $('.icon-stop',$entry).length == 0 ) {
+                    
+                        $m.api.get({ c:'video', a:'stream', scale:0.5, path: path },function(json){
+
+                            if ( json && json.url ) {
+                                $entry.attr('data-src',json.url);
+
+                                f(json.url);
+                                
+                                $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
+                                
+                            }
+
+                        });
+                        
+                    } else f($entry.attr('data-src'));
+                },
+                        
+                stop: function ( $entry ) {
+                    var $player = $('.video-player');
+                    
+                    $m.api.get({ c:'video', a:'stop', stream: $entry.attr('data-src') },function(json){
+                        $entry.attr('data-src','');
+                        $player.remove();
+                        $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
+                    });
                 },
                 
                 // Stream video file with VLC and display result :
-                play: function ( path ) {
+                __play: function ( path ) {
                     
                     var $entry = $('.folder.active .video.entry[data-path="'+path+'"]');
                     var $player = $entry.find('.video-player');

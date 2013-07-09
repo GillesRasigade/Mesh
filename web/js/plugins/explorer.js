@@ -187,7 +187,7 @@
                         case $target.closest( '.video-play' ).length > 0 : $target = $target.closest( '.video-play' );
                         case $target.hasClass( 'video-play' ):
                             var path = $target.closest('.entry').attr('data-path');
-                            $m.view.video.play( path );
+                            $m.view.video.stop( $target.closest('.entry') );
                             break;
                         
                         case $target.closest('.entry').length > 0: $target = $target.closest('.entry');
@@ -300,7 +300,7 @@
                                 $('a[data-path="'+path+'"]',$m.explorer.elt).removeClass('loading');
                                 $folder.removeClass('fadein');
                                 
-                                if ( $('.content > *',$folder).length === 0 ) $m.explorer.events.scroll();
+                                if ( $('.content > * .entry',$folder).length === 0 ) $m.explorer.events.scroll();
                             },10);
                             /*$folder.siblings('.active').fadeOut(1000,function(){
 
