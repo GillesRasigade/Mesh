@@ -24,14 +24,17 @@
                         if ( $(window).width() < 480 ) $m.view.card.columns.width = $(window).width();
                     
                         $folder.find('.cards').remove();
-                            
-                        var $folders = $('<div class="cards type entries"></div>');
+                        
+                        var partId = $folder.closest('.folder').attr('id')+'__card';
+                        var $folders = $('<div class="cards type entries" id="'+partId+'"></div>');
                         
                         $m.view.card.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.card.columns.width ));
                     
                         for ( var i = 0 ; i < $m.view.card.columns.number ; i++ ) {
                             $folders.append('<div class="column" style="width: '+(100/$m.view.card.columns.number)+'%;"><div class="column-content"></div></div>');
                         }
+                        
+                        $folder.prev().append('<a href="#'+partId+'" class="quick-card" style="display: none;">Cards</a>');
                         
                         $folder.append( $folders );
                     }
@@ -167,6 +170,9 @@
                     var f = [
                         function () {
                             if ( i < json.length ) {
+                                
+                                $folder.prev().find('.quick-card').show();
+                                
                                 var p = path + '/' + json[i];
                                 
                                 if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {

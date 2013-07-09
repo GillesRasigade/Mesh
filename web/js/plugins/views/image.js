@@ -22,14 +22,17 @@
                         if ( $(window).width() < 480 ) $m.view.image.columns.width = $(window).width();
                     
                         $folder.find('.images').remove();
-                            
-                        var $folders = $('<div class="images type"></div>');
+                        
+                        var partId = $folder.closest('.folder').attr('id')+'__image';
+                        var $folders = $('<div class="images type" id="'+partId+'"></div>');
                         
                         $m.view.image.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.image.columns.width ));
                     
                         for ( var i = 0 ; i < $m.view.image.columns.number ; i++ ) {
                             $folders.append('<div class="column" style="width: '+(100/$m.view.image.columns.number)+'%;"><div class="column-content"></div></div>');
                         }
+                        
+                        $folder.prev().append('<a href="#'+partId+'" class="quick-image" style="display: none;">Images</a>');
                         
                         $folder.append( $folders );
                     }
@@ -47,6 +50,8 @@
                         function () {
                             
                             if ( i < json.length ) {
+                                
+                                $folder.prev().find('.quick-image').show();
                         
                                 var p = path + '/' + json[i];
                                 var c = i%$m.view.image.columns.number+1

@@ -17,14 +17,17 @@
                         if ( $(window).width() < 480 ) $m.view.folder.columns.width = $(window).width();
                     
                         $folder.find('.folders').remove();
-                            
-                        var $folders = $('<div class="folders type"></div>');
+                        
+                        var partId = $folder.closest('.folder').attr('id')+'__folder';
+                        var $folders = $('<div class="folders type" id="'+partId+'"></div>');
                         
                         $m.view.folder.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.folder.columns.width ));
                     
                         for ( var i = 0 ; i < $m.view.folder.columns.number ; i++ ) {
                             $folders.append('<div class="column" style="width: '+(100/$m.view.folder.columns.number)+'%;"><div class="column-content"></div></div>');
                         }
+                        
+                        $folder.prev().append('<a href="#'+partId+'" class="quick-folder" style="display: none;">Folders</a>');
                         
                         $folder.append( $folders );
                     }
@@ -43,6 +46,8 @@
                         function () {
                         
                             if ( i < json.length ) {
+                                
+                                $folder.prev().find('.quick-folder').show();
                                 
                                 var p = ( path )+'/'+json[i];
                                 

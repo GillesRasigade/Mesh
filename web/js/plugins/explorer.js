@@ -451,6 +451,9 @@
                     $column.append('<div class="scroll-detector" style="" onClick="$m.explorer.events.scroll();">Load more...</div>');
                     
                     $column.prepend( $content );
+                    
+                    //$column.prepend( '<div class="quick-links"></div>' );
+                    
                     if ( $('.folder[data-level="'+(level-1)+'"]').length ) {
                         $('.folder[data-level="'+(level-1)+'"]').after( $column );
                     } else if ( $('.folder[data-level="'+(level-1)+'"]').length ) {

@@ -35,8 +35,9 @@
                     if ( $folder.length ) {
                     
                         $folder.find('.music').remove();
-                            
-                        var $folders = $('<div class="music type" style="display: none;"></div>');
+                        
+                        var partId = $folder.closest('.folder').attr('id')+'__music';
+                        var $folders = $('<div class="music type" id="'+partId+'" style="display: none;"></div>');
                         
                         var $table = $('<table class="table table-striped" style="margin-top: -1.3em;"></table>');
                         var $thead = $('<thead></thead>');
@@ -58,6 +59,8 @@
                         );
                         
                         //$folders.append( '<div class="title">' + path.replace( /.*\// , '' ) + '</div>' );
+                        
+                        $folder.prev().append('<a href="#'+partId+'" class="quick-music" style="display: none;">Music</a>');
                         
                         $folder.append( $folders );
                         
@@ -82,6 +85,8 @@
                         function () {
                         
                             if ( i < json.length ) {
+                                
+                                $folder.prev().find('.quick-music').show();
                         
                                 var p = path + '/' + json[i];
                                 

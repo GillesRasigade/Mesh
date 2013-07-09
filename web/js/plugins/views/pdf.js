@@ -36,14 +36,17 @@
                         if ( $(window).width() < 480 ) $m.view.pdf.columns.width = $(window).width();
                     
                         $folder.find('.pdfs').remove();
-                            
-                        var $folders = $('<div class="pdfs type"></div>');
+                        
+                        var partId = $folder.closest('.folder').attr('id')+'__pdf';
+                        var $folders = $('<div class="pdfs type" id="'+partId+'"></div>');
                         
                         $m.view.pdf.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.pdf.columns.width ));
                     
                         for ( var i = 0 ; i < $m.view.pdf.columns.number ; i++ ) {
                             $folders.append('<div class="column" style="width: '+(100/$m.view.pdf.columns.number)+'%;"><div class="column-content"></div></div>');
                         }
+                        
+                        $folder.prev().append('<a href="#'+partId+'" class="quick-pdf" style="display: none;">PDFs</a>');
                         
                         $folder.append( $folders );
                     }
@@ -62,6 +65,8 @@
                         function () {
                         
                             if ( i < json.length ) {
+                                
+                                $folder.prev().find('.quick-pdf').show();
                         
                                 var p = path+'/'+json[i];
                                 

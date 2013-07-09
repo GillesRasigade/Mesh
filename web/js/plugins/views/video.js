@@ -37,14 +37,17 @@
                         if ( $(window).width() < 480 ) $m.view.video.columns.width = $(window).width();
                     
                         $folder.find('.videos').remove();
-                            
-                        var $folders = $('<div class="videos type entries"></div>');
+                        
+                        var partId = $folder.closest('.folder').attr('id')+'__video';
+                        var $folders = $('<div class="videos type entries" id="'+partId+'"></div>');
                         
                         $m.view.video.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.video.columns.width ));
                     
                         for ( var i = 0 ; i < $m.view.video.columns.number ; i++ ) {
                             $folders.append('<div class="column" style="width: '+(100/$m.view.video.columns.number)+'%;"><div class="column-content"></div></div>');
                         }
+                        
+                        $folder.prev().append('<a href="#'+partId+'" class="quick-video" style="display: none;">Videos</a>');
                         
                         $folder.append( $folders );
                     }
@@ -63,6 +66,8 @@
                         function () {
                         
                             if ( i < json.length ) {
+                                
+                                $folder.prev().find('.quick-video').show();
                         
                                 var p = path+'/'+json[i];
                                 
@@ -162,7 +167,7 @@
                     
                     if ( $entry.length && $('.icon-stop',$entry).length == 0 ) {
                     
-                        $m.api.get({ c:'video', a:'stream', scale:0.5, path: path },function(json){
+                        $m.api.get({ c:'video', a:'stream', scale:1, path: path },function(json){
 
                             if ( json && json.url ) {
                                 $entry.attr('data-src',json.url);
