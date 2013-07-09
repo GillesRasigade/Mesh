@@ -148,7 +148,7 @@
                     
                     if ( $entry.length && $('.icon-stop',$entry).length == 0 ) {
                     
-                        $m.api.get({ c:'video', a:'stream', path: path },function(json){
+                        $m.api.get({ c:'video', a:'stream', scale:0.5, path: path },function(json){
 
                             if ( json && json.url ) {
                                 $entry.attr('data-src',json.url);

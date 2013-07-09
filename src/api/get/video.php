@@ -102,6 +102,8 @@ class Api_Get_Video extends Api_Get_File {
             
             if ( file_exists( $path ) ) {
                 
+                $scale = isset($p['scale']) ? max(0.1,min(1,$p['scale'])) : 1;
+                
                 $host  = preg_replace('/:.*$/','',$_SERVER['HTTP_HOST']);
 //                $host = '82.226.94.148';
 //                $host = 'localhost';
