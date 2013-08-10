@@ -1,0 +1,25 @@
+CACHE MANIFEST
+# 2013-08-02:v0h
+
+# Explicitly cached 'master entries'.
+CACHE:
+/external/js/jquery.min.js
+/external/js/bootstrap.js
+/external/js/sha256.js
+/external/js/base64.js
+
+/external/css/bootstrap-combined.min.css
+/css/font-awesome.min.css
+/css/stylesheet.css
+
+/images/favicon.png
+/images/favicon-32.png
+/images/favicon-64.png
+/images/favicon-128.png
+/images/icon-iphone.png
+/images/default-album.gif
+
+/js/script.js
+
+NETWORK:
+*
