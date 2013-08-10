@@ -146,6 +146,7 @@
     top: 50%;
     font-size: 3em;
     color: white;
+    text-shadow: 0px 0px 5px black;
     text-align: center;
     opacity: 0.2;
     
@@ -176,6 +177,7 @@
 #splash-screen .controls .btn {
     text-decoration: none;
     color: white;
+    text-shadow: 0px 0px 5px black;
     opacity: 0.2;
     
     -webkit-transition: opacity 0.3s;
@@ -206,4 +208,14 @@
     -webkit-box-shadow: 0px 0px 8px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 0px 8px rgba(0,0,0,0.5);
     box-shadow: 0px 0px 8px rgba(0,0,0,0.5);
+}
+
+@media only screen and (max-width : 480px) {
+    #explorer > .column > .content { padding: 0em; }
+
+    #explorer .music.type {
+        margin-left: 0em;
+        margin-right: 0em;
+        margin-top: 1em;
+    } 
 }

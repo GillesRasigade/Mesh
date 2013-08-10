@@ -139,7 +139,7 @@
                         if ( !$splash.is(':visible') ) $splash.fadeIn();
 
                         $('.content',$splash).empty().show()
-                            .append('<iframe src="'+src+'" class="entry-show" style="background: #eee; width: 85%; height: 100%;" data-path="'+path+'"></iframe>');
+                            .append('<iframe src="'+src+'" class="entry-show" style="background: #eee; width: 100%; height: 100%; max-width: 100%; max-height: 100%; margin: -1px; border: 0px;" data-path="'+path+'"></iframe>');
 
                         return false;
                     } else {

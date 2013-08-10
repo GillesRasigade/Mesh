@@ -30,7 +30,7 @@ if ( empty($_SESSION['timestamp']) ) {
 
 ?>
 <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">
-<html lang="en">
+<html lang="en" manifest="app.mf">
     <head>
         <title>Media explorer</title>
         
@@ -51,13 +51,13 @@ if ( empty($_SESSION['timestamp']) ) {
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <link rel="apple-touch-startup-image" href="images/default-album.gif" />
     
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script-->
         <!--link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet"/-->
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.js"></script>
+        <!--script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.js"></script-->
         
-        <!--script src="external/js/jquery.min.js"></script-->
+        <script src="external/js/jquery.min.js"></script>
         <!--link href="external/css/bootstrap-combined.min.css" rel="stylesheet"/-->
-        <!--script src="external/js/bootstrap.js"></script-->
+        <script src="external/js/bootstrap.js"></script>
         
         <!--link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"-->
         
@@ -86,7 +86,7 @@ if ( empty($_SESSION['timestamp']) ) {
     <body>
         
         <div id="splash-screen" style="display: none;">
-            <div class="icon-remove close" style="color: white; padding: 0.25em; margin-left: -100%; font-size: 3em;z-index: 1001; position: relative;">&nbsp;</div>
+            <div class="icon-remove close" style="color: white; text-shadow: 0px 0px 5px black; padding: 0.25em; margin-left: -100%; font-size: 3em;z-index: 1001; position: relative;">&nbsp;</div>
             <table style="">
                 <tbody>
                     <tr>
@@ -98,7 +98,7 @@ if ( empty($_SESSION['timestamp']) ) {
             <div class="btn-prev prev"><i class="icon-arrow-left">&nbsp;</i></div>
             <div class="btn-next next"><i class="icon-arrow-right">&nbsp;</i></div>
             <div class="icon-spin icon-spinner" style="display: none; color: white;padding: 0.25em;font-size: 3em;opacity: 0.5;position: absolute;bottom: 0px;right: 0px;">&nbsp;</div>
-            <div class="controls"style="position: fixed; bottom: 0px; width: 100%; font-size: 3em; padding: 0.25em; text-align: center;">
+            <div class="controls"style="position: fixed; bottom: 0px; width: 20%; left: 40%; overflow: visible; font-size: 3em; padding: 0.25em; text-align: center;">
                 <div class="btn-group">
                     <div class="btn btn-link prev"><i style="font-size: 3em;" class="icon-step-backward">&nbsp;</i></div>
                     <div class="btn btn-link play"><i style="font-size: 3em;" class="icon-play">&nbsp;</i></div>

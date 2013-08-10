@@ -114,28 +114,18 @@ body {
     bottom: -1.25em;
     right: -0.5em;
     font-size: 0.8em;
-    background: #eeeeee;
+    background: rgba(255,255,255,0);
     padding: 0.25em 0.25em 1.5em 1em;
     border-radius: 1em;
     
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-    filter: alpha(opacity=50);
-    -moz-opacity: 0.5;
-    -khtml-opacity: 0.5;
-    opacity: 0.5;
-    
-    -webkit-transition: opacity 0.3s;
-    -moz-transition: opacity 0.3s;
-    -o-transition: opacity 0.3s;
-    transition: opacity 0.3s;
+    -webkit-transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+    transition: background-color 0.3s;
 }
 
 #application-details:hover {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-    filter: alpha(opacity=100);
-    -moz-opacity: 1;
-    -khtml-opacity: 1;
-    opacity: 1;
+    background: rgba(255,255,255,1);
 }
 
 #filter-panel {
@@ -496,13 +486,14 @@ body {
     display: block;
     overflow: hidden;
     padding: 0px;
-    margin: 0.5em 0.25em;
+/*    margin: 0.5em 0.25em;*/
     
     background-image: url('../images/default-album.gif');
     text-decoration: none !important;
     
-    border: 1px solid #ccc;
-    border-bottom-width: 2px;
+    border: 1px solid #ddd;
+    border-bottom-color: #bbb;
+/*    border-bottom-width: 2px;*/
     
     /*
     border-top: 0.5em solid transparent;
@@ -610,7 +601,8 @@ body {
     background-color: transparent;
     background-position-x: 15%;
     background-position-y: 15%;
-    background-size: 100%;
+    background-size: cover;
+    background-position: center;
     background-image: url('../images/default-album.gif');
     
     /*border-width: 0px 0px 1px 0px;*/

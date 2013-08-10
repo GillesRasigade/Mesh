@@ -19,7 +19,7 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.length ) {
-                        if ( $(window).width() < 480 ) $m.view.image.columns.width = $(window).width();
+                        if ( $(window).width() < 480 ) $m.view.image.columns.width = $(window).width()/2;
                     
                         $folder.find('.images').remove();
                         

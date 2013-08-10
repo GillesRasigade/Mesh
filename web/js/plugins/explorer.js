@@ -60,11 +60,9 @@
                                 delete $m.state.playTimeout;
                             } else {
                                 
-                                var next = function() {
+                                $m.state.playTimeout = setTimeout(function() {
                                     $target.next().click();
-                                    $m.state.playTimeout = setTimeout(next,4000);
-                                }
-                                $m.state.playTimeout = setTimeout(next,4000);
+                                },4000);
                             }
                             break;
                         case $target.hasClass( 'next' ) || $target.closest( '.next' ).length > 0 :
@@ -74,11 +72,14 @@
                                 if ( json && json.path ) {
                                     var $prev = $('.folder.active .entry[data-path="'+json.path+'"]',$m.explorer.elt);
                             
-                                    if ( $prev.length ) {
-                                        $prev.click();
-                                    }
+                                    if ( $prev.length ) { $prev.click(); }
                                 }
                                 $loader.fadeOut();
+                                
+                                // Continue the 4s slideshow:
+                                if ( $m.state.playTimeout !== undefined ) {
+                                    $m.state.playTimeout = setTimeout(function(){ $target.next().click(); },4000);
+                                }
                             });
                             break;
                             break;
@@ -387,7 +388,7 @@
                                 // Add folder to the explorer :
                                 $m.explorer.addFolder( i , folders , p , 2 );
                                 if ( i == folders.length-1 ) {
-                                    $m.api.get({c:'file',a:'list',path: p},function(json){
+                                    $m.api.get({c:'file',a:'list',path: p,sort:'reserve'},function(json){
                                         
                                         for ( var type in json ) {
                                             if ( $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {

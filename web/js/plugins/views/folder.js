@@ -14,7 +14,7 @@
                     
                     if ( $folder.length ) {
                         
-                        if ( $(window).width() < 480 ) $m.view.folder.columns.width = $(window).width();
+                        if ( $(window).width() < 480 ) $m.view.folder.columns.width = $(window).width()/2;
                     
                         $folder.find('.folders').remove();
                         

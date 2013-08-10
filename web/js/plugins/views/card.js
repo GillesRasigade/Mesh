@@ -92,7 +92,7 @@
                     }
                 },
                 get: function ( card , path ) {
-                    $card = $('<div class="card" data-path="'+path+'"></div>');
+                    $card = $('<div class="card entry" data-path="'+path+'"></div>');
                     
                     var type = 'default';
                     
@@ -178,33 +178,34 @@
                                 if ( json[i] && $('.entry[data-path="'+p+'"]').length == 0 ) {
 //                                if ( json[i] ) {
 
+                                    // Photo positioning :
+                                    var h = -1; var column = c !== undefined ? c : 1;
+                                    var $f = $folder.parent();
+                                    for ( var c = 1 ; c <= $m.view.card.columns.number ; c++ ) {
+                                        var $c = $folder.find('.cards > .column:nth-child('+c+') > .column-content');
+
+                                        if ( !$f.hasClass('active') )
+                                            $f.css({'position':'absolute','visibility':'hidden', 'display':'block'});
+
+                                        var height = $c.height();
+
+                                        if ( !$f.hasClass('active') )
+                                            $f.css({'position':'','visibility':'', 'display':''});
+
+
+                                        if ( h == -1 || height < h ) {
+                                            h = height; column = c;
+                                        }
+                                    }
+
+                                    $card = $('<div class="card entry" data-path="'+p+'" style="display: none;"></div>');
+                                    $folder.find('.cards > .column:nth-child('+column+') > .column-content').append( $card );
+
                                     $m.api.get({ c: 'file', a: 'access', path: p },function( data ) {
 
-                                        // Photo positioning :
-                                        var h = -1; var column = c !== undefined ? c : 1;
-                                        var $f = $folder.parent();
-                                        for ( var c = 1 ; c <= $m.view.card.columns.number ; c++ ) {
-                                            var $c = $folder.find('.cards > .column:nth-child('+c+') > .column-content');
-
-                                            if ( !$f.hasClass('active') )
-                                                $f.css({'position':'absolute','visibility':'hidden', 'display':'block'});
-
-                                            var height = $c.height();
-
-                                            if ( !$f.hasClass('active') )
-                                                $f.css({'position':'','visibility':'', 'display':''});
-
-
-                                            if ( h == -1 || height < h ) {
-                                                h = height; column = c;
-                                            }
-                                        }
-
-                                        $card = $m.view.card.get( data , p );
-
-                                        $folder.find('.cards > .column:nth-child('+column+') > .column-content').append( $card );
-
-                                        $card.fadeIn();
+                                        $c = $m.view.card.get( data , p );
+                                        
+                                        $('.entry[data-path="'+p+'"]').replaceWith( $c ).fadeIn();
 
                                         setTimeout(function(){ i++; f[0](); },25);
                                     });

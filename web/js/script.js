@@ -75,6 +75,12 @@
         // Public methods :
         log: function ( message ) { if ( $m.state.debug ) console.log( message ); },
         init: function () {
+
+            // Configure AJAX request to use the cache handling method:
+            // REF: http://stackoverflow.com/questions/9297873/is-it-possible-to-use-jquery-getscript-on-a-file-that-is-cached-with-a-cache-man
+            $.ajaxSetup({
+                cache: true
+            });
         
             // Resources to load :
             $m.state.loading = jQuery.extend(true, [], $m.config.externals);
