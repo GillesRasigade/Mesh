@@ -17,7 +17,7 @@
  * limitations under the License.
  * ========================================================== */
 
-.image .actions {
+.image:not(.card) .actions {
     position: relative; top: -2.3em; height: 2em;
     text-align: right;
     background: rgba(255,255,255,0.75);
@@ -36,7 +36,7 @@
     transition: opacity 0.5s;
 }
 
-.image:hover .actions {
+.image:not(.card):hover .actions {
     
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     filter: alpha(opacity=100);
