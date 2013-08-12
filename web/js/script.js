@@ -146,7 +146,7 @@
                         $server.addClass('active').siblings('.active').removeClass('active');
                         //$('#servers-dropdown .dropdown-toggle').empty().append( $server.find('img').clone() );
                         $('#servers-dropdown .dropdown-toggle').addClass('server').css( 'background-image' , 'url("'+$server.find('img').attr('src')+'")' )
-                            .empty().html('<i class="icon-caret-down">&nbsp;</i>');
+                            .empty().html('&nbsp;');
                     }
                     
                     $m.state.tac = (new Date()).getTime();
@@ -165,7 +165,7 @@
                     $m.api.get({c:'github',a:'commits'},function( commits ){
                         var sha = $('.git-sha').text().trim();
                         if ( commits.length && commits[0].sha !== sha ) {
-                            $('.git-sha').after(' | <a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a>');
+                            $('.git-sha').parent().after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>');
                             
                             // Perform the auto-update process :
 //                            $m.api.get({c:'github',a:'pull'},function( json ){

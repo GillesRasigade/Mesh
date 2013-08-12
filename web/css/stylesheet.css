@@ -82,15 +82,6 @@ body {
     color: #333;
 }
 
-.git-sha {
-    display: inline-block;
-    max-width: 5em;
-    cursor: help;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    color: #aaa;
-}
-
 .git-new-version {
     color: #ff6666;
     cursor: help;
@@ -107,6 +98,24 @@ body {
     z-index: 100;
     
     border-bottom: 1px solid #eaeaea;
+}
+
+.application-details * {
+    color: #aaa !important;
+}
+
+.application-details:hover * {
+    color: #fff !important;
+}
+
+.git-sha {
+    display: inline-block;
+    cursor: help;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #ddd !important;
+    font-size: 0.8em;
+    font-family: arial;
 }
 
 #application-details {
@@ -126,6 +135,28 @@ body {
 
 #application-details:hover {
     background: rgba(255,255,255,1);
+}
+
+.lateral-left {
+    display: block;
+    position: fixed;
+    left: -55%;
+    width: 50%;
+    max-width: 15em;
+    bottom: 0px;
+    max-height: 100%;
+    top: 3em;
+    border-radius: 0em;
+    border-top: 0px;
+    
+    -webkit-transition: left 0.3s;
+    -moz-transition: left 0.3s;
+    -o-transition: left 0.3s;
+    transition: left 0.3s;
+}
+
+.open > .lateral-left {
+    left: -1px;
 }
 
 #filter-panel {
@@ -173,10 +204,9 @@ body {
 
 
 #servers-dropdown .dropdown-toggle {
-    background-size: 75%;
+    background-size: 100%;
     background-position: 0px !important;
     background-repeat: no-repeat;
-    margin-right: 0.5em;
 }
 
 #servers-dropdown .dropdown-toggle.server i {
@@ -994,7 +1024,6 @@ body {
     }
     
     #explorer-tree-nav .divider {
-        padding: 0px;
     }
     
     /*#explorer-tree-nav {
@@ -1034,4 +1063,7 @@ body {
 
 @media only screen and (max-width : 480px) {
     .mini-tablet, .tablet, .desktop { display: none !important; }
+    
+    #s { margin-right: -40%; }
+    #s:focus { margin-right: 10%; }
 }

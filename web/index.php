@@ -120,31 +120,37 @@ if ( empty($_SESSION['timestamp']) ) {
                     <form id="form-filter" class="form-search">
                         <div class="input-append">
                             <button class="btn btn-link" style="float: left; color: #888; margin-top: 0.35em;"><i class="icon-spinner icon-spin icon-large" style="inline-block;">&nbsp;</i></button>
-                            <input type="search" id="s" name="s" value="" placeholder="Search" class="search-query tablet" />
+                            <input type="search" id="s" name="s" value="" placeholder="Search" class="search-query" />
                             <button type="submit" class="btn tablet"><i class="icon-search"></i>&nbsp;</button>
                         </div>
                     </form>
                 </div>
                 
-                <div id="menu-dropdown" style="float: left; margin-top: 0.6em;" class="dropdown">
+                <div id="menu-dropdown" style="float: left; margin-top: 0.6em; margin-left: -1.65em;" class="dropdown">
                     <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="icon-ellipsis-vertical"></i>
+                        <i class="icon-reorder" style="width: 8px;overflow: hidden;display: inline-block;"></i>
+                        <img src="images/favicon-128.png" style="width: 2em;margin-top: -0.5em;margin-left: -0.2em;"/>
                     </a>
                     
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu lateral-left">
 
                         <li class="divider last"></li>
 
                         <li><a href="login.php?logout"><i class=" icon-signout"></i> logout (<?php echo $_SESSION['login'] ?>)</a></li>
+                        
+                        <li class="divider"></li>
+                        
+                        <li class="application-details"><a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a></li>
+                        <li class="application-details"><a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="Build: <?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
                     </ul>
                 </div>
                 
-                <div id="servers-dropdown" style="float: left; margin-top: 0.6em; margin-right: 0.5em;" class="dropdown">
+                <div id="servers-dropdown" style="float: left; margin-top: 0.4em;" class="dropdown">
                     <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="icon-sitemap"></i>
                     </a>
                     
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu  lateral-left">
                         <?php foreach ( $config['servers'] as $server => $url ): ?>
                         <li>
                             <a data-url="<?php echo $url; ?>" title="Explore files on <?php echo $server; ?>" href="javascript:void(0);">
@@ -163,8 +169,6 @@ if ( empty($_SESSION['timestamp']) ) {
             </div>
         </div>
         
-        <div id="application-details">
-            <a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a> | <a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha"><?php echo $git; ?></a>
-        </div>
+        <div id="application-details"></div>
     </body>
 </html>

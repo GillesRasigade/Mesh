@@ -107,7 +107,7 @@
                     if ( $li.length ) {
                         $li.addClass('active').siblings('.active').removeClass('active');
                         $('#servers-dropdown .dropdown-toggle').css( 'background-image' , 'url("'+$li.find('img').attr('src')+'")' )
-                            .empty().html('<i class="icon-caret-down">&nbsp;</i>');
+                            .empty().html('&nbsp;');
                     }
                     
                     $m.state.api = $li.find('> a').attr('data-url');
@@ -268,6 +268,8 @@
                                     $m.view[type].load( 'search://'+$m.state.path , json[type] );
                                 }
                             }
+                            
+                            $('#s').blur();
                             
                             if ( $('.content > *',$results).length == 0 ) {
                                 $('.content',$results).append('<div style="text-align:center; padding: 3em; line-height: 1.5em; font-size: 2em; color: #aaa;">'+
