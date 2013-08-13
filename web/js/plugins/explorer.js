@@ -39,31 +39,8 @@
             
             init: function() {
             
-                $m.events.bind( 'resize' , 'window' , function ( event ) {
-                    
-                    if ( !$m.state.resizing ) {
-                        $m.state.resizing = true;
-                        //$('.folder.active').animate({'opacity':0.5},200);
-                        
-                        setTimeout(function(){
-                            //$('.folder.active').css('opacity',0.5);
-                            $('.folder > .content > .type').each(function(i,o){
-                                var $o = $(o);
-                                var type = $o.attr('class').replace(/s? .*/,'');
-                                
-                                if ( $m.view && $m.view[type] && typeof($m.view[type].resize) == 'function' ) {
-                                    $m.view[type].resize( $o );
-                                }
-                                
-                            });
-                            $m.state.resizing = false;
-                            //$('.folder.active').animate({'opacity':1});
-                        },1);
-                        //$('.folder.active').css('opacity',1);
-                    }
-                    event.preventDefault();
-                    return false;
-                });
+                $m.events.bind( 'resize' , 'window' , $m.explorer.resize );
+                $m.events.bind( 'orientationchange' , 'window' , $m.explorer.resize );
                 
                 $m.events.bind( 'click' , '#splash-screen' , function ( event ) {
                     var $target = $( event.target );
@@ -311,6 +288,30 @@
                     return false;
                 });
             
+            },
+            resize: function ( event ) {
+                if ( !$m.state.resizing ) {
+                    $m.state.resizing = true;
+                    //$('.folder.active').animate({'opacity':0.5},200);
+                    
+                    setTimeout(function(){
+                        //$('.folder.active').css('opacity',0.5);
+                        $('.folder > .content > .type').each(function(i,o){
+                            var $o = $(o);
+                            var type = $o.attr('class').replace(/s? .*/,'');
+                            
+                            if ( $m.view && $m.view[type] && typeof($m.view[type].resize) == 'function' ) {
+                                $m.view[type].resize( $o );
+                            }
+                            
+                        });
+                        $m.state.resizing = false;
+                        //$('.folder.active').animate({'opacity':1});
+                    },1);
+                    //$('.folder.active').css('opacity',1);
+                }
+                event.preventDefault();
+                return false;
             },
             goto: function ( path ) {
                 var $folder = $('.folder[data-path="'+path+'"]');
