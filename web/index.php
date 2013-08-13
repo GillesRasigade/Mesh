@@ -30,7 +30,7 @@ if ( empty($_SESSION['timestamp']) ) {
 
 ?>
 <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">
-<html lang="en" manifest="app.mf">
+<html lang="en" manifest="cache.manifest">
     <head>
         <title>Media explorer</title>
         
