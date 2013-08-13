@@ -8,30 +8,77 @@
                 columns: {
                     width: 320, number: 3,
                 },
+                setColumns: function( $folder , $folders ) {
+                
+                    $folders.empty();
+                
+                    if ( $(window).width() < 480 ) $m.view.folder.columns.width = $(window).width()/2;
+                    else $m.view.folder.columns.width = 320;
+                    
+                    $m.view.folder.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.folder.columns.width ));
+                    
+                    for ( var i = 0 ; i < $m.view.folder.columns.number ; i++ ) {
+                        $folders.append('<div class="column" style="width: '+(100/$m.view.folder.columns.number)+'%;"><div class="column-content"></div></div>');
+                    }
+                    
+                    return $folders;
+                },
                 initialize: function( path ) {
                 
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.length ) {
-                        
-                        if ( $(window).width() < 480 ) $m.view.folder.columns.width = $(window).width()/2;
                     
                         $folder.find('.folders').remove();
                         
                         var partId = $folder.closest('.folder').attr('id')+'__folder';
                         var $folders = $('<div class="folders type" id="'+partId+'"></div>');
                         
-                        $m.view.folder.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.folder.columns.width ));
-                    
-                        for ( var i = 0 ; i < $m.view.folder.columns.number ; i++ ) {
-                            $folders.append('<div class="column" style="width: '+(100/$m.view.folder.columns.number)+'%;"><div class="column-content"></div></div>');
-                        }
+                        $m.view.folder.setColumns($folder,$folders);
                         
                         $folder.prev().append('<a href="#'+partId+'" class="quick-folder" style="display: none;">Folders</a>');
                         
                         $folder.append( $folders );
                     }
                 
+                },
+                
+                resize: function ( $folders ) {
+                    var $entries = $('.entry',$folders).clone();
+                    
+                    $m.view.folder.setColumns($folders.parent(),$folders);
+                    
+                    $entries.sort(function(a,b){
+                        //return $(a).attr('data-path').toLowerCase() - $(b).attr('data-path').toLowerCase();
+                        if($(a).attr('data-path') < $(b).attr('data-path')) return -1;
+                        if($(a).attr('data-path') > $(b).attr('data-path')) return 1;
+                        return 0;
+                    });
+                    
+                    $entries.each(function(i,o){
+                        // Photo positioning :
+                        var h = -1; var column = Math.ceil(Math.random()*$m.view.folder.columns.number);
+                        var $f = $folders.parent().parent();
+                        for ( var c = 1 ; c <= $m.view.folder.columns.number ; c++ ) {
+                            var $c = $folders.find('> .column:nth-child('+c+') > .column-content');
+
+
+                            if ( !$f.hasClass('active') )
+                                $f.css({'position':'absolute','visibility':'hidden', 'display':'block'});
+
+                            var height = $c.height();
+
+                            if ( !$f.hasClass('active') )
+                                $f.css({'position':'','visibility':'', 'display':''});
+
+
+                            if ( h == -1 || height < h ) {
+                                h = height; column = c;
+                            }
+                        }
+                        
+                        $folders.find(' > .column:nth-child('+column+') > .column-content').append($(o));
+                    });
                 },
                 
                 load: function ( path , json ) {

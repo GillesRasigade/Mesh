@@ -116,6 +116,7 @@ body {
     color: #ddd !important;
     font-size: 0.8em;
     font-family: arial;
+    max-width: 12em;
 }
 
 #application-details {
@@ -140,14 +141,15 @@ body {
 .lateral-left {
     display: block;
     position: fixed;
-    left: -55%;
-    width: 50%;
-    max-width: 15em;
+    left: -85%;
+    width: auto;
+    max-width: 80%;
     bottom: 0px;
     max-height: 100%;
     top: 3em;
     border-radius: 0em;
-    border-top: 0px;
+    border-top-color: #ccc;
+    margin-top: 1px;
     
     -webkit-transition: left 0.3s;
     -moz-transition: left 0.3s;

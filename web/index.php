@@ -72,6 +72,9 @@ if ( empty($_SESSION['timestamp']) ) {
         <script type="text/javascript" src="external/js/base64.js"></script>
         <script type="text/javascript" src="external/js/sha256.js"></script>
         
+        <!--script type="text/javascript" src="external/js/jquery.event.move.js"></script>
+        <script type="text/javascript" src="external/js/jquery.event.swipe.js"></script-->
+        
         <script type="text/javascript" src="js/script.js"></script>
         
         <script type="text/javascript">
