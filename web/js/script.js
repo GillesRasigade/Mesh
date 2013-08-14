@@ -237,9 +237,9 @@
                         '<div class="modal-body">'+
                             '<form id="server-initialization-form">'+
                             '<div class="row-fluid">'+
-                                '<input type="text" name="name" placeholder="Server name" class="span12" value="Server"/>'+
-                                '<input type="text" name="url" placeholder="Server URL (http://www.example.org/api.php)" class="span12" value="http://media.rasigade.fr/api.php"/>'+
-                                '<input type="text" name="login" placeholder="Login" class="span12" value="billou"/>'+
+                                '<input type="text" name="name" placeholder="Server name" class="span12" value=""/>'+
+                                '<input type="text" name="url" placeholder="Server URL (http://www.example.org/api.php)" class="span12" value=""/>'+
+                                '<input type="text" name="login" placeholder="Login" class="span12" value=""/>'+
                                 '<input type="password" name="password" placeholder="Password" class="span12" value=""/>'+
                             '</div>'+
                             '</form>'+
