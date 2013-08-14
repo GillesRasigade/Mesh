@@ -26,7 +26,7 @@
                     if ( $(window).width() < 480 ) $m.view.video.columns.width = $(window).width()/2;
                     else $m.view.video.columns.width = 320;
                     
-                    $m.view.video.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.video.columns.width ));
+                    $m.view.video.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.video.columns.width / $m.state.scale ));
                     
                     for ( var i = 0 ; i < $m.view.video.columns.number ; i++ ) {
                         $folders.append('<div class="column" style="width: '+(100/$m.view.video.columns.number)+'%;"><div class="column-content"></div></div>');
@@ -99,7 +99,6 @@
                                 h = height; column = c;
                             }
                         }
-                        console.log('column',column,$m.view.folder.columns.number);
                         
                         $folders.find(' > .column:nth-child('+column+') > .column-content').append($(o));
                     });

@@ -9,6 +9,21 @@
                         path: path, mode: mode !== undefined ? mode : 'full'
                     });
                 },
+                
+                utils: {
+                    // REF: http://robnyman.github.io/html5demos/localstorage/
+                    getImageUrl: function ( image ) {
+                        // Make sure canvas is as big as the picture
+                        $m.view.image.utils.canvas.width = image.width;
+                        $m.view.image.utils.canvas.height = image.height;
+
+                        // Draw image into canvas element
+                        $m.view.image.utils.context.drawImage(image, 0, 0, image.width, image.height);
+
+                        // Save image as a data URL
+                        return $m.view.image.utils.canvas.toDataURL("image/png");
+                    },
+                },
             
             
                 columns: {
@@ -21,7 +36,7 @@
                     if ( $(window).width() < 480 ) $m.view.image.columns.width = $(window).width()/2;
                     else $m.view.image.columns.width = 320;
                     
-                    $m.view.image.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.image.columns.width ));
+                    $m.view.image.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.image.columns.width / $m.state.scale ));
                     
                     for ( var i = 0 ; i < $m.view.image.columns.number ; i++ ) {
                         $folders.append('<div class="column" style="width: '+(100/$m.view.image.columns.number)+'%;"><div class="column-content"></div></div>');
@@ -46,6 +61,8 @@
                         $folder.prev().append('<a href="#'+partId+'" class="quick-image" style="display: none;">Images</a>');
                         
                         $folder.append( $folders );
+                        
+                        
                     }
                 
                 },
@@ -214,4 +231,10 @@
             },
         }
     } );
+    
+    // Initialize the Canvas for saving new thumbnails in localStorage:
+    // REF: http://robnyman.github.io/html5demos/localstorage/
+    $m.view.image.utils.canvas = document.createElement("canvas");
+    $m.view.image.utils.context = $m.view.image.utils.canvas.getContext("2d");
+    
 })(jQuery);

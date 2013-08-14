@@ -143,6 +143,15 @@ if ( empty($_SESSION['timestamp']) ) {
                         
                         <li class="divider"></li>
                         
+                        <li><a href="javascript:void(0);">
+                            <div class="btn-group" style="width: 100%; text-align: center;">
+                                <span class="btn" onClick="$m.storage.set( 'state.scale' , $m.state.scale * 0.75 ); $m.explorer.resize(); return false;">&nbsp;-&nbsp;</span>
+                                <span class="btn" onClick="$m.storage.set( 'state.scale' , $m.state.scale / 0.75 ); $m.explorer.resize(); return false;">&nbsp;+&nbsp;</span>
+                            </div>
+                        </a></li>
+                        
+                        <li class="divider"></li>
+                        
                         <li class="application-details"><a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a></li>
                         <li class="application-details"><a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="Build: <?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
                     </ul>

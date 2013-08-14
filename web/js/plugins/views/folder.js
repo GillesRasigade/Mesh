@@ -6,7 +6,7 @@
                     $('#menu-dropdown .dropdown-menu .divider.last').before( '<li><a href="#card-creation" role="button" data-toggle="modal"><i class="icon-pencil"></i> Create a card</a></li>' )
                 },
                 columns: {
-                    width: 320, number: 3,
+                    width: 320, number: 3
                 },
                 setColumns: function( $folder , $folders ) {
                 
@@ -15,7 +15,7 @@
                     if ( $(window).width() < 480 ) $m.view.folder.columns.width = $(window).width()/2;
                     else $m.view.folder.columns.width = 320;
                     
-                    $m.view.folder.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.folder.columns.width ));
+                    $m.view.folder.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.folder.columns.width / $m.state.scale ));
                     
                     for ( var i = 0 ; i < $m.view.folder.columns.number ; i++ ) {
                         $folders.append('<div class="column" style="width: '+(100/$m.view.folder.columns.number)+'%;"><div class="column-content"></div></div>');
@@ -132,7 +132,7 @@
                                     //title="'+json['folder'][i]+'"
                                     var $div = $('<a data-path="'+p+'" href="javascript:void(0)" class="album entry">'+
                                             '<i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>'+
-                                            '<span class="album-img img-polaroid" style="background-image: url(\''+$m.view.image.src(p,'thumb')+'\')"></span>'+
+                                            '<span class="album-img img-polaroid" style="background: url(\''+$m.view.image.src(p,'thumb')+'\');"></span>'+
                                             '<span class="actions">'+
                                                 '<div title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i></div>'+
                                                 '<i class="icon-remove delete-folder"></i>'+
@@ -142,6 +142,21 @@
                                         '</a>');
 
                                     $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
+                                    
+                                    /*if ( $m.state.thumbs[p] !== undefined ) {
+                                        $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[p]+'\')');
+                                    } else {
+                                        var image = new Image();
+                                        image.onload = function () {
+                                            
+                                            $m.state.thumbs[p] = $m.view.image.utils.getImageUrl( image );
+                                            $m.storage.set('state.thumbs',$m.state.thumbs);
+                                            
+                                            $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[p]+'\')');
+                                        }
+
+                                        image.src = $m.view.image.src(p,'thumb');
+                                    }*/
                                 }
                                 
                                 setTimeout(function(){ i++; f[0](); },25);

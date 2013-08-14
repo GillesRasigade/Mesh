@@ -20,6 +20,47 @@
 (function($){
     window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
         storage: {
+        
+            // Definition of the local sandboxed File System (fs) methods:
+            fs: {
+                // REF: http://www.html5rocks.com/en/tutorials/file/filesystem/?redirect_from_locale=fr
+                init: function () {
+                    // Note: The file system has been prefixed as of Google Chrome 12:
+                    window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+                    
+                    //window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/, requestSuccess, errorHandler);
+                },
+                requestSuccess: function( fs ) {
+                    console.log('Opened file system: ' + fs.name);
+                },
+                errorHandler: function( e ){
+                    var msg = '';
+
+                    switch (e.code) {
+                        case FileError.QUOTA_EXCEEDED_ERR:
+                            msg = 'QUOTA_EXCEEDED_ERR';
+                            break;
+                        case FileError.NOT_FOUND_ERR:
+                            msg = 'NOT_FOUND_ERR';
+                            break;
+                        case FileError.SECURITY_ERR:
+                            msg = 'SECURITY_ERR';
+                            break;
+                        case FileError.INVALID_MODIFICATION_ERR:
+                            msg = 'INVALID_MODIFICATION_ERR';
+                            break;
+                        case FileError.INVALID_STATE_ERR:
+                            msg = 'INVALID_STATE_ERR';
+                            break;
+                        default:
+                            msg = 'Unknown Error';
+                            break;
+                    };
+
+                    console.log('Error: ' + msg);
+                }
+            },
+        
             // Set a parameter as a JSON value in the localStorage or as a cookie if not supported :
             set: function ( key , value ) {
                 
@@ -79,5 +120,9 @@
                 }
             }
         }
-    });   
+    });
+    
+    // File System storage initialization:
+    $m.storage.fs.init();
+    
 })(jQuery);

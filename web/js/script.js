@@ -28,7 +28,9 @@
             plugins: [],        // Loaded modules
 //            path: '/Images/Photos/2013/2013-03-02 Photos d\'essai au reflex'
             path: '',
-            api: 'api.php'
+            scale: 1,           // Main display scale
+            api: 'api.php',
+            thumbs: {},         // Album thumbnails
         },
         
         

@@ -310,7 +310,7 @@
                     },1);
                     //$('.folder.active').css('opacity',1);
                 }
-                event.preventDefault();
+                if ( event !== undefined ) event.preventDefault();
                 return false;
             },
             goto: function ( path ) {

@@ -26,7 +26,7 @@
                     if ( $(window).width() < 480 ) $m.view.pdf.columns.width = $(window).width();
                     else $m.view.pdf.columns.width = 320;
                     
-                    $m.view.pdf.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.pdf.columns.width ));
+                    $m.view.pdf.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.pdf.columns.width / $m.state.scale ));
                     
                     for ( var i = 0 ; i < $m.view.pdf.columns.number ; i++ ) {
                         $folders.append('<div class="column" style="width: '+(100/$m.view.pdf.columns.number)+'%;"><div class="column-content"></div></div>');
