@@ -59,7 +59,7 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
 
 ?>
 <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">
-<html lang="en" manifest="cache.manifest">
+<html lang="en" manifest="__cache.manifest">
     <head>
         <title>Media explorer</title>
         
@@ -114,7 +114,12 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
                             var timestamp = (new Date()).getTime();
 
                             // Hash generation :
-                            var hash = Sha256.hash( timestamp + '|' + $('*[name="login"]').val() + '|' + $('*[name="password"]').val() );
+                            //var hash = Sha256.hash( timestamp + '|' + $('*[name="login"]').val() + '|' + $('*[name="password"]').val() );
+                            var hash = $m.api.utils.generateHash([
+                                timestamp,
+                                $('*[name="login"]').val(),
+                                $('*[name="password"]').val()
+                            ]);
 
                             //$(this).get(0).reset();
                             //$('*[name="hash"]').val( hash );

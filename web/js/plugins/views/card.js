@@ -3,7 +3,8 @@
         view: {
             card: {
                 init: function () {
-                    $('#menu-dropdown .dropdown-menu .divider.last').before( '<li><a href="javascript:$m.explorer.events.createFolder(event);"><i class=" icon-folder-open"></i> Create a folder</a></li>' )
+                    
+                    $('#menu-dropdown .dropdown-menu .divider.last').before( '<li><a href="#card-creation" role="button" data-toggle="modal"><i class="icon-pencil"></i> Create a card</a></li>' )
                     
                     $m.view.card.form.init();
                 },

@@ -1066,6 +1066,6 @@ body {
 @media only screen and (max-width : 480px) {
     .mini-tablet, .tablet, .desktop { display: none !important; }
     
-    #s { margin-right: -40%; }
-    #s:focus { margin-right: 10%; }
+    #s { position: relative; right: -90%; }
+    #s:focus { right: 10%; }
 }

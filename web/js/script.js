@@ -26,6 +26,8 @@
             debug: true,
             focused: true,      // Window focus (used for desktop notifications)
             plugins: [],        // Loaded modules
+            server: '',
+            servers: {},        // Loaded servers
 //            path: '/Images/Photos/2013/2013-03-02 Photos d\'essai au reflex'
             path: '',
             api: 'api.php'
@@ -117,8 +119,8 @@
                         if ( $m[type] !== undefined ) {
                             for ( var parameter in $m[type] ) {
                                 var v = $m.storage.get( type+'.'+parameter );
-                                console.log( parameter + ' ' + typeof(v) );
-                                if ( v !== null && v!== undefined ) $m[ type ][ parameter ] = v;
+                                console.log( parameter + ' ' + typeof(v) , v );
+                                if ( v !== null && v !== undefined ) $m[ type ][ parameter ] = v;
                                 
                                 console.log( type+'.'+parameter+': '+$m[ type ][ parameter ] );
                             }
@@ -140,14 +142,22 @@
                 function () {
                     
                     $m.log( '> Servers dropdown update' );
+                    $m.log( $m.state.servers );
                     // 
-                    $server = $('#servers-dropdown .dropdown-menu a[data-url="'+$m.state.api+'"]').closest('li');
+                    /*$server = $('#servers-dropdown .dropdown-menu a[data-url="'+$m.state.api+'"]').closest('li');
                     if ( $server.length ) {
                         $server.addClass('active').siblings('.active').removeClass('active');
                         //$('#servers-dropdown .dropdown-toggle').empty().append( $server.find('img').clone() );
                         $('#servers-dropdown .dropdown-toggle').addClass('server').css( 'background-image' , 'url("'+$server.find('img').attr('src')+'")' )
                             .empty().html('&nbsp;');
+                    }*/
+                    for ( var s in $m.state.servers ) {
+                        $m.addServer( $m.state.servers[s] );
                     }
+                    var $li = $('#servers-dropdown .dropdown-menu li a[data-name="'+$m.state.server+'"]').parent();
+                    $li.addClass('active').siblings('.active').removeClass('active');
+                    $('#servers-dropdown .dropdown-toggle').css( 'background-image' , 'url("'+$li.find('img').attr('src')+'")' )
+                                .empty().html('&nbsp;');
                     
                     $m.state.tac = (new Date()).getTime();
                     $m.state.loadingTime = $m.state.tac - $m.state.tic;
@@ -159,21 +169,23 @@
                     // Set current path 
                     var path = $m.state.path; //$m.state.path = '';
                     
-                    $m.explorer.path( path );
+                    setTimeout(function(){
+                        $m.explorer.path( path );
                     
-                    // Read Git/Github versions to offer update :
-                    $m.api.get({c:'github',a:'commits'},function( commits ){
-                        var sha = $('.git-sha').text().trim();
-                        if ( commits.length && commits[0].sha !== sha ) {
-                            $('.git-sha').parent().after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>');
+                        // Read Git/Github versions to offer update :
+                        $m.api.get({c:'github',a:'commits'},function( commits ){
+                            var sha = $('.git-sha').text().trim();
+                            if ( commits.length && commits[0].sha !== sha ) {
+                                $('.git-sha').parent().after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>');
+                                
+                                // Perform the auto-update process :
+//                              $m.api.get({c:'github',a:'pull'},function( json ){
+//                                  if ( json.success ) location.reload();
+//                              });
+                            }
                             
-                            // Perform the auto-update process :
-//                            $m.api.get({c:'github',a:'pull'},function( json ){
-//                                if ( json.success ) location.reload();
-//                            });
-                        }
-                        
-                    });
+                        });
+                    },0);
                 
                 }
             ]; f[0]();
@@ -197,6 +209,77 @@
                     break;
                     
             }
+        },
+        
+        removeServer: function () {
+            
+        },
+        addServer: function ( credentials ) {
+        
+            if ( undefined !== credentials ) {
+                $item = $('<li class="server"><a data-name="'+credentials.name+'" title="Explore files on server" href="javascript:void(0);">'+
+                    '<img class="img-circle" src="'+credentials.url.replace(/api\.php/,'')+'images/server-icon.png">'+
+                    '<span title="Go to this server" onclick="window.location = \''+credentials.url.replace(/index\.php/,'')+'\';" target="_top">'+credentials.name+'</span>'+
+                    '<span class="btn btn-link"><i class="icon-remove"></i></span>'+
+                '</a></li>');
+                
+                $('#servers-dropdown .dropdown-menu li a[data-name="'+credentials.name+'"]').parent().remove();
+                $('#servers-dropdown .dropdown-menu').append($item);
+                
+            } else {
+                var $popup = $('#server-initialization');
+                if ( $popup.length == 0 ) {
+                    // Add DOM modal window to add a new server :
+                    $('body').append('<div id="server-initialization" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
+                        '<div class="modal-header">New server initialization</div>'+
+                        '<div class="modal-body">'+
+                            '<form id="server-initialization-form">'+
+                            '<div class="row-fluid">'+
+                                '<input type="text" name="name" placeholder="Server name" class="span12" value="Server"/>'+
+                                '<input type="text" name="url" placeholder="Server URL (http://www.example.org/api.php)" class="span12" value="http://media.rasigade.fr/api.php"/>'+
+                                '<input type="text" name="login" placeholder="Login" class="span12" value="billou"/>'+
+                                '<input type="password" name="password" placeholder="Password" class="span12" value=""/>'+
+                            '</div>'+
+                            '</form>'+
+                        '</div>'+
+                        '<div class="modal-footer">'+
+                            '<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>'+
+                            '<button class="btn btn-primary" data-dismiss="modal" onClick="$m.addServer();">Save changes</button>'+
+                        '</div>'+
+                    '</div>');
+                    
+                    $('#server-initialization').modal('show');
+                } else {
+                    var credentials = {
+                        name: $('*[name="name"]',$popup).val(),
+                        url: $('*[name="url"]',$popup).val(),
+                        login: $('*[name="login"]',$popup).val(),
+                        timestamp: (new Date()).getTime(),
+                    }
+                    credentials.hash = $m.api.utils.generateHash([credentials.timestamp,credentials.login,$('*[name="password"]',$popup).val()]);
+                    
+                    if ( undefined === $m.state.servers[credentials.name] || confirm('A server already exists with this name, are you sure you want to replace it ?') ) {
+                    
+                        $m.addServer( credentials );
+                    
+                        $m.state.servers[credentials.name] = credentials;
+                        
+                        $m.storage.set('state.servers',$m.state.servers);
+                        
+                        $item.click();
+                    
+                    }
+                    
+                    $popup.modal('hide');
+                    setTimeout(function(){$popup.remove();},500);
+                }
+            }
+            
+            /*<a data-url="http://rasigade.fr:81/media-manager/api.php" title="Explore files on server" href="javascript:void(0);">
+                <img class="img-circle" src="http://rasigade.fr:81/media-manager/images/server-icon.png">
+                <span title="Go to this server" onclick="window.location = 'http://rasigade.fr:81/media-manager/index.php';" target="_top">server</span>
+                <span class="btn btn-link"><i class="icon-remove"></i></span>
+            </a>*/
         },
         
         
