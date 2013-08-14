@@ -43,11 +43,18 @@
                         return Base64.encode( JSON.stringify( data ) );
                     }
                 },
-                getAuth: function () {
-                    var timestamp = (new Date()).getTime();
-                    var hash = $m.storage.get( 'hash' );
+                generateHash: function ( data ) {
+
+                    // Hash generation :
+                    var hash = Sha256.hash( data.join('|') );
                     
-                    if ( true || hash == '' ) {
+                    return hash;
+                },
+                getAuth: function ( credentials ) {
+                    var timestamp = (new Date()).getTime();
+                    var hash = credentials !== undefined && credentials.hash ? credentials.hash : $m.storage.get( 'hash' );
+                    
+                    if ( hash == '' ) {
                         if ( document.cookie.match( /(?:^|;)hash=/ ) ) {
                             hash = document.cookie.replace( /(?:^|.*;)hash=([^;]*)(?:;.*|$)/ , '$1' );
                         }
@@ -55,7 +62,7 @@
                 
                     var auth = {
                         'Timestamp': timestamp ,
-                        'Timestamp2': $m.storage.get( 'timestamp' ),
+                        'Timestamp2': credentials !== undefined && credentials.timestamp ? credentials.timestamp : $m.storage.get( 'timestamp' ),
                         'AuthenticationHash': Sha256.hash( timestamp + hash ) ,
                     };
                     
@@ -82,26 +89,33 @@
                 }
                 
                 d.token = $m.api.utils.token(data);
+                
+                var credentials = {
+                    url: data.api !== undefined ? data.api : window.$m.state.api,
+                    timestamp: $m.storage.get( 'timestamp' ),
+                    hash: $m.storage.get( 'hash' )
+                };
+                
+                if ( $m.state && $m.state.servers ) {
+                    if ( $m.state.server && $m.state.servers[$m.state.server] ) {
+                        credentials = $m.state.servers[$m.state.server];
+                    }
+                }
+                
                 //d.auth = Sha256.hash('abc');
                 // Authentication hash generation :
-                var timestamp = (new Date()).getTime();
-                var hash = $m.storage.get( 'hash' );
-                var auth = {
-                    "Timestamp": timestamp ,
-                    'Timestamp2': $m.storage.get( 'timestamp' ),
-                    "AuthenticationHash": Sha256.hash( timestamp + hash ) ,
-                };
+                var auth = $m.api.utils.getAuth( credentials );
                 
                 var api = data.api !== undefined ? data.api : window.$m.state.api;
                 delete data.api;
                 
                 //$m.api.utils.abortAll();
                 $m.query = $.ajax({
-                    url: api + '?' + ( method.match(/DELETE/i) ? $.param( d ) : $.param( { a:d.a, c:d.c } ) ) + '&auth=' + $m.api.utils.token( auth ),
+                    url: api + '?' + ( method.match(/DELETE/i) ? $.param( d ) : $.param( { a:d.a, c:d.c } ) ) + '&auth=' + auth,
                     type: method,
                     data: d,
                     dataType: 'jsonp',
-                    headers: auth,
+                    headers: $m.api.utils.token( auth ),
                     //crossDomain: true,
                     beforeSend: function( request ) {
                         $m.api.xhrPool.push( request );
@@ -116,7 +130,7 @@
                                 // Reloading page redirect to login page:
 //                                window.location = window.location;
                                 if ( $('#menu-dropdown a[href*=logout]').length ) {
-                                    window.location = $('#menu-dropdown a[href*=logout]').attr('href');
+                                    //window.location = $('#menu-dropdown a[href*=logout]').attr('href');
                                 }
                             }
                         }

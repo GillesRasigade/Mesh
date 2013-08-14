@@ -57,6 +57,8 @@ switch ( $method ) {
             }
         }
         
+        error_log( var_export( $auth , TRUE ) );
+        
         if ( array_key_exists( 'AuthenticationHash' , $auth ) && array_key_exists( 'Timestamp' , $auth ) ) {
             $hash = $auth['AuthenticationHash'];
             $timestamp = $auth['Timestamp'];
@@ -68,9 +70,7 @@ switch ( $method ) {
             // Check request timestamp delay :
             if ( mktime() - round(floatval($timestamp)/1000) < 24 * 60 ) {
             
-                if ( array_key_exists('timestamp',$_SESSION) ) {
-                    $timestamp2 = $_SESSION['timestamp'];
-                } else if ( array_key_exists('Timestamp2',$auth) ) { // Anonymous connection - Not yet managed
+                if ( array_key_exists('Timestamp2',$auth) ) { // Anonymous connection - Not yet managed
                     $timestamp2 = $auth['Timestamp2'];
 
                     // Check authentication timestamp delay :
@@ -78,6 +78,8 @@ switch ( $method ) {
                         $timestamp2 = NULL;
                     }
 
+                } else if ( array_key_exists('timestamp',$_SESSION) ) {
+                    $timestamp2 = $_SESSION['timestamp'];
                 }
 
                 if ( $timestamp2 !== NULL ) {

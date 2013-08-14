@@ -103,24 +103,51 @@
                     }
                 });
                 
-                $m.events.bind( 'click' , '#servers-dropdown .dropdown-menu li' , function ( event ) {
+                $m.events.bind( 'click' , '#servers-dropdown .dropdown-menu' , function ( event ) {
                     var $li = $( event.target ).closest('li');
-                    $li.addClass('active').siblings('.active').removeClass('active');
                     
-                    if ( $li.length ) {
+                    if ( $li.hasClass('server') ) {
                         $li.addClass('active').siblings('.active').removeClass('active');
-                        $('#servers-dropdown .dropdown-toggle').css( 'background-image' , 'url("'+$li.find('img').attr('src')+'")' )
-                            .empty().html('&nbsp;');
+                        
+                        if ( $li.length ) {
+                            $li.addClass('active').siblings('.active').removeClass('active');
+                            $('#servers-dropdown .dropdown-toggle').css( 'background-image' , 'url("'+$li.find('img').attr('src')+'")' )
+                                .empty().html('&nbsp;');
+                        }
+                        
+                        // Store the current path on the actual server:
+                        if ( $m.state.server && $m.state.servers[$m.state.server] ) {
+                            $m.state.servers[$m.state.server].path = $m.state.path;
+                            $m.storage.set('state.servers',$m.state.servers);
+                        }
+                        
+                        var url = $li.find('> a').attr('data-url');
+                        if ( url !== undefined ) $m.state.api = url;
+                        else {
+                            var name = $li.find('> a').attr('data-name');
+                            if ( undefined !== name && $m.state.servers[name] ) {
+                                $m.state.api = $m.state.servers[name].url;
+                                $m.storage.set('state.server',name);
+                            }
+                        }
+                        
+                        
+                        // Save the new path to the UI 
+                        $m.storage.set( 'state.api' , $m.state.api );
+                        
+                        var path = '';
+                        if ( $m.state.server && $m.state.servers[$m.state.server] && $m.state.servers[$m.state.server].path ) {
+                            path = $m.state.servers[$m.state.server].path;
+                        }
+                        
+                        console.log( $m.state.server , path );
+                       
+                        setTimeout(function(){
+                            $m.explorer.elt.empty();
+                            $m.explorer.nav.empty();
+                            $m.explorer.path(path);
+                        },0);
                     }
-                    
-                    $m.state.api = $li.find('> a').attr('data-url');
-                   
-                    // Save the new path to the UI 
-                    $m.storage.set( 'state.api' , $m.state.api );
-                   
-                    $m.explorer.elt.empty();
-                    $m.explorer.nav.empty();
-                    $m.explorer.path('');
                     
                 });
                 

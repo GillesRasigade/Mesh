@@ -30,7 +30,7 @@ if ( empty($_SESSION['timestamp']) ) {
 
 ?>
 <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">
-<html lang="en" manifest="cache.manifest">
+<html lang="en" manifest="__cache.manifest">
     <head>
         <title>Media explorer</title>
         
@@ -80,8 +80,18 @@ if ( empty($_SESSION['timestamp']) ) {
         <script type="text/javascript">
             window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
                 state: {
-                    'typesOrder': [ 'folder' , 'music' , 'card' , 'video' , 'pdf' ]
-                }
+                    typesOrder: [ 'folder' , 'music' , 'card' , 'video' , 'pdf' ],
+                    server: 'local',
+                    servers: {
+                        'local': {
+                            name: 'local',
+                            url: '<?php echo $config['servers']['local']; ?>',
+                            login: '<?php echo $_SESSION['login']; ?>',
+                            timestamp: '<?php echo $_SESSION['timestamp']; ?>',
+                            hash: '<?php echo hash( 'sha256' , $_SESSION['timestamp'] . '|' . $_SESSION['login'] . '|' . $config['users'][$_SESSION['login']] ); ?>',
+                        }
+                    }
+                },
             });
         </script>
         
@@ -121,10 +131,9 @@ if ( empty($_SESSION['timestamp']) ) {
             <div id="navigation-panel" class="tab-pane row-fluid">
                 <div id="filter-panel">
                     <form id="form-filter" class="form-search">
-                        <div class="input-append">
-                            <button class="btn btn-link" style="float: left; color: #888; margin-top: 0.35em;"><i class="icon-spinner icon-spin icon-large" style="inline-block;">&nbsp;</i></button>
-                            <input type="search" id="s" name="s" value="" placeholder="Search" class="search-query" />
-                            <button type="submit" class="btn tablet"><i class="icon-search"></i>&nbsp;</button>
+                        <div class="input-inline">
+                            <button class="btn btn-link" style="float: left; color: #888; margin-top: 0.35em;margin-right: -100%;margin-left: -0.5em;"><i class="icon-spinner icon-spin icon-large" style="inline-block;">&nbsp;</i></button>
+                            <input type="search" id="s" name="s" value="" placeholder="Search" class="search-query" style="padding-left: 2em;" />
                         </div>
                     </form>
                 </div>
@@ -163,14 +172,27 @@ if ( empty($_SESSION['timestamp']) ) {
                     </a>
                     
                     <ul class="dropdown-menu  lateral-left">
-                        <?php foreach ( $config['servers'] as $server => $url ): ?>
                         <li>
+                            <a href="javascript:$m.addServer();">
+                                Add new
+                            </a>
+                        </li>
+                        
+                        <li class="divider"></li>
+                    
+                        <?php if ( FALSE ): ?>
+                        <?php foreach ( $config['servers'] as $server => $url ): ?>
+                        <li class="server">
                             <a data-url="<?php echo $url; ?>" title="Explore files on <?php echo $server; ?>" href="javascript:void(0);">
                                 <img class="img-circle" src="<?php echo preg_replace('/\/[^\/]+$/' , '/images/server-icon.png', $url); ?>" />
                                 <span title="Go to this server" onClick="window.location = '<?php echo preg_replace('/\/[^\/]+$/' , '/index.php', $url); ?>';" target="_top"><?php echo $server; ?></span>
+                                <span class="btn btn-link"><i class="icon-remove"></i></span>
                             </a>
                         </li>
                         <?php endforeach; ?>
+                        <?php endif; ?>
+                        
+                        
                     </ul>
                 </div>
                 
