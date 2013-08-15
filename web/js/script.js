@@ -213,8 +213,54 @@
             }
         },
         
-        removeServer: function () {
+        removeServer: function ( name ) {
+            // Removing entry in UI state:
+            if ( undefined !== $m.state.servers[name] ) {
+                delete $m.state.servers[name];
+                $m.storage.set('state.servers',$m.state.servers);
+            }
             
+            $('#servers-dropdown .dropdown-menu li a[data-name="'+name+'"]').parent().remove();
+            
+            if ( $m.state.server == name ) {
+                $('#servers-dropdown .dropdown-menu li.server:first a').click();
+            }
+        },
+        editServer: function ( c ) {
+            var n = true;
+            var credentials = {
+                name: '',
+                url: '',
+                login: '',
+            };
+            
+            if ( undefined !== c ) {
+                n = false;
+                if ( typeof(c) === 'string' && $m.state.servers[c] ) credentials = $m.state.servers[c];
+                else credentials = c;
+            }
+        
+            $('#server-initialization').remove();
+            $('body').append('<div id="server-initialization" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
+                '<div class="modal-header">New server initialization</div>'+
+                '<div class="modal-body">'+
+                    '<form id="server-initialization-form">'+
+                    '<div class="row-fluid">'+
+                        '<input type="text" name="name" placeholder="Server name" class="span12"'+( n?'':' readonly="readonly"' )+' value="'+credentials.name+'"/>'+
+                        '<input type="text" name="url" placeholder="Server URL (http://www.example.org/api.php)" class="span12" value="'+credentials.url+'"/>'+
+                        '<input type="text" name="login" placeholder="Login" class="span12" value="'+credentials.login+'"/>'+
+                        '<input type="password" name="password" placeholder="Password" class="span12" value=""/>'+
+                    '</div>'+
+                    '</form>'+
+                '</div>'+
+                '<div class="modal-footer">'+
+                    ( n ? '' : '<button class="btn" data-dismiss="modal" aria-hidden="true" onClick="$m.removeServer(\''+credentials.name+'\');">Remove</button>' )+
+                    '<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>'+
+                    '<button class="btn btn-primary" data-dismiss="modal" onClick="$m.addServer();">Save changes</button>'+
+                '</div>'+
+            '</div>');
+            
+            $('#server-initialization').modal('show');
         },
         addServer: function ( credentials ) {
         
@@ -222,59 +268,56 @@
                 $item = $('<li class="server"><a data-name="'+credentials.name+'" title="Explore files on server" href="javascript:void(0);">'+
                     '<img class="img-circle" src="'+credentials.url.replace(/api\.php/,'')+'images/server-icon.png">'+
                     '<span title="Go to this server" onclick="window.location = \''+credentials.url.replace(/index\.php/,'')+'\';" target="_top">'+credentials.name+'</span>'+
-                    '<span class="btn btn-link"><i class="icon-remove"></i></span>'+
+                    '<span class="btn btn-link" onClick="$m.editServer(\''+credentials.name+'\')"><i class="icon-edit"></i></span>'+
                 '</a></li>');
                 
-                $('#servers-dropdown .dropdown-menu li a[data-name="'+credentials.name+'"]').parent().remove();
-                $('#servers-dropdown .dropdown-menu').append($item);
+                if ( $('#servers-dropdown .dropdown-menu li a[data-name="'+credentials.name+'"]').length ) {
+                    $('#servers-dropdown .dropdown-menu li a[data-name="'+credentials.name+'"]').parent()
+                        .after( $item ).remove();
+                } else $('#servers-dropdown .dropdown-menu').append($item);
                 
             } else {
                 var $popup = $('#server-initialization');
-                if ( $popup.length == 0 ) {
-                    // Add DOM modal window to add a new server :
-                    $('body').append('<div id="server-initialization" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
-                        '<div class="modal-header">New server initialization</div>'+
-                        '<div class="modal-body">'+
-                            '<form id="server-initialization-form">'+
-                            '<div class="row-fluid">'+
-                                '<input type="text" name="name" placeholder="Server name" class="span12" value=""/>'+
-                                '<input type="text" name="url" placeholder="Server URL (http://www.example.org/api.php)" class="span12" value=""/>'+
-                                '<input type="text" name="login" placeholder="Login" class="span12" value=""/>'+
-                                '<input type="password" name="password" placeholder="Password" class="span12" value=""/>'+
-                            '</div>'+
-                            '</form>'+
-                        '</div>'+
-                        '<div class="modal-footer">'+
-                            '<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>'+
-                            '<button class="btn btn-primary" data-dismiss="modal" onClick="$m.addServer();">Save changes</button>'+
-                        '</div>'+
-                    '</div>');
-                    
-                    $('#server-initialization').modal('show');
-                } else {
-                    var credentials = {
-                        name: $('*[name="name"]',$popup).val(),
-                        url: $('*[name="url"]',$popup).val(),
-                        login: $('*[name="login"]',$popup).val(),
-                        timestamp: (new Date()).getTime(),
-                    }
-                    credentials.hash = $m.api.utils.generateHash([credentials.timestamp,credentials.login,$('*[name="password"]',$popup).val()]);
-                    
-                    if ( undefined === $m.state.servers[credentials.name] || confirm('A server already exists with this name, are you sure you want to replace it ?') ) {
-                    
-                        $m.addServer( credentials );
-                    
-                        $m.state.servers[credentials.name] = credentials;
-                        
-                        $m.storage.set('state.servers',$m.state.servers);
-                        
-                        $item.click();
-                    
-                    }
-                    
-                    $popup.modal('hide');
-                    setTimeout(function(){$popup.remove();},500);
+                
+                var credentials = {
+                    name: $('*[name="name"]',$popup).val(),
+                    url: $('*[name="url"]',$popup).val(),
+                    login: $('*[name="login"]',$popup).val(),
+                    timestamp: (new Date()).getTime(),
                 }
+                credentials.hash = $m.api.utils.generateHash([credentials.timestamp,credentials.login,$('*[name="password"]',$popup).val()]);
+                
+                //$m.api.get({},function( json ){ console.log(json); });
+                
+                if ( undefined !== $m.state.servers[credentials.name]
+                    && $m.state.servers[credentials.name].url !== credentials.url
+                    && !confirm('A server already exists with this name, are you sure you want to replace it ?') ) {
+                    
+                    $m.log('Server creation cancelled by user.');
+                    
+                } else {
+                
+                    if ( undefined !== $m.state.servers[credentials.name]
+                        && $('*[name="password"]',$popup).val() == '' 
+                        && credentials.login == $m.state.servers[credentials.name].login ) {
+                        
+                        credentials.timestamp = $m.state.servers[credentials.name].timestamp;
+                        credentials.hash = $m.state.servers[credentials.name].hash;
+                        
+                    }
+                
+                    $m.addServer( credentials );
+                
+                    $m.state.servers[credentials.name] = credentials;
+                    
+                    $m.storage.set('state.servers',$m.state.servers);
+                    
+                    $item.click();
+                
+                }
+                
+                $popup.modal('hide');
+                setTimeout(function(){$popup.remove();},500);
             }
             
             /*<a data-url="http://rasigade.fr:81/media-manager/api.php" title="Explore files on server" href="javascript:void(0);">

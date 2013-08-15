@@ -132,7 +132,7 @@
                                     //title="'+json['folder'][i]+'"
                                     var $div = $('<a data-path="'+p+'" href="javascript:void(0)" class="album entry">'+
                                             '<i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>'+
-                                            '<span class="album-img img-polaroid" style="background: url(\''+$m.view.image.src(p,'thumb')+'\');"></span>'+
+                                            '<span class="album-img img-polaroid" style="background-image: url(\''+$m.view.image.src(p,'thumb')+'\');"></span>'+
                                             '<span class="actions">'+
                                                 '<div title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i></div>'+
                                                 '<i class="icon-remove delete-folder"></i>'+

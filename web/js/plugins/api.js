@@ -131,6 +131,7 @@
 //                                window.location = window.location;
                                 if ( $('#menu-dropdown a[href*=logout]').length ) {
                                     //window.location = $('#menu-dropdown a[href*=logout]').attr('href');
+                                    //if ( typeof(callback) == 'function' ) callback( 403 );
                                 }
                             }
                         }

@@ -173,7 +173,7 @@ if ( empty($_SESSION['timestamp']) ) {
                     
                     <ul class="dropdown-menu  lateral-left">
                         <li>
-                            <a href="javascript:$m.addServer();">
+                            <a href="javascript:$m.editServer();">
                                 Add new
                             </a>
                         </li>

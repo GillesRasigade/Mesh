@@ -136,7 +136,7 @@
                         $m.storage.set( 'state.api' , $m.state.api );
                         
                         var path = '';
-                        if ( $m.state.server && $m.state.servers[$m.state.server] && $m.state.servers[$m.state.server].path ) {
+                        if ( false && $m.state.server && $m.state.servers[$m.state.server] && $m.state.servers[$m.state.server].path ) {
                             path = $m.state.servers[$m.state.server].path;
                         }
                         
