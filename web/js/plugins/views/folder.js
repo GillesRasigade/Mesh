@@ -143,46 +143,31 @@
 
                                     $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
                                     
-                                    var content = '';
-                                    $m.storage.fs.get(p,'m.thumb.txt',function( content ){
-                                        //console.log( content );
-                                        if ( content !== '' ) {// Local File System cache management
-                                            $div.find('.album-img').css('background-image','url(\''+content+'\')');
-                                            
-                                        } else if ( $m.state.thumbs[$m.state.server+'://'+p] !== undefined ) {// Browser app memory
-                                            $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
-                                            $m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
-                                            
-                                        } else {// Otherwise
-                                            var image = new Image();
-                                            image.onload = function () {
+                                    (function(p){
+                                        $m.storage.fs.get(p,'m.thumb.txt',function( content ){
+                                            //console.log( content );
+                                            if ( content !== '' ) {// Local File System cache management
+                                                $div.find('.album-img').css('background-image','url(\''+content+'\')');
                                                 
-                                                $m.state.thumbs[$m.state.server+'://'+p] = $m.view.image.utils.getImageUrl( image );
-                                                //$m.storage.set('state.thumbs',$m.state.thumbs);
-                                                //$m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
-                                                
+                                            } else if ( $m.state.thumbs[$m.state.server+'://'+p] !== undefined ) {// Browser app memory
                                                 $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
+                                                $m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
+                                                
+                                            } else {// Otherwise
+                                                var image = new Image();
+                                                image.onload = function () {
+                                                    
+                                                    $m.state.thumbs[$m.state.server+'://'+p] = $m.view.image.utils.getImageUrl( image );
+                                                    //$m.storage.set('state.thumbs',$m.state.thumbs);
+                                                    //$m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
+                                                    
+                                                    $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
+                                                }
+
+                                                image.src = $m.view.image.src(p,'thumb');
                                             }
-
-                                            image.src = $m.view.image.src(p,'thumb');
-                                        }
-                                    });
-                                    
-                                    if ( $m.state.thumbs[$m.state.server+'://'+p] !== undefined ) {
-                                        $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
-                                    } else {
-                                        var image = new Image();
-                                        image.onload = function () {
-                                            
-                                            $m.state.thumbs[$m.state.server+'://'+p] = $m.view.image.utils.getImageUrl( image );
-                                            //$m.storage.set('state.thumbs',$m.state.thumbs);
-                                            $m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
-                                            
-                                            $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
-                                        }
-
-                                        image.src = $m.view.image.src(p,'thumb');
-                                    }
+                                        });
+                                    })(p);
                                 }
                                 
                                 setTimeout(function(){ i++; f[0](); },25);

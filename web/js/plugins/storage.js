@@ -119,7 +119,7 @@
                                         reader.readAsText(file);
                                     }, $m.storage.fs.errorHandler);
                                 });
-                            },5);
+                            },25);
                         });
                     } else if ( typeof(callback) == 'function' ) callback('');
                 },
