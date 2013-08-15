@@ -29,9 +29,22 @@
                     $m.api.xhrPool.length = 0
                 },
                 url: function ( controller , action , token , api ) {
+                
+                    var credentials = {
+                        url: api !== undefined ? api : window.$m.state.api,
+                        timestamp: $m.storage.get( 'timestamp' ),
+                        hash: $m.storage.get( 'hash' )
+                    };
+                    
+                    if ( $m.state && $m.state.servers ) {
+                        if ( $m.state.server && $m.state.servers[$m.state.server] ) {
+                            credentials = $m.state.servers[$m.state.server];
+                        }
+                    }
+                
                     api = api !== undefined ? api : window.$m.state.api;
                     return api+'?c='+controller+'&a='+action+'&'+
-                        'auth='+$m.api.utils.getAuth()+'&'+
+                        'auth='+$m.api.utils.getAuth( credentials )+'&'+
                         'token='+$m.api.utils.token(token);
                 },
                 // Read / Write token based on data type.
@@ -67,6 +80,16 @@
                     };
                     
                     return $m.api.utils.token( auth );
+                },
+                authenticate: function () {
+                    if ( $m.state.server && $m.state.servers[$m.state.server] ) {
+                        var credentials = $m.state.servers[$m.state.server];
+                        credentials.timestamp = (new Date()).getTime();
+                        credentials.hash = $m.api.utils.generateHash([credentials.timestamp,credentials.login,$('#server-authentication *[name="password"]').val()]);
+                        
+                        $m.state.servers[credentials.name] = credentials;
+                        $m.storage.set('state.servers',$m.state.servers);
+                    }
                 },
                 fileCount: function ( json ) {
                     var count = 0;
@@ -133,6 +156,38 @@
                                     //window.location = $('#menu-dropdown a[href*=logout]').attr('href');
                                     //if ( typeof(callback) == 'function' ) callback( 403 );
                                 }
+                            }
+                        },
+                        401: function () {// User credentials expired
+                            $m.log('Login expired');
+                            
+                            if ( $('#menu-dropdown a[href*=logout]').length && $m.state.server && $m.state.servers[$m.state.server] ) {
+                                var credentials = $m.state.servers[$m.state.server];
+                            
+                                var $popup = $('#server-authentication');
+                                
+                                if ( $popup.length == 0 ) {
+                                    $('body').append('<div id="server-authentication" class="modal hide fade server-authentication" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
+                                        '<div class="modal-header">Server '+$m.state.server+' authentication</div>'+
+                                        '<div class="modal-body">'+
+                                            '<form id="server-initialization-form">'+
+                                            '<div class="row-fluid">'+
+                                                '<input type="text" name="login" placeholder="Login" class="span12" readonly="readonly" value="'+credentials.login+'"/>'+
+                                                '<input type="password" name="password" placeholder="Password" class="span12" value=""/>'+
+                                            '</div>'+
+                                            '</form>'+
+                                        '</div>'+
+                                        '<div class="modal-footer">'+
+                                            '<button class="btn btn-primary" data-dismiss="modal" onClick="$m.api.utils.authenticate();">Submit</button>'+
+                                        '</div>'+
+                                    '</div>');
+                                } else {
+                                    $('.model-header',$popup).text( 'Server '+$m.state.server+' authentication' );
+                                    $('*[name="login"]',$popup).val(credentials.login);
+                                    $('*[name="password"]',$popup).val('');
+                                }
+                                
+                                $('#server-authentication').modal('show');
                             }
                         }
                     },

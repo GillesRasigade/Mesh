@@ -76,6 +76,10 @@ switch ( $method ) {
                     // Check authentication timestamp delay :
                     if ( mktime() - round(floatval($timestamp2)/1000) >= 3600 ) {
                         $timestamp2 = NULL;
+                        
+                        session_destroy();
+                        header('HTTP/1.0 401 Unauthorized');
+                        die('User credentials expired.');
                     }
 
                 } else if ( array_key_exists('timestamp',$_SESSION) ) {
