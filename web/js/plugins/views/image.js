@@ -21,7 +21,7 @@
                         $m.view.image.utils.context.drawImage(image, 0, 0, image.width, image.height);
 
                         // Save image as a data URL
-                        return $m.view.image.utils.canvas.toDataURL("image/png");
+                        return $m.view.image.utils.canvas.toDataURL("image/jpeg",100);
                     },
                 },
             

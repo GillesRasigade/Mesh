@@ -132,7 +132,7 @@
                                     //title="'+json['folder'][i]+'"
                                     var $div = $('<a data-path="'+p+'" href="javascript:void(0)" class="album entry">'+
                                             '<i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>'+
-                                            '<span class="album-img img-polaroid" style="background-image: url(\''+$m.view.image.src(p,'thumb')+'\');"></span>'+
+                                            '<span class="album-img img-polaroid"></span>'+
                                             '<span class="actions">'+
                                                 '<div title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i></div>'+
                                                 '<i class="icon-remove delete-folder"></i>'+
@@ -143,20 +143,46 @@
 
                                     $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
                                     
-                                    /*if ( $m.state.thumbs[p] !== undefined ) {
-                                        $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[p]+'\')');
+                                    var content = '';
+                                    $m.storage.fs.get(p,'m.thumb.txt',function( content ){
+                                        //console.log( content );
+                                        if ( content !== '' ) {// Local File System cache management
+                                            $div.find('.album-img').css('background-image','url(\''+content+'\')');
+                                            
+                                        } else if ( $m.state.thumbs[$m.state.server+'://'+p] !== undefined ) {// Browser app memory
+                                            $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
+                                            $m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
+                                            
+                                        } else {// Otherwise
+                                            var image = new Image();
+                                            image.onload = function () {
+                                                
+                                                $m.state.thumbs[$m.state.server+'://'+p] = $m.view.image.utils.getImageUrl( image );
+                                                //$m.storage.set('state.thumbs',$m.state.thumbs);
+                                                //$m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
+                                                
+                                                $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
+                                            }
+
+                                            image.src = $m.view.image.src(p,'thumb');
+                                        }
+                                    });
+                                    
+                                    if ( $m.state.thumbs[$m.state.server+'://'+p] !== undefined ) {
+                                        $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
                                     } else {
                                         var image = new Image();
                                         image.onload = function () {
                                             
-                                            $m.state.thumbs[p] = $m.view.image.utils.getImageUrl( image );
-                                            $m.storage.set('state.thumbs',$m.state.thumbs);
+                                            $m.state.thumbs[$m.state.server+'://'+p] = $m.view.image.utils.getImageUrl( image );
+                                            //$m.storage.set('state.thumbs',$m.state.thumbs);
+                                            $m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
                                             
-                                            $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[p]+'\')');
+                                            $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
                                         }
 
                                         image.src = $m.view.image.src(p,'thumb');
-                                    }*/
+                                    }
                                 }
                                 
                                 setTimeout(function(){ i++; f[0](); },25);
@@ -166,11 +192,11 @@
                         
                             setTimeout(function(){
                             
-                                $('.album .album-title.details:not(.updated)').first().each(function(i,o){
+                                $('.album .album-title.details:not(.updated)').each(function(i,o){
                                     var $o = $(o).addClass('updated');
                                     var p = $o.closest('.album').attr('data-path');
-                                    $m.api.get({c:'file',a:'details',path: p},function(details){
-
+                                    
+                                    var display = function ( details ) {
                                         var $details = $o;
                                         for ( var t in details.counts ) {
                                             if ( details.counts[t] > 0 && !t.match(/(hidden)/)) {
@@ -194,10 +220,25 @@
 
                                         //if ( i < json['folder'].length-1 ) { i++; setTimeout(function(){ f[0](i); },50); }
                                         if ( $('.album .album-title.details:not(.updated)').length ) f[1]();   ;
+                                    }
+                                    
+                                    $m.storage.fs.get(p,'m.details.txt',function( content ){
+                        
+                                        if ( content !== '' ) {
+                                            display( JSON.parse( content ) );
+                                        } else {
+                                    
+                                            $m.api.get({c:'file',a:'details',path: p},function(details){
+                                            
+                                                $m.storage.fs.set(p,'m.details.txt',JSON.stringify( details ));
+
+                                                display( details );
+                                            });
+                                        }
                                     });
                                 });
                             
-                            },250);
+                            },50);
                         }
                     ]; f[0]();
                 }

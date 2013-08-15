@@ -28,10 +28,20 @@
                     // Note: The file system has been prefixed as of Google Chrome 12:
                     window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
                     
-                    //window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/, requestSuccess, errorHandler);
+                    window.webkitStorageInfo.requestQuota
+                    
+                    if ( window.webkitStorageInfo ) {
+                        window.webkitStorageInfo.requestQuota(PERSISTENT, 100*1024*1024, function(grantedBytes) {
+                            window.requestFileSystem(window.PERSISTENT, grantedBytes, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
+                        }, function(e) {
+                            console.log('Error', e);
+                        });
+                    } else 
+                        window.requestFileSystem(window.TEMPORARY, 100*1024*1024 /*100MB*/, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
                 },
                 requestSuccess: function( fs ) {
                     console.log('Opened file system: ' + fs.name);
+                    $m.storage.fs.instance = fs;
                 },
                 errorHandler: function( e ){
                     var msg = '';
@@ -58,6 +68,89 @@
                     };
 
                     console.log('Error: ' + msg);
+                },
+                set: function ( path , filename , content , callback , error ) {
+                
+                    if ( undefined !== $m.storage.fs.instance ) {
+                
+                        // Recursively create the hierarchical structure:
+                        $m.storage.fs.cmd.cd( $m.state.server + path , function( dir ){
+                            //console.log( dir );
+                            
+                            setTimeout(function(){
+                                dir.getFile( filename, {create: true}, function(fileEntry) {
+                                    
+                                    // Create a FileWriter object for our FileEntry (log.txt).
+                                    fileEntry.createWriter(function(fileWriter) {
+
+                                        fileWriter.onwriteend = callback;
+                                        fileWriter.onerror = error;
+
+                                        // Create a new Blob and write it to log.txt.
+                                        var blob = new Blob([content], {type: 'text/plain'});
+
+                                        fileWriter.write(blob);
+
+                                    }, $m.storage.fs.errorHandler);
+                                });
+                            },500);
+                            
+                        });
+                    }
+                },
+                get: function ( path , filename , callback ) {
+                
+                    if ( undefined !== $m.storage.fs.instance ) {
+                    
+                        // Recursively create the hierarchical structure:
+                        $m.storage.fs.cmd.cd( $m.state.server + path , function( dir ){
+                            //console.log( dir );
+                            
+                            setTimeout(function(){
+                                dir.getFile( filename, {create: true}, function(fileEntry) {
+                                    
+                                    fileEntry.file(function(file) {
+                                        var reader = new FileReader();
+
+                                        reader.onloadend = function(e) {
+                                            if ( typeof(callback) == 'function' ) callback( this.result );
+                                        };
+
+                                        reader.readAsText(file);
+                                    }, $m.storage.fs.errorHandler);
+                                });
+                            },5);
+                        });
+                    } else if ( typeof(callback) == 'function' ) callback('');
+                },
+                cmd: {
+                    // REF: http://www.html5rocks.com/en/tutorials/file/filesystem/?redirect_from_locale=fr#toc-dir-subirs
+                    mkdir: function ( folders , callback , rootDirEntry ) {
+                        rootDirEntry = rootDirEntry !== undefined ? rootDirEntry : $m.storage.fs.instance.root;
+                        if ( typeof(folders) == 'string' ) folders = folders.split('/');
+                    
+                        // Throw out './' or '/' and move on to prevent something like '/foo/.//bar'.
+                        if (folders[0] == '.' || folders[0] == '') {
+                            folders = folders.slice(1);
+                        }
+                        rootDirEntry.getDirectory(folders[0], {create: true}, function(dirEntry) {
+                            // Recursively add the new subfolder (if we still have another to create).
+                            if (folders.length) {
+                                $m.storage.fs.cmd.mkdir(folders.slice(1),callback,dirEntry);
+                            } else {
+                                if ( typeof(callback) == 'function' ) callback( dirEntry );
+                            }
+                        }, $m.storage.fs.errorHandler);
+                    },
+                    pwd: function ( path ) {
+                        
+                    },
+                    ls: function ( path ) {
+                        
+                    },
+                    cd: function ( path , callback , rootDirEntry ) {
+                        $m.storage.fs.cmd.mkdir( path , callback , rootDirEntry );
+                    }
                 }
             },
         
