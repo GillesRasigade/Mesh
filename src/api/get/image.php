@@ -184,7 +184,10 @@ class Api_Get_Image extends Api_Get_File {
                     // Output the correct HTTP headers (may add more if you require them)
                     header('Content-Type: '.$matches[1]);
                     header('Content-Length: '.strlen($src));
-                    echo $src;
+                    
+                    echo Api_Utils::outputJson( array(
+                        'base64' => $src
+                    ));
                 
                 } else {
                     switch ( true ) {

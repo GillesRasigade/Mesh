@@ -158,10 +158,11 @@
                                                 
                                                 $.ajax({
                                                     url:$m.view.image.src(p,'thumb',true),
-                                                    success:function(base64){
-                                                        $div.find('.album-img').css('background-image','url(\''+base64+'\')');
-                                                        $m.state.thumbs[$m.state.server+'://'+p] = base64;
-                                                        $m.storage.fs.set(p,'m.thumb.txt',base64);
+                                                    dataType: 'jsonp',
+                                                    success:function(json){
+                                                        $div.find('.album-img').css('background-image','url(\''+json.base64+'\')');
+                                                        $m.state.thumbs[$m.state.server+'://'+p] = json.base64;
+                                                        $m.storage.fs.set(p,'m.thumb.txt',json.base64);
                                                 }});
                                                 
                                                 /*var image = new Image();
