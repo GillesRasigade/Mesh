@@ -154,7 +154,17 @@
                                                 $m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
                                                 
                                             } else {// Otherwise
-                                                var image = new Image();
+                                                //$div.find('.album-img').css('background-image','url(\''+$m.view.image.src(p,'thumb',true)+'\')');
+                                                
+                                                $.ajax({
+                                                    url:$m.view.image.src(p,'thumb',true),
+                                                    success:function(base64){
+                                                        $div.find('.album-img').css('background-image','url(\''+base64+'\')');
+                                                        $m.state.thumbs[$m.state.server+'://'+p] = base64;
+                                                        $m.storage.fs.set(p,'m.thumb.txt',base64);
+                                                }});
+                                                
+                                                /*var image = new Image();
                                                 image.onload = function () {
                                                     
                                                     $m.state.thumbs[$m.state.server+'://'+p] = $m.view.image.utils.getImageUrl( image );
@@ -164,7 +174,7 @@
                                                     $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
                                                 }
 
-                                                image.src = $m.view.image.src(p,'thumb');
+                                                image.src = $m.view.image.src(p,'thumb',true);*/
                                             }
                                         });
                                     })(p);

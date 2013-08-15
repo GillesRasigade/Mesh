@@ -159,20 +159,6 @@ class Api_Get_Image extends Api_Get_File {
             
             if ( file_exists( $path ) ) {
                 
-                switch ( true ) {
-                    case preg_match('/jpe?g/i',$path):
-                        header("Content-type: image/jpeg");
-                        break;
-                    case preg_match('/png/i',$path):
-                        header("Content-type: image/png");
-                        break;
-                    case preg_match('/gif/i',$path):
-                        header("Content-type: image/gif");
-                        break;
-                }
-                
-                header("Content-Disposition: inline; filename=\"" . preg_replace('/.*([^\/]+)$/','$1',$path) . "\"");
-            
                 if ( array_key_exists('mode',$p) && array_key_exists($p['mode'],$config['image']) ) {
                 
                     $p['thumb'] = preg_replace( '/([^\/]+)$/' , $config['image'][$p['mode']].'-$1' , $p['path'] );
@@ -183,7 +169,44 @@ class Api_Get_Image extends Api_Get_File {
                     }
                 }
                 
-                readfile( $path );
+                if  ( array_key_exists('base64',$p) && $p['base64'] ) {
+                
+                    // Image data:
+                    $imageData = base64_encode(file_get_contents($path));
+                    
+                    // Format the image SRC:  data:{mime};base64,{data};
+                    $src = 'data:'.mime_content_type($path).';base64,'.$imageData;
+                    
+                    if (!preg_match('/data:([^;]*);base64,(.*)/', $src, $matches)) {
+                        die("error");
+                    }
+                    
+                    // Output the correct HTTP headers (may add more if you require them)
+                    header('Content-Type: '.$matches[1]);
+                    header('Content-Length: '.strlen($src));
+                    echo $src;
+                
+                } else {
+                    switch ( true ) {
+                        case preg_match('/jpe?g/i',$path):
+                            header("Content-type: image/jpeg");
+                            break;
+                        case preg_match('/png/i',$path):
+                            header("Content-type: image/png");
+                            break;
+                        case preg_match('/gif/i',$path):
+                            header("Content-type: image/gif");
+                            break;
+                    }
+                    
+                    header("Content-Disposition: inline; filename=\"" . preg_replace('/.*([^\/]+)$/','$1',$path) . "\"");
+                    
+                    readfile( $path );
+                }
+            
+                
+                
+                
                 exit;
             
             } else {

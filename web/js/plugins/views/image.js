@@ -4,9 +4,10 @@
         
             image: {
             
-                src: function ( path , mode ) {
+                src: function ( path , mode , base64 ) {
                     return $m.api.utils.url('image','access',{
-                        path: path, mode: mode !== undefined ? mode : 'full'
+                        path: path, mode: mode !== undefined ? mode : 'full',
+                        base64: base64 !== undefined ? base64 : false
                     });
                 },
                 
