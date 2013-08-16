@@ -130,12 +130,12 @@ if ( empty($_SESSION['timestamp']) ) {
             
             <div id="navigation-panel" class="tab-pane row-fluid">
                 <div id="filter-panel">
-                    <form id="form-filter" class="form-search">
+                    <div id="form-filter" class="form-search">
                         <div class="input-inline">
                             <button class="btn btn-link" style="float: left; color: #888; margin-top: 0.35em;margin-right: -100%;margin-left: -0.5em;"><i class="icon-spinner icon-spin icon-large" style="inline-block;">&nbsp;</i></button>
                             <input type="search" id="s" name="s" value="" placeholder="Search" class="search-query" style="padding-left: 2em;" />
                         </div>
-                    </form>
+                    </div>
                 </div>
                 
                 <div id="menu-dropdown" style="float: left; margin-top: 0.6em; margin-left: -1.65em;" class="dropdown">

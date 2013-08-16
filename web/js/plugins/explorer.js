@@ -270,7 +270,7 @@
                 });
                 
                 // Search form binding :
-                $m.events.bind( 'submit' , '#form-filter' , function ( event ) {
+                $m.events.bind( 'change' , '#s' , function ( event ) {
                     
                     var search = $('#s').val();
                     

@@ -102,6 +102,52 @@
                 },
             },
         
+            errors: {
+                403: function () {
+                    console.error(403,'Forbidden >> reloading page');
+                    
+                    if ( !window.location.href.match('/login.php/') ) {
+                        // Reloading page redirect to login page:
+//                                window.location = window.location;
+                        if ( $('#menu-dropdown a[href*=logout]').length ) {
+                            //window.location = $('#menu-dropdown a[href*=logout]').attr('href');
+                            //if ( typeof(callback) == 'function' ) callback( 403 );
+                        }
+                    }
+                },
+                401: function () {// User credentials expired
+                    $m.log('Login expired');
+                    
+                    if ( $('#menu-dropdown a[href*=logout]').length && $m.state.server && $m.state.servers[$m.state.server] ) {
+                        var credentials = $m.state.servers[$m.state.server];
+                    
+                        var $popup = $('#server-authentication');
+                        
+                        if ( $popup.length == 0 ) {
+                            $('body').append('<div id="server-authentication" class="modal hide fade server-authentication" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
+                                '<div class="modal-header">Server '+$m.state.server+' authentication</div>'+
+                                '<div class="modal-body">'+
+                                    '<form id="server-initialization-form">'+
+                                    '<div class="row-fluid">'+
+                                        '<input type="text" name="login" placeholder="Login" class="span12" readonly="readonly" value="'+credentials.login+'"/>'+
+                                        '<input type="password" name="password" placeholder="Password" class="span12" value=""/>'+
+                                    '</div>'+
+                                    '</form>'+
+                                '</div>'+
+                                '<div class="modal-footer">'+
+                                    '<button class="btn btn-primary" data-dismiss="modal" onClick="$m.api.utils.authenticate();">Submit</button>'+
+                                '</div>'+
+                            '</div>');
+                        } else {
+                            $('.model-header',$popup).text( 'Server '+$m.state.server+' authentication' );
+                            $('*[name="login"]',$popup).val(credentials.login);
+                            $('*[name="password"]',$popup).val('');
+                        }
+                        
+                        $('#server-authentication').modal('show');
+                    }
+                }
+            },
             ajax: function ( data , method , callback ) {
                 var d = {};
                 for ( var key in data ) {
@@ -139,57 +185,20 @@
                     data: d,
                     dataType: 'jsonp',
                     headers: $m.api.utils.token( auth ),
+                    timeout : 5000,
                     //crossDomain: true,
                     beforeSend: function( request ) {
                         $m.api.xhrPool.push( request );
                         
 //                        request.setRequestHeader("Authority", $m.api.utils.token( auth ) );
                     },
-                    statusCode: {
-                        403: function () {
-                            console.error(403,'Forbidden >> reloading page');
-                            
-                            if ( !window.location.href.match('/login.php/') ) {
-                                // Reloading page redirect to login page:
-//                                window.location = window.location;
-                                if ( $('#menu-dropdown a[href*=logout]').length ) {
-                                    //window.location = $('#menu-dropdown a[href*=logout]').attr('href');
-                                    //if ( typeof(callback) == 'function' ) callback( 403 );
-                                }
-                            }
-                        },
-                        401: function () {// User credentials expired
-                            $m.log('Login expired');
-                            
-                            if ( $('#menu-dropdown a[href*=logout]').length && $m.state.server && $m.state.servers[$m.state.server] ) {
-                                var credentials = $m.state.servers[$m.state.server];
-                            
-                                var $popup = $('#server-authentication');
-                                
-                                if ( $popup.length == 0 ) {
-                                    $('body').append('<div id="server-authentication" class="modal hide fade server-authentication" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
-                                        '<div class="modal-header">Server '+$m.state.server+' authentication</div>'+
-                                        '<div class="modal-body">'+
-                                            '<form id="server-initialization-form">'+
-                                            '<div class="row-fluid">'+
-                                                '<input type="text" name="login" placeholder="Login" class="span12" readonly="readonly" value="'+credentials.login+'"/>'+
-                                                '<input type="password" name="password" placeholder="Password" class="span12" value=""/>'+
-                                            '</div>'+
-                                            '</form>'+
-                                        '</div>'+
-                                        '<div class="modal-footer">'+
-                                            '<button class="btn btn-primary" data-dismiss="modal" onClick="$m.api.utils.authenticate();">Submit</button>'+
-                                        '</div>'+
-                                    '</div>');
-                                } else {
-                                    $('.model-header',$popup).text( 'Server '+$m.state.server+' authentication' );
-                                    $('*[name="login"]',$popup).val(credentials.login);
-                                    $('*[name="password"]',$popup).val('');
-                                }
-                                
-                                $('#server-authentication').modal('show');
-                            }
-                        }
+                    /*statusCode: {
+                        403: $m.api.errors['403'],
+                        401: $m.api.errors['401'],
+                    },*/
+                    error: function( xhr, textStatus ) {
+                        if ( typeof($m.api.errors[xhr.status]) == 'function' ) $m.api.errors[xhr.status]();
+                        else $m.api.errors[401]();
                     },
                     success: function ( json ) {
                         if ( typeof(callback) == 'function' ) callback(json);

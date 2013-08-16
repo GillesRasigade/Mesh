@@ -153,8 +153,8 @@
                                                 
                                             
                                                 $tr.append( '<td class="song-'+d+' '+$m.view.music.data[d].class+'">'+
-                                                    ( json[i][d] !== undefined ? json[i][d] : 
-                                                        ( d !== 'actions' ? '' : '<span class="btn" onClick="javascript:$m.view.music.utils.download(\''+p+'\')"><i class="icon-download"></i></span>' ))+
+                                                    ( json[i][d] !== undefined ? json[i][d] : '' ) +
+                                                        //( d !== 'actions' ? '' : '<span class="btn" onClick="javascript:$m.view.music.utils.download(\''+p+'\')"><i class="icon-download"></i></span>' ))+
                                                 '</td>' );
                                             }
 
