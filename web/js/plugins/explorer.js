@@ -42,6 +42,10 @@
                 $m.events.bind( 'resize' , 'window' , $m.explorer.resize );
                 $m.events.bind( 'orientationchange' , 'window' , $m.explorer.resize );
                 
+                $m.events.bind( 'focus' , 'window' , function( event ) { $m.state.focused = true; } );
+                $m.events.bind( 'blur' , 'window' , function( event ) { $m.state.focused = false; } );
+                
+                
                 $m.events.bind( 'click' , '#splash-screen' , function ( event ) {
                     var $target = $( event.target );
                     

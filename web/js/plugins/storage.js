@@ -28,16 +28,17 @@
                     // Note: The file system has been prefixed as of Google Chrome 12:
                     window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
                     
-                    window.webkitStorageInfo.requestQuota
-                    
-                    if ( window.webkitStorageInfo ) {
-                        window.webkitStorageInfo.requestQuota(PERSISTENT, 100*1024*1024, function(grantedBytes) {
-                            window.requestFileSystem(window.PERSISTENT, grantedBytes, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
-                        }, function(e) {
-                            console.log('Error', e);
-                        });
-                    } else 
-                        window.requestFileSystem(window.TEMPORARY, 100*1024*1024 /*100MB*/, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
+                    if ( window.requestFileSystem ) {
+                        if ( window.webkitStorageInfo ) {
+                            window.webkitStorageInfo.requestQuota(PERSISTENT, 100*1024*1024, function(grantedBytes) {
+                                window.requestFileSystem(window.PERSISTENT, grantedBytes, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
+                            }, function(e) {
+                                console.log('Error', e);
+                            });
+                        } else {
+                            window.requestFileSystem(window.TEMPORARY, 100*1024*1024 /*100MB*/, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
+                        }
+                    }
                 },
                 requestSuccess: function( fs ) {
                     console.log('Opened file system: ' + fs.name);
@@ -113,7 +114,7 @@
                                         var reader = new FileReader();
 
                                         reader.onloadend = function(e) {
-                                            if ( typeof(callback) == 'function' ) callback( this.result );
+                                            if ( typeof(callback) == 'function' ) callback( this.result , fileEntry );
                                         };
 
                                         reader.readAsText(file);

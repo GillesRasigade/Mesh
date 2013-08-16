@@ -105,7 +105,7 @@
             ajax: function ( data , method , callback ) {
                 var d = {};
                 for ( var key in data ) {
-                    if ( key.match(/^(c|a)$/) ) {
+                    if ( key.match(/^(c|a|p)$/) ) {
                         d[key] = data[key];
                         delete data[key];
                     }

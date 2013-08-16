@@ -150,6 +150,8 @@
                                             $tr = $('<tr class="music-song" data-path="'+p+'" data-name="'+json[i].path+'"></tr>');
                                         
                                             for ( var d in $m.view.music.data ) {
+                                                
+                                            
                                                 $tr.append( '<td class="song-'+d+' '+$m.view.music.data[d].class+'">'+
                                                     ( json[i][d] !== undefined ? json[i][d] : 
                                                         ( d !== 'actions' ? '' : '<span class="btn" onClick="javascript:$m.view.music.utils.download(\''+p+'\')"><i class="icon-download"></i></span>' ))+
@@ -170,14 +172,25 @@
                 
                 utils: {
                     download: function ( path ) {
+                        
                         console.log( 'download...' , path );
                         $m.api.get({ c: 'file', a: 'access', path: path , base64: true },function( json ) {
-                            var data = Base64.decodeToHex( json.base64.replace( /^data:([^;]*);base64,/ , '' ));
+                            //var data = Base64.decodeToHex( json.base64.replace( /^data:([^;]*);base64,/ , '' ));
+                            //var data = Base64.decodeToHex( json.base64 );
+                            var data = json.base64;
+                            //var data = 'data:audio/mpeg;base64,/+MYxAAAAANIAAAAAExBTUUzLjk4LjIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
                             var mime = json.base64.replace( /^data:([^;]*);base64,.*/ , '$1' )
                             var filename = path.replace(/^.*\//,'');
                             var folder = path.replace(/\/[^\/]+$/,'');
                             
-                            console.log( filename , data.length , data.substring(0,15) , mime );
+                            console.log('hhhhhh');
+                            $('#music-player > source').attr('src',data)
+                                .parent().attr('src',data);
+                            
+                            $m.view.music.player.audio.play();
+                            
+                            console.log( filename , data.length , data.substring(0,50) , mime );
+                            return;
                             
                             $m.storage.fs.set( folder , filename ,
                                 Base64.decode( json.base64.replace( /^data:([^;]*);base64,/ , '' )) ,
@@ -185,8 +198,9 @@
                                     console.log( 'ok' );
                                     $.ajax({
                                         url: 'filesystem:http://192.168.0.22/persistent/local/Musique/Aphex%20Twin/Come%20to%20Daddy/02%20Flim.mp3',
+                                        //type: 'arraybuffer',
                                         success: function ( response ) {
-                                            console.log( response );
+                                            console.log( response.length );
                                         }
                                     });
                                 },
@@ -300,8 +314,7 @@
                     
                     
                     
-                    
-                    play: function ( path , title ) {
+                    __play: function ( path , title ) {
                 
                         if ( $m.view.music.player.$elt === null ) $m.view.music.player.initialize();
 
@@ -344,6 +357,87 @@
                             .toggleClass('icon-play').toggleClass('icon-pause');
 
                         $m.view.music.player.audio.play();
+                    },
+                    play: function ( path , title ) {
+                
+                        if ( $m.view.music.player.$elt === null ) $m.view.music.player.initialize();
+
+                        if ( path !== undefined ) {
+                        
+                            (function(path,title){
+                                var filename = path.replace(/^.*\//,'');
+                                var folder = path.replace(/\/[^\/]+$/,'');
+                                
+                                var _play = function ( base64 ) {
+                                    $('.music-song[data-path="'+path+'"]').addClass('active').siblings('.active').removeClass('active');
+                                
+                                    $m.view.music.player.$elt.removeClass('closed');
+                                    
+                                    $m.view.music.player.current = path;
+
+                                    // MP3 source URL generation :
+                                    var src = undefined !== base64 ? base64 : $m.api.utils.url('file','access',{ path: path });
+                                    
+                                    //$('#audio-player > object').get(0).SetVariable("method:setUrl", src);
+                                    //document.getElementById('audio-player-flash').SetVariable("method:setUrl", src);
+
+                                    $('#music-player > source').attr('src',src).attr('data',src)
+                                        .parent().attr('src',src).attr('data',src);
+
+                                    var thumb = $m.api.utils.url('image','access',{ path: path.replace(/\/[^\/]+$/,''), mode: 'micro' });
+                                    $('#mini-player .thumb').html('<img onClick="$(this).click();" data-path="'+path.replace(/\/[^\/]+$/,'')+'" src="'+thumb+'"/>');
+
+                                    $('#splash-cover').attr('src',$m.api.utils.url('image','access',{ path: path.replace(/\/[^\/]+$/,''), mode: 'preview' }));
+
+                                    if ( !$m.state.focused ) {
+                                        $m.utils.notify({
+                                            img: thumb,
+                                            title: 'You are listening...',
+                                            msg: title
+                                        });
+                                    }
+                                    
+                                    if ( title !== undefined ) {
+                                        $('#mini-player .title').text( title );
+                                    }
+
+                                    $('#mini-player').addClass('playing').find('.icon-play')
+                                        .toggleClass('icon-play').toggleClass('icon-pause');
+
+                                    $m.view.music.player.audio.play();
+                                    
+                                    if ( !$m.state.focused ) {
+                                        $m.utils.notify({
+                                            img: thumb,
+                                            title: 'You are listening...',
+                                            msg: title
+                                        });
+                                    }
+                                }
+                                
+                                // Comment the line below to activate the local storage for MP3
+                                // input files: works on chrome 27+ desktop but not on Android (beta)
+                                return _play();
+                            
+                                $m.storage.fs.get(folder,filename,function( content , fileEntry ){
+                                    //alert(content);
+                                    
+                                    //console.log( content );
+                                    if ( content !== '' ) {// Local File System cache management
+                                        _play(content);
+                                    } else {
+                                        $m.api.get({ c: 'file', a: 'access', path: path , base64: true },function( json ) {
+                                            var data = json.base64;
+                                            
+                                            _play(data);
+                                            
+                                            $m.storage.fs.set(folder,filename,data);
+                                        });
+                                    }
+                                });
+                            })(path,title);
+                            
+                        }
                     },
                     pause: function () {
                 

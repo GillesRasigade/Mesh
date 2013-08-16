@@ -114,12 +114,12 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
                             var timestamp = (new Date()).getTime();
 
                             // Hash generation :
-                            //var hash = Sha256.hash( timestamp + '|' + $('*[name="login"]').val() + '|' + $('*[name="password"]').val() );
-                            var hash = $m.api.utils.generateHash([
+                            var hash = Sha256.hash( timestamp + '|' + $('*[name="login"]').val() + '|' + $('*[name="password"]').val() );
+                            /*var hash = $m.api.utils.generateHash([
                                 timestamp,
                                 $('*[name="login"]').val(),
                                 $('*[name="password"]').val()
-                            ]);
+                            ]);*/
 
                             //$(this).get(0).reset();
                             //$('*[name="hash"]').val( hash );
@@ -138,14 +138,18 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
             });
         </script>
         
-        <div id="credentials" style="margin-top: 5em; margin-left: auto; text-align: center;">
+        <div id="credentials" style="margin: 5em auto; margin-left: auto; text-align: center;">
             <form action="login.php" method="POST" style="display: none;">
                 <input type="hidden" name="timestamp"/>
-                <input type="text" name="login" placeholder="login" style="height: 2em;"/><br/>
-                <input type="password" name="password" placeholder="password" style="height: 2em;"/><br/>
-                <input type="submit" class="btn btn-primary"/>
+                <input type="text" name="login" placeholder="login" style="width: 100%; height: 2em; max-width: 15em;"/><br/>
+                <input type="password" name="password" placeholder="password" style="width: 100%; height: 2em; max-width: 15em;"/><br/>
+                <input type="submit" class="btn btn-primary" style="width: 100%; max-width: 15em; padding: 0.5em;"/>
             </form>
         </div>
+        
+        <!--div style="position: absolute; bottom: 0.5em; width: 100%; text-align: center; max-height: 7em;">
+            <img src="images/logo-d.png" style="height: 100%; max-width: 100%; height: auto; max-height: 100%;"/>
+        </div-->
         <?php endif; ?>
     </body>
 </html>

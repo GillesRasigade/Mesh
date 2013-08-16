@@ -213,6 +213,46 @@
             }
         },
         
+        
+        
+        utils: {
+            notify: function ( data ) {
+                if ( data === undefined ) return true;
+                
+                data.img = data.img !== undefined ? data.img : './images/favicon.png';
+                data.title = data.title !== undefined ? data.title : 'Mesh';
+            
+                var havePermission = window.webkitNotifications.checkPermission();
+                
+                if (havePermission == 0) {
+                    if ( data.msg === undefined ) return true;
+                
+                    // 0 is PERMISSION_ALLOWED
+                    var notification = window.webkitNotifications.createNotification(
+                        data.img,
+                        data.title,
+                        data.msg
+                    );
+                    
+                    notification.ondisplay = function(event) {
+                        setTimeout(function() {
+                            event.currentTarget.cancel();
+                        }, 5000);
+                    };
+
+                    notification.onclick = function () {
+                        window.open("http://stackoverflow.com/a/13328397/1269037");
+                        notification.close();
+                    }
+                    notification.show();
+                } else {
+                    window.webkitNotifications.requestPermission();
+                }
+            },
+        },
+        
+        
+        
         removeServer: function ( name ) {
             // Removing entry in UI state:
             if ( undefined !== $m.state.servers[name] ) {

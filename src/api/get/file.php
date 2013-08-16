@@ -314,6 +314,23 @@ class Api_Get_File {
             $path = $config['path'] . $p['path'];
             
             if  ( array_key_exists('base64',$p) && $p['base64'] ) {
+                
+                /*header('Content-Description: File Transfer');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename='.basename($path));
+                header('Content-Transfer-Encoding: binary');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($path));
+                
+                ob_clean();
+                flush();
+                echo '{"value":';
+                readfile($path);
+                echo '}';
+                exit;*/
+            
                 // Image data:
                 $data = base64_encode(file_get_contents($path));
                 

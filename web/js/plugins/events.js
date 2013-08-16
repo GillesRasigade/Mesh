@@ -61,10 +61,21 @@
                 var type = event.data.type;
                 var target = event.data.target;
                 if ( $m.events.binded[type] && $m.events.binded[type][target] ) {
-//                    console.log( 'events', type, target, $m.events.binded[type][target] );
-                    $.each( $m.events.binded[type][target] , function ( i , callback ) {
-                        return callback( event );
-                    });
+                    
+                    setTimeout(function(){
+                        if ( !$m.events.binded[type][target].triggered ) {
+                            $m.events.binded[type][target].triggered = true;
+                            
+                            
+        //                    console.log( 'events', type, target, $m.events.binded[type][target] );
+                            $.each( $m.events.binded[type][target] , function ( i , callback ) {
+                                console.log( 'events' , type , target , i , $m.events.binded[type][target].length );
+                                return callback( event );
+                            });
+                            
+                            setTimeout(function(){ $m.events.binded[type][target].triggered = false; }, 100 );
+                        }
+                    },15);
                 }
             },
         },
