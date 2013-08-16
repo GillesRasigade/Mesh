@@ -102,6 +102,7 @@ body {
 
 .application-details * {
     color: #aaa !important;
+    font-size: 0.8em;
 }
 
 .application-details:hover * {

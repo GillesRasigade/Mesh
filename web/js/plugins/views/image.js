@@ -102,7 +102,6 @@
                                 h = height; column = c;
                             }
                         }
-                        console.log('column',column,$m.view.folder.columns.number);
                         
                         $folders.find(' > .column:nth-child('+column+') > .column-content').append($(o));
                     });
@@ -221,6 +220,7 @@
                             $m.api.put({ c: 'image', a: 'cover', path: path, level: level, mode: 'thumb' },function(json){
                                 if ( json.status == 'success' ) {
                                     var album = target.replace( new RegExp( '(\/[^\/]+){'+level+'}$' , 'g' ) , '' );
+                                    $m.storage.fs.remove( album , 'm.thumb.txt' );
                                     $('.album[data-path="'+album+'"] .album-img').css( 'background-image' , 'url("'+$m.view.image.src(album,'thumb')+'&t='+(new Date().getTime())+'")' )
                                 }
                             });

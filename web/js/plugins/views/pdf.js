@@ -98,7 +98,6 @@
                                 h = height; column = c;
                             }
                         }
-                        console.log(column,$m.view.pdf.columns.number)
                         
                         $folders.find(' > .column:nth-child('+column+') > .column-content').append($(o));
                     });

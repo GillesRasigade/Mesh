@@ -313,70 +313,90 @@ class Api_Get_File {
         if ( array_key_exists('path',$p) ) {
             $path = $config['path'] . $p['path'];
             
-            switch ( true ) {
-                case preg_match( '/'.$config['types']['video'].'/i' , $path ):
-                    header("Content-Type: video/x-msvideo" );
-                case preg_match( '/'.$config['music']['extensions'].'/i' , $path ):
-                    
-                    if ( preg_match( '/'.$config['types']['video'].'/i' , $path ) || isset($_SERVER['HTTP_RANGE']) )  { // do it for any device that supports byte-ranges not only iPhone
-                        
-                        
-                        //Api_Utils::exec( 'find ./* -mtime +1 -exec rm {} \;' );
-                        Api_Utils::exec( 'find ./* -mmin +60 -exec rm {} \;' );// Remove all temporary files older than an hour.
-                        
-                        $tmpFile = uniqid() . uniqid() . preg_replace( '/.*\/[^\.]+/' , '' , $path );
-                        symlink( $path , $tmpFile );
-                        
-                        $mime = mime_content_type( $path );
-                        error_log( 'mime = ' . $mime );
-                        //header("Content-Type: " . $mime );
-                        
-                        header('Location: ' . preg_replace( '/api.php/' , $config['tmp'] . '/' . $tmpFile , $_SERVER['REQUEST_URI']));
-                        die();
-                        
-                        //header("Content-Type: audio/mp3");
-                        //$this->_rangeDownload($path);
-	                } else {
-	                    $fp = fopen($path, 'r');
-	                
-                        // REF : http://stackoverflow.com/questions/9629223/audio-duration-returns-infinity-on-safari-when-mp3-is-served-from-php
-                        $fsize = filesize( $path );
-                        $etag = md5( serialize( fstat($fp) ) );
-                        
-                        $mime = mime_content_type( $path );
-                        
-                        header("Pragma: public");
-                        header("Expires: 0"); 
-                        header("Content-Transfer-Encoding: binary");
-                        header("Content-Type: " . $mime );
-                        header("Content-Type: application/zip");
-                        header("Content-Description: File Transfer");
-                        header('Content-Length: ' . $fsize);
-                        header('Content-Disposition: inline; filename="' . $p['path'] . '"');
-                        header( 'Content-Range: bytes 0-'.($fsize-1).'/'.$fsize); 
-                        header( 'Accept-Ranges: bytes');
-                        header('X-Pad: avoid browser bug');
-                        header('Cache-Control: no-cache');
-                        header('Etag: ' . $etag);
-                        
-                        fclose($fp);
-	                }
-                    break;
-            }
-            
-            if ( file_exists( $path ) ) {
+            if  ( array_key_exists('base64',$p) && $p['base64'] ) {
+                // Image data:
+                $data = base64_encode(file_get_contents($path));
                 
-                if ( preg_match( '/\.json$/' , $path ) ) {
-                    echo Api_Utils::outputJson( file_get_contents( $path ) );
-                    die();
+                // Format the image SRC:  data:{mime};base64,{data};
+                $src = 'data:'.mime_content_type($path).';base64,'.$data;
+                
+                if (!preg_match('/data:([^;]*);base64,(.*)/', $src, $matches)) {
+                    die("error");
                 }
                 
-                readfile( $path );
-            
-            } else {
-            
-                die('File does not exists.');
+                // Output the correct HTTP headers (may add more if you require them)
+                header('Content-Type: '.$matches[1]);
+                header('Content-Length: '.strlen($src));
                 
+                echo Api_Utils::outputJson( array(
+                    'base64' => $src
+                ));
+            } else {
+                switch ( true ) {
+                    case preg_match( '/'.$config['types']['video'].'/i' , $path ):
+                        header("Content-Type: video/x-msvideo" );
+                    case preg_match( '/'.$config['music']['extensions'].'/i' , $path ):
+                        
+                        if ( preg_match( '/'.$config['types']['video'].'/i' , $path ) || isset($_SERVER['HTTP_RANGE']) )  { // do it for any device that supports byte-ranges not only iPhone
+                            
+                            
+                            //Api_Utils::exec( 'find ./* -mtime +1 -exec rm {} \;' );
+                            Api_Utils::exec( 'find ./* -mmin +60 -exec rm {} \;' );// Remove all temporary files older than an hour.
+                            
+                            $tmpFile = uniqid() . uniqid() . preg_replace( '/.*\/[^\.]+/' , '' , $path );
+                            symlink( $path , $tmpFile );
+                            
+                            $mime = mime_content_type( $path );
+                            error_log( 'mime = ' . $mime );
+                            //header("Content-Type: " . $mime );
+                            
+                            header('Location: ' . preg_replace( '/api.php/' , $config['tmp'] . '/' . $tmpFile , $_SERVER['REQUEST_URI']));
+                            die();
+                            
+                            //header("Content-Type: audio/mp3");
+                            //$this->_rangeDownload($path);
+	                    } else {
+	                        $fp = fopen($path, 'r');
+	                    
+                            // REF : http://stackoverflow.com/questions/9629223/audio-duration-returns-infinity-on-safari-when-mp3-is-served-from-php
+                            $fsize = filesize( $path );
+                            $etag = md5( serialize( fstat($fp) ) );
+                            
+                            $mime = mime_content_type( $path );
+                            
+                            header("Pragma: public");
+                            header("Expires: 0"); 
+                            header("Content-Transfer-Encoding: binary");
+                            header("Content-Type: " . $mime );
+                            header("Content-Type: application/zip");
+                            header("Content-Description: File Transfer");
+                            header('Content-Length: ' . $fsize);
+                            header('Content-Disposition: inline; filename="' . $p['path'] . '"');
+                            header( 'Content-Range: bytes 0-'.($fsize-1).'/'.$fsize); 
+                            header( 'Accept-Ranges: bytes');
+                            header('X-Pad: avoid browser bug');
+                            header('Cache-Control: no-cache');
+                            header('Etag: ' . $etag);
+                            
+                            fclose($fp);
+	                    }
+                        break;
+                }
+                
+                if ( file_exists( $path ) ) {
+                    
+                    if ( preg_match( '/\.json$/' , $path ) ) {
+                        echo Api_Utils::outputJson( file_get_contents( $path ) );
+                        die();
+                    }
+                    
+                    readfile( $path );
+                
+                } else {
+                
+                    die('File does not exists.');
+                    
+                }
             }
         }
     }

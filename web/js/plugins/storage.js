@@ -69,7 +69,7 @@
 
                     console.log('Error: ' + msg);
                 },
-                set: function ( path , filename , content , callback , error ) {
+                set: function ( path , filename , content , callback , params ) {
                 
                     if ( undefined !== $m.storage.fs.instance ) {
                 
@@ -84,10 +84,10 @@
                                     fileEntry.createWriter(function(fileWriter) {
 
                                         fileWriter.onwriteend = callback;
-                                        fileWriter.onerror = error;
+                                        fileWriter.onerror = params ? params.error : $m.storage.fs.errorHandler;
 
                                         // Create a new Blob and write it to log.txt.
-                                        var blob = new Blob([content], {type: 'text/plain'});
+                                        var blob = new Blob([content], {type: params && params.type ? params.type : 'text/plain'});
 
                                         fileWriter.write(blob);
 
@@ -122,6 +122,26 @@
                             },25);
                         });
                     } else if ( typeof(callback) == 'function' ) callback('');
+                },
+                remove: function ( path , filename , callback ) {
+                
+                    if ( undefined !== $m.storage.fs.instance ) {
+                    
+                        // Recursively create the hierarchical structure:
+                        $m.storage.fs.cmd.cd( $m.state.server + path , function( dir ){
+                            //console.log( dir );
+                            
+                            setTimeout(function(){
+                                dir.getFile( filename, {create: true}, function(fileEntry) {
+                                    
+                                    fileEntry.remove(function() {
+                                        if ( typeof(callback) == 'function' ) callback();
+                                    }, $m.storage.fs.errorHandler);
+                                });
+                            },25);
+                        });
+                    } else if ( typeof(callback) == 'function' ) callback();
+                    
                 },
                 cmd: {
                     // REF: http://www.html5rocks.com/en/tutorials/file/filesystem/?redirect_from_locale=fr#toc-dir-subirs

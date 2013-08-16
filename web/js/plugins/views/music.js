@@ -105,7 +105,7 @@
                                     $tbody.append( $tr );
                                 }
                                 
-                                i++; f[0]();
+                                 setTimeout(function(){ i++; f[0](); },25);
                                 
                             } else f[1]();
                                 
@@ -113,7 +113,7 @@
                         },
                         function() {
                             
-                            setTimeout(function(){// Why ???
+                            //setTimeout(function(){// Why ???
                                 $m.api.get({
                                     c:'music', a:'list', path: path,
                                     offset: offset, limit: json.length
@@ -132,10 +132,9 @@
                                         }
                                     }
                                 });
-                            },500);
+                            //},500);
                         },
                         function() {
-                            
                             $m.api.get({
                                 c:'music', a:'list', path: path,
                                 offset: offset, limit: json.length
@@ -152,7 +151,8 @@
                                         
                                             for ( var d in $m.view.music.data ) {
                                                 $tr.append( '<td class="song-'+d+' '+$m.view.music.data[d].class+'">'+
-                                                    ( json[i][d] !== undefined ? json[i][d] : '' )+
+                                                    ( json[i][d] !== undefined ? json[i][d] : 
+                                                        ( d !== 'actions' ? '' : '<span class="btn" onClick="javascript:$m.view.music.utils.download(\''+p+'\')"><i class="icon-download"></i></span>' ))+
                                                 '</td>' );
                                             }
 
@@ -168,7 +168,34 @@
                 
                 
                 
-                
+                utils: {
+                    download: function ( path ) {
+                        console.log( 'download...' , path );
+                        $m.api.get({ c: 'file', a: 'access', path: path , base64: true },function( json ) {
+                            var data = Base64.decodeToHex( json.base64.replace( /^data:([^;]*);base64,/ , '' ));
+                            var mime = json.base64.replace( /^data:([^;]*);base64,.*/ , '$1' )
+                            var filename = path.replace(/^.*\//,'');
+                            var folder = path.replace(/\/[^\/]+$/,'');
+                            
+                            console.log( filename , data.length , data.substring(0,15) , mime );
+                            
+                            $m.storage.fs.set( folder , filename ,
+                                Base64.decode( json.base64.replace( /^data:([^;]*);base64,/ , '' )) ,
+                                function(){
+                                    console.log( 'ok' );
+                                    $.ajax({
+                                        url: 'filesystem:http://192.168.0.22/persistent/local/Musique/Aphex%20Twin/Come%20to%20Daddy/02%20Flim.mp3',
+                                        success: function ( response ) {
+                                            console.log( response );
+                                        }
+                                    });
+                                },
+                                {
+                                    type: mime
+                                });
+                        });
+                    },
+                },
                 
                 player: {
                     $elt: null,

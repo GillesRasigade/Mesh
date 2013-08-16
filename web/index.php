@@ -140,8 +140,8 @@ if ( empty($_SESSION['timestamp']) ) {
                 
                 <div id="menu-dropdown" style="float: left; margin-top: 0.6em; margin-left: -1.65em;" class="dropdown">
                     <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="icon-reorder" style="width: 8px;overflow: hidden;display: inline-block;"></i>
-                        <img src="images/favicon-128.png" style="width: 2em;margin-top: -0.5em;margin-left: -0.2em;"/>
+                        <i class="icon-reorder" style="width: 8px;overflow: hidden;display: inline-block; position: relative; top: -0.25em;"></i>
+                        <img src="images/favicon-128.png" style="width: 1.75em;margin-top: -0.5em;margin-left: -0.2em;"/>
                     </a>
                     
                     <ul class="dropdown-menu lateral-left">
@@ -161,8 +161,9 @@ if ( empty($_SESSION['timestamp']) ) {
                         
                         <li class="divider"></li>
                         
-                        <li class="application-details"><a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a></li>
-                        <li class="application-details"><a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="Build: <?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
+                        <li><a href="javascript:void(0)" style="text-align: center;"><img src="images/logo.png" style="height: 3em; margin: 1em auto;"></img></a></li>
+                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a></li>
+                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="Build: <?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
                     </ul>
                 </div>
                 
