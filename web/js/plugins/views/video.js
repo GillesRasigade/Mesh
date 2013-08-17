@@ -192,7 +192,6 @@
                     var path = $entry.attr('data-path');
                     var src = $m.view.image.src(path,'preview');
                     
-                    //$splash.fadeOut();
                     if ( !$splash.is(':visible') ) $splash.fadeIn();
                     
                     var $player = $entry.find('.video-player');
@@ -200,18 +199,20 @@
                     var f = function ( url ) {
                         if ( $m.view.video.config.vlc ) {
 
-                            //$entry.find('.video-img').hide();
-                            $('.content',$splash).empty().show()
-                                .append('<object class="video-player entry-show" type="application/x-vlc-plugin" data-path="'+path+'" data="'+url+'" width="100%" height="100%">'+
-                                    '<param name="movie" value="'+url+'"/>'+
-                                    '<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" name="video1" '+
-                                    'autoplay="no" loop="no" width="100%"'+
-                                    'target="'+url+'" />'+
-                                    '<a href="'+url.replace(/^http:/,'vlc:')+'">Open in VLC</a>'+
-                                '</object>');
+                            setTimeout(function(){
+                                //$entry.find('.video-img').hide();
+                                $('.content',$splash).empty().show()
+                                    .append('<object class="video-player entry-show" type="application/x-vlc-plugin" data-path="'+path+'" data="'+url+'" width="100%" height="100%">'+
+                                        '<param name="movie" value="'+url+'"/>'+
+                                        '<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" name="video1" '+
+                                        'autoplay="no" loop="no" width="100%"'+
+                                        'target="'+url+'" />'+
+                                        '<a href="'+url.replace(/^http:/,'vlc:')+'">Open in VLC</a>'+
+                                    '</object>');
+                                },1000);
 
                         } else {
-                            window.location = json.url.replace(/^http:/,'vlc:');
+                            window.location = url.replace(/^http:/,'vlc:');
                         }
                     }
                     

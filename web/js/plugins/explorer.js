@@ -44,6 +44,21 @@
                 
                 $m.events.bind( 'focus' , 'window' , function( event ) { $m.state.focused = true; } );
                 $m.events.bind( 'blur' , 'window' , function( event ) { $m.state.focused = false; } );
+                $m.events.bind( 'popstate' , 'window' , function( event ) {
+                    var e = event.originalEvent;
+                    var state = e.state;
+                    
+                    if ( undefined !== state ) {
+                        console.log( 'Moving back to: ' + state.server + '://' + state.path , event );
+                        $m.storage.set('state.server',state.server);
+                        $m.explorer.goto( state.path , true );
+                        
+                        //event.preventDefault();
+                        //event.stopPropagation();
+                        //return false;
+                        //history.back();
+                    }
+                });
                 
                 
                 $m.events.bind( 'click' , '#splash-screen' , function ( event ) {
@@ -344,8 +359,16 @@
                 if ( event !== undefined ) event.preventDefault();
                 return false;
             },
-            goto: function ( path ) {
+            goto: function ( path , noHistory ) {
                 var $folder = $('.folder[data-path="'+path+'"]');
+                
+                // Update the browser history:
+                if ( noHistory !== true ) {
+                    history.pushState({
+                        server: $m.state.server,
+                        path: path
+                    }, $m.state.server + ':' + path );//, window.location.href.replace(/#.*/,'') + '#' + path );
+                }
                 
                 if ( $folder.length ) {
                     
@@ -474,7 +497,9 @@
                         //$m.explorer.goto( $m.explorer.elt.find('.folder:last-child').attr('data-path') );
                         $m.state.loading = false;
                         
-                        $m.explorer.events.scroll();
+                        setTimeout(function(){
+                            $m.explorer.events.scroll();
+                        },1000);
                     }
                 ]; f[0]();
             },
@@ -509,7 +534,11 @@
                     
                     //$content.append( '<div class="name">' + name + '</div>' );
                     
-                    $column.append('<div class="scroll-detector" style="" onClick="$m.explorer.events.scroll();">Load more...</div>');
+                    //$column.append('<div >Loading...</div>');
+                    $column.append('<div class="scroll-detector" onClick="$m.explorer.events.scroll();" style="text-align:center; line-height: 1.5em; font-size: 2em; color: #aaa;">'+
+                                        '<i class="icon-cloud-download"></i> Loading...<br/>'+
+                                        '<span style="font-size: 0.75em; font-style: italic;"></span>'+
+                                    '</div>');
                     
                     $column.prepend( $content );
                     
