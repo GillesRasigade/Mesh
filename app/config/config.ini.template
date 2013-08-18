@@ -20,26 +20,32 @@
 # Configuration file :
 
 [general]
-limit                   = 50                                        # Default number of results returned by the API
+# Default number of results returned by the API
+limit                   = 50
 test                    = ''
 
 [path]
-path                    = '/usr/local/media-server'                 # Path where all files are stored in local disk
-data                    = '/etc/media-server'                       # Path where to store application files (thumbs, data, etc.)
-logs                    = '/var/log/media-server/application.log'   # Log path
+# Path where all files are stored in local disk
+path                    = '/usr/local/media-server'
+# Path where to store application files (thumbs, data, etc.)
+data                    = '/etc/media-server'
+# Log path
+logs                    = '/var/log/media-server/application.log'
 tmp                     = '.tmp'
 
 [log]
-level                   = 4                                         # Application log level
+# Application log level
+level                   = 4
 
 [servers]
-servers['local']        = '/api.php'                                # Application API URL
+# Application API URL
+servers['local']        = 'api.php'
 
 [types]
 types['server']         = '\.server$'
-types['folder']         = '__DIRECTORY__'                           # Special keywoard used to identify directories
-types['image']         = '(jpe?g|png)$'                             # JPEG or PNG.
-types['video']         = '(ogg|mpeg|avi|mov)$'                      # Video extensions but might interfere with audio files also
+types['folder']         = '__DIRECTORY__'
+types['image']         = '(jpe?g|png)$'
+types['video']         = '(ogg|mpeg|avi|mov)$'
 types['music']         = '(mp3|m4a)$'
 types['pdf']         = '\.pdf$'
 types['card']         = '\.card\.json$'
@@ -81,4 +87,5 @@ filters['hidden']       ="(^\.)"
 [users]
 users['admin']         = 'admin'
 
+admin['admin']         = 1
 admin['methods']       = '["get","post","put","delete"]'
