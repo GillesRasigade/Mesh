@@ -361,7 +361,7 @@
                     
                     //console.log( 368 , folders );
                     if ( type !== 'music' && $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
-                        $m.view[type].load( 'search://'+'' , folders );
+                        $m.view[type].load( 'search://'+'' , folders.reverse() );
                     }
                     
                     if ( $('.content > *',$results).length == 0 ) {
