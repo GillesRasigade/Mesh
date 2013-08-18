@@ -25,9 +25,64 @@ t=$(which php);
 if [ "$t" == "" ]; then
     echo "php package not found"
     sudo apt-get install php5 libapache2-mod-php5
-    sudo /etc/init.d/apache2 restart
 else
     echo "php correctly installed"
 fi
+
+# PHP5 GD library installation:
+t=$(dpkg --get-selections | grep php5-gd);
+if [ "$t" == "" ]; then
+    echo "php5-gd package not found"
+    sudo apt-get install php5-gd
+else
+    echo "php correctly installed"
+fi
+
+# FFMPEG installation/update:
+t=$(dpkg --get-selections | grep ffmpeg);
+if [ "$t" == "" ]; then
+    echo "ffmpeg package not found"
+    sudo apt-get remove ffmpeg x264 libx264-dev
+    sudo apt-get update
+    sudo apt-get install ffmpeg x264 libx264-dev
+    #sudo apt-get install libavcodec-extra-52 libavdevice-extra-52 libavfilter-extra-0 libavformat-extra-52 libavutil-extra-49 libpostproc-extra-51 libswscale-extra-0
+else
+    echo "ffmpeg correctly installed"
+fi
+
+# Image Magick (dev) installation:
+t=$(dpkg --get-selections | grep imagemagick);
+if [ "$t" == "" ]; then
+    echo "imagemagick package not found"
+    sudo apt-get install libmagickwand-dev imagemagick
+else
+    echo "imagemagick correctly installed"
+fi
+
+# VLC installation:
+t=$(dpkg --get-selections | grep vlc);
+if [ "$t" == "" ]; then
+    echo "vlc package not found"
+    sudo add-apt-repository ppa:videolan/stable-daily
+    sudo apt-get update
+    sudo apt-get install vlc browser-plugin-vlc libavcodec-extra-53
+else
+    echo "vlc correctly installed"
+fi
+
+# Ghost Script installation:
+t=$(dpkg --get-selections | grep ghostscript);
+if [ "$t" == "" ]; then
+    echo "ghostscript package not found"
+    sudo apt-get install ghostscript libgs-dev
+else
+    echo "ghostscript correctly installed"
+fi
+
+# Apache restarting:
+sudo /etc/init.d/apache2 restart
+
+# Clone git project:
+#git clone https://github.com/billou-fr/media-manager.git
 
 
