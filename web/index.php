@@ -148,6 +148,7 @@ if ( empty($_SESSION['timestamp']) ) {
 
                         <li class="divider last"></li>
 
+                        <li><a href="javascript:void(0);" id="view-recents"><i class=" icon-time"></i> Recents</a></li>
                         <li><a href="login.php?logout"><i class=" icon-signout"></i> logout (<?php echo $_SESSION['login'] ?>)</a></li>
                         
                         <li class="divider"></li>

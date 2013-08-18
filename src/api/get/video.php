@@ -23,6 +23,53 @@ require_once 'file.php';
 
 class Api_Get_Video extends Api_Get_File {
 
+    protected function _getVideoDetails ( $p ) {
+        global $config;
+        
+        $path = str_replace( '//' , '/' , $config['path'] . '/' . $p['path'] );
+    
+        $folder = preg_replace( '/\/[^\/]+$/' , '' , $path );
+        
+        $cmd = 'ffprobe "' . $path . '" 2>&1';
+        
+        //var_dump( $path , $cmd );
+        
+        $raw = Api_Utils::exec( $cmd );
+        
+        //var_dump( $raw );
+        
+        $state = '';
+        $inputs = array();
+        
+        foreach ( $raw as $i => $line ) {
+            switch ( true ) {
+                case preg_match('/Input #\d+/',$line):
+                    $input = preg_replace('/(Input #\d+).*/','$1',$line);
+                    $inputs[$input] = array();
+                    break;
+                case isset($input) && preg_match('/Metadata:/',$line):
+                    $section = 'Metadata';
+                    break;
+                case isset($input) && preg_match('/Duration:/',$line):
+                    $inputs[$input]['duration'] = trim(preg_replace('/.*duration: ([^,]+).*/i','$1',$line));
+                    $inputs[$input]['start'] = trim(preg_replace('/.*start: ([^,]+).*/i','$1',$line));
+                    $inputs[$input]['bitrate'] = trim(preg_replace('/.*bitrate: ([^,]+).*/i','$1',$line));
+                    break;
+                case isset($input) && preg_match('/Stream/',$line):
+                    $stream = trim(preg_replace('/Stream (#[\.\d]+).*/','$1',$line));
+                    if ( !isset($inputs[$input]['streams']) ) $inputs[$input]['streams'] = array();
+                    $inputs[$input]['streams'][$stream] = array();
+                    
+                    $inputs[$input]['streams'][$stream]['type'] = trim(preg_replace('/Stream #[\.\d]+: ([^:]+):.*/i','$1',$line));
+                    $inputs[$input]['streams'][$stream]['info'] = trim(preg_replace('/Stream #[\.\d]+: [^:]+: (.*)/i','$1',$line));
+                    
+                    break;
+            }
+        }
+        
+        return $inputs;
+    }
+
     public static function _createThumb ( $p ) {
         global $config;
         
@@ -91,6 +138,21 @@ class Api_Get_Video extends Api_Get_File {
         die();
     }
     
+    public function detailsAction ( $p = NULL ) {
+        global $config;
+    
+        $p = Api_Utils::readToken();
+        
+        if ( array_key_exists('path',$p) ) {
+            $details = $this->_getVideoDetails( $p );
+            
+            //var_dump( $details );
+            echo Api_Utils::outputJson( $details );
+        }
+        
+        die();
+    }
+    
     // Execute 
     public function streamAction ( $p = NULL ) {
         global $config;
@@ -124,7 +186,7 @@ class Api_Get_Video extends Api_Get_File {
                 $cmd = 'cvlc  -vvv \''.$path.'\' '.
                     ':sub-file=\''.preg_replace('/\.[^\.]+$/','',$path).'.srt\' '.
                     '--sout \''.
-                        '#transcode{vcodec=mp2v,vb=512,scale=1}'.
+                        '#transcode{vcodec=mp2v,vb=512,scale='.$scale.'}'.
                         ':rtp{mux=ts,dst='.$host.',port='.$port.',sdp='.$rtsp.'}'.
 //                        ':rtp{mux=ts,port='.$port.',sdp='.$rtsp.'}'.
 //                        ':rtp{sdp='.$rtsp.'}'.

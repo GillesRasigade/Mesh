@@ -176,13 +176,52 @@
                                 
                                 setTimeout(function(){ i++; f[0](); },25);
                             } else f[1]();
-                        },  
+                        },
                         function() {
                             
-                            $('.video .video-title.details:not(.updated)').first().each(function(i,o){
-                                var $o = $(o).addClass('updated');
-                                var p = $o.closest('.album').attr('data-path');
-                            });
+                            setTimeout(function(){
+                            
+                                $('.video .video-title.details:not(.updated)').each(function(i,o){
+                                    var $o = $(o).addClass('updated');
+                                    var p = $o.closest('.entry').attr('data-path');
+                                    
+                                    var display = function ( details ) {
+                                        var $details = $o.empty();
+                                        for ( var input in details ) {
+                                            $details.append( details[input]['duration'] );
+                                            $details.append( '&nbsp;-&nbsp;' + details[input]['bitrate']);
+                                            break;
+                                        }
+                                        
+                                        if ( $('.video .video-title.details:not(.updated)').length ) f[1]();   ;
+                                    }
+                                    
+                                    var filename = p.replace(/^.*\//,'');
+                                    var folder = p.replace(/\/[^\/]+$/,'');
+                                    
+                                    console.log( 'Updating video details: ' , filename );
+                                    
+                                    var ps = folder.replace(/^[^:]+:\/\//,'');
+                                    console.log( folder, ps );
+                                    $m.storage.fs.get(ps,'m.details.'+filename+'.txt',function( content ){
+                        
+                                        if ( content !== '' ) {
+                                            display( JSON.parse( content ) );
+                                        } else {
+                                    
+                                            $m.api.get({c:'video',a:'details',path: p},function(details){
+                                            
+                                                console.log( filename , details );
+                                            
+                                                $m.storage.fs.set(ps,'m.details.'+filename+'.txt',JSON.stringify( details ));
+
+                                                display( details );
+                                            });
+                                        }
+                                    });
+                                });
+                            
+                            },50);
                         }
                     ]; f[0]();
                 },
@@ -196,40 +235,76 @@
                     
                     var $player = $entry.find('.video-player');
                     
-                    var f = function ( url ) {
-                        if ( $m.view.video.config.vlc ) {
+                    var f = [
+                        function ( url ) {
+                            if ( $m.view.video.config.vlc ) {
 
-                            setTimeout(function(){
-                                //$entry.find('.video-img').hide();
-                                $('.content',$splash).empty().show()
-                                    .append('<object class="video-player entry-show" type="application/x-vlc-plugin" data-path="'+path+'" data="'+url+'" width="100%" height="100%">'+
-                                        '<param name="movie" value="'+url+'"/>'+
-                                        '<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" name="video1" '+
-                                        'autoplay="no" loop="no" width="100%"'+
-                                        'target="'+url+'" />'+
-                                        '<a href="'+url.replace(/^http:/,'vlc:')+'">Open in VLC</a>'+
-                                    '</object>');
-                                },1000);
+                                setTimeout(function(){
+                                    //$entry.find('.video-img').hide();
+                                    $('.content',$splash).empty().show()
+                                        .append('<object class="video-player entry-show" type="application/x-vlc-plugin" data-path="'+path+'" data="'+url+'" width="100%" height="100%">'+
+                                            '<param name="movie" value="'+url+'"/>'+
+                                            '<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" name="video1" '+
+                                            'autoplay="no" loop="no" width="100%"'+
+                                            'target="'+url+'" />'+
+                                            '<a href="'+url.replace(/^http:/,'vlc:')+'">Open in VLC</a>'+
+                                        '</object>');
+                                    },1000);
 
-                        } else {
-                            window.location = url.replace(/^http:/,'vlc:');
+                            } else {
+                                window.location = url.replace(/^http:/,'vlc:');
+                            }
+                        },
+                        function( scale ){
+                            scale = undefined !== scale ? scale : 1;
+                            $m.api.get({ c:'video', a:'stream', scale:scale, path: path, 'max-width': window.screen.width, 'max-height': window.screen.height },function(json){
+
+                                if ( json && json.url ) {
+                                    $entry.attr('data-src',json.url);
+
+                                    f[0](json.url);
+                                    
+                                    $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
+                                    
+                                }
+
+                            });
                         }
-                    }
+                    ];
                     
                     if ( $entry.length && $('.icon-stop',$entry).length == 0 ) {
                     
-                        $m.api.get({ c:'video', a:'stream', scale:1, path: path },function(json){
-
-                            if ( json && json.url ) {
-                                $entry.attr('data-src',json.url);
-
-                                f(json.url);
-                                
-                                $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
-                                
+                        var filename = path.replace(/^.*\//,'');
+                        var folder = path.replace(/\/[^\/]+$/,'');
+                    
+                        $m.storage.fs.get(folder,'m.details.'+filename+'.txt',function( content ){
+                        
+                            var scale = 1;
+                            if ( content !== '' ) {
+                                var details = JSON.parse(content);
+                                for ( var i in details ) {
+                                    for ( var s in details[i].streams ) {
+                                        if ( details[i].streams[s].type.match(/video/i) ) {
+                                            if ( details[i].streams[s].info.match( /\d+x\d+/ ) ) {
+                                                var size = details[i].streams[s].info.replace( /.*\s(\d+x\d+).*/ , '$1' ).split('x');
+                                                //scale = Math.min( 1 , Math.min( window.screen.width / parseInt(size[0],10) , window.screen.height / parseInt(size[1],10) ));
+                                                
+                                                scale = Math.min( 1 , Math.min( Math.max( window.screen.height , window.screen.width ) / Math.max( parseInt(size[0],10) , parseInt(size[1],10))));
+                                                
+                                                console.log( size , window.screen , scale );
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
                             }
-
+                            console.log( scale );
+                            
+                            f[1](scale);
                         });
+                    
+                        
                         
                     } else f($entry.attr('data-src'));
                 },

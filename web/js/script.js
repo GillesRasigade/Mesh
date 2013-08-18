@@ -26,6 +26,7 @@
             debug: true,
             focused: true,      // Window focus (used for desktop notifications)
             plugins: [],        // Loaded modules
+            recents: [],        // Recents folders
             server: '',
             servers: {},        // Loaded servers
 //            path: '/Images/Photos/2013/2013-03-02 Photos d\'essai au reflex'

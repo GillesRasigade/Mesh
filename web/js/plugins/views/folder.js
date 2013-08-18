@@ -83,6 +83,8 @@
                 
                 load: function ( path , json ) {
                 
+                    //console.log( 86 , json );
+                
                     
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
@@ -144,38 +146,30 @@
                                     $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
                                     
                                     (function(p){
-                                        $m.storage.fs.get(p,'m.thumb.txt',function( content ){
+                                    
+                                        var ps = p.replace(/^[^:]+:\/\//,'');
+                                    
+                                        $m.storage.fs.get(ps,'m.thumb.txt',function( content ){
                                             //console.log( content );
                                             if ( content !== '' ) {// Local File System cache management
                                                 $div.find('.album-img').css('background-image','url(\''+content+'\')');
                                                 
-                                            } else if ( $m.state.thumbs[$m.state.server+'://'+p] !== undefined ) {// Browser app memory
-                                                $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
-                                                $m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
+                                            } else if ( $m.state.thumbs[$m.state.server+'://'+ps] !== undefined ) {// Browser app memory
+                                                $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+ps]+'\')');
+                                                $m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+ps]);
                                                 
                                             } else {// Otherwise
                                                 //$div.find('.album-img').css('background-image','url(\''+$m.view.image.src(p,'thumb',true)+'\')');
                                                 
                                                 $.ajax({
-                                                    url:$m.view.image.src(p,'thumb',true),
+                                                    url:$m.view.image.src(ps,'thumb',true),
                                                     dataType: 'jsonp',
                                                     success:function(json){
                                                         $div.find('.album-img').css('background-image','url(\''+json.base64+'\')');
-                                                        $m.state.thumbs[$m.state.server+'://'+p] = json.base64;
-                                                        $m.storage.fs.set(p,'m.thumb.txt',json.base64);
+                                                        $m.state.thumbs[$m.state.server+'://'+ps] = json.base64;
+                                                        $m.storage.fs.set(ps,'m.thumb.txt',json.base64);
                                                 }});
                                                 
-                                                /*var image = new Image();
-                                                image.onload = function () {
-                                                    
-                                                    $m.state.thumbs[$m.state.server+'://'+p] = $m.view.image.utils.getImageUrl( image );
-                                                    //$m.storage.set('state.thumbs',$m.state.thumbs);
-                                                    //$m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+p]);
-                                                    
-                                                    $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+p]+'\')');
-                                                }
-
-                                                image.src = $m.view.image.src(p,'thumb',true);*/
                                             }
                                         });
                                     })(p);
@@ -218,15 +212,16 @@
                                         if ( $('.album .album-title.details:not(.updated)').length ) f[1]();   ;
                                     }
                                     
-                                    $m.storage.fs.get(p,'m.details.txt',function( content ){
+                                    var ps = p.replace(/^[^:]+:\/\//,'');
+                                    $m.storage.fs.get(ps,'m.details.txt',function( content ){
                         
                                         if ( content !== '' ) {
                                             display( JSON.parse( content ) );
                                         } else {
                                     
-                                            $m.api.get({c:'file',a:'details',path: p},function(details){
+                                            $m.api.get({c:'file',a:'details',path: ps},function(details){
                                             
-                                                $m.storage.fs.set(p,'m.details.txt',JSON.stringify( details ));
+                                                $m.storage.fs.set(ps,'m.details.txt',JSON.stringify( details ));
 
                                                 display( details );
                                             });

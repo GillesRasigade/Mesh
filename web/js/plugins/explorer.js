@@ -333,6 +333,47 @@
                     event.preventDefault();
                     return false;
                 });
+                
+                // Search form binding :
+                $m.events.bind( 'click' , '#view-recents' , function ( event ) {
+                    
+                        
+                    $('#search-results').remove();
+                    
+                    
+                    var $results = $('<div id="search-results" class="column folder" data-level="0" data-path="search://'+''+'" style="width: 100%;">'+
+                        '<div class="content"></div>'+
+                        '</div>');
+                
+                    $m.explorer.elt.append( $results );
+                    
+                    $results.addClass('active').siblings('.active').removeClass('active');
+                
+                    var type = 'folder';
+                    var folders = [];
+                    for ( var i in $m.state.recents ) {
+                        if ( undefined !== $m.state.recents[i] && $m.state.recents[i].match( new RegExp( '^'+$m.state.server+'://' ) ) ) {
+                            
+                            folders.push( $m.state.recents[i].replace(/^[^:]+:\/+/,'') );
+                            
+                        }
+                    }
+                    
+                    //console.log( 368 , folders );
+                    if ( type !== 'music' && $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
+                        $m.view[type].load( 'search://'+'' , folders );
+                    }
+                    
+                    if ( $('.content > *',$results).length == 0 ) {
+                        $('.content',$results).append('<div style="text-align:center; padding: 3em; line-height: 1.5em; font-size: 2em; color: #aaa;">'+
+                                '<i class="icon-frown"></i> Sorry, no result found.<br/>'+
+                            '</div>')
+                    }
+                    
+                    event.stopPropagation();
+                    event.preventDefault();
+                    return false;
+                });
             
             },
             resize: function ( event ) {
@@ -368,6 +409,14 @@
                         server: $m.state.server,
                         path: path
                     }, $m.state.server + ':' + path );//, window.location.href.replace(/#.*/,'') + '#' + path );
+                    
+                    if  ( -1 == $.inArray( $m.state.server+'://'+path , $m.state.recents ) ) {
+                        if ( $m.state.recents.length > 10 ) $m.state.recents.shift();
+                        $m.state.recents.push(
+                            $m.state.server+'://'+path
+                        );
+                        $m.storage.set('state.recents',$m.state.recents);
+                    }
                 }
                 
                 if ( $folder.length ) {
@@ -574,6 +623,7 @@
                     
                 }
             },
+            
             
             
             
