@@ -23,8 +23,7 @@
                 
                     $folders.empty();
                 
-                    if ( $(window).width() < 480 ) $m.view.pdf.columns.width = $(window).width();
-                    else $m.view.pdf.columns.width = 320;
+                    $m.view.pdf.columns.width = $m.utils.getWidth();
                     
                     $m.view.pdf.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.pdf.columns.width / $m.state.scale ));
                     

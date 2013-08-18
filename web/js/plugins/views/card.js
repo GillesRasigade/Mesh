@@ -21,8 +21,7 @@
                 
                     $folders.empty();
                 
-                    if ( $(window).width() < 480 ) $m.view.card.columns.width = $(window).width();
-                    else $m.view.card.columns.width = 320;
+                    $m.view.card.columns.width = $m.utils.getWidth();
                     
                     $m.view.card.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.card.columns.width / $m.state.scale ));
                     

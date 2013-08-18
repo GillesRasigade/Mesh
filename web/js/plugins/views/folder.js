@@ -12,10 +12,11 @@
                 
                     $folders.empty();
                 
-                    if ( $(window).width() < 480 ) $m.view.folder.columns.width = $(window).width()/2;
-                    else $m.view.folder.columns.width = 320;
+                    $m.view.folder.columns.width = $m.utils.getWidth();
                     
                     $m.view.folder.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.folder.columns.width / $m.state.scale ));
+                    
+                    //$m.view.folder.columns.width = $folder.parent().width() / $m.view.folder.columns.number * $m.state.scale;
                     
                     for ( var i = 0 ; i < $m.view.folder.columns.number ; i++ ) {
                         $folders.append('<div class="column" style="width: '+(100/$m.view.folder.columns.number)+'%;"><div class="column-content"></div></div>');
@@ -77,6 +78,8 @@
                             }
                         }
                         
+                        $(o).find('.img-polaroid').css('height',($m.view.folder.columns.width*$m.state.scale/2)+'px');
+                        
                         $folders.find(' > .column:nth-child('+column+') > .column-content').append($(o));
                     });
                 },
@@ -134,7 +137,7 @@
                                     //title="'+json['folder'][i]+'"
                                     var $div = $('<a data-path="'+p+'" href="javascript:void(0)" class="album entry">'+
                                             '<i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>'+
-                                            '<span class="album-img img-polaroid"></span>'+
+                                            '<span class="album-img img-polaroid" style="height: '+($m.view.folder.columns.width*9/16)+'px"></span>'+
                                             '<span class="actions">'+
                                                 '<div title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i></div>'+
                                                 '<i class="icon-remove delete-folder"></i>'+

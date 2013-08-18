@@ -961,6 +961,9 @@ body {
 
 
 @media screen and (min-width: 800px) {
+
+    /*body { font-size: 1.25em; }*/
+
 /*
     ::-webkit-scrollbar {
         width: 8px;
@@ -980,6 +983,9 @@ body {
 */
 }
 
+@media only screen and (max-width : 800px) {
+    
+}
 
 @media only screen and ( orientation:portrait ){
     #top { height: 3em; border-bottom: 1px solid #ddd; }
@@ -1070,4 +1076,10 @@ body {
     
     #s { position: relative; right: -90%; }
     #s:focus { right: 10%; }
+}
+
+
+@media only screen and (max-width : 320px) {
+    .column .column-content{ margin: 0em; }
+    .album { margin-top: 0.25em; }
 }

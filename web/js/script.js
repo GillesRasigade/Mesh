@@ -217,6 +217,14 @@
         
         
         utils: {
+            getWidth: function () {
+                var width = 320;
+            
+                if ( $(window).width() < 320 ) width = $(window).width();
+                else if ( $(window).width() < 480 ) width = $(window).width()/2;
+                
+                return width;
+            },
             notify: function ( data ) {
                 if ( data === undefined ) return true;
                 

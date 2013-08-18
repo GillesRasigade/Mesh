@@ -23,8 +23,7 @@
                 
                     $folders.empty();
                 
-                    if ( $(window).width() < 480 ) $m.view.video.columns.width = $(window).width()/2;
-                    else $m.view.video.columns.width = 320;
+                    $m.view.video.columns.width = $m.utils.getWidth();
                     
                     $m.view.video.columns.number = Math.max( 1 , Math.ceil( $folder.parent().width() / $m.view.video.columns.width / $m.state.scale ));
                     
