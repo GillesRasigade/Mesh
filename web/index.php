@@ -148,7 +148,7 @@ if ( empty($_SESSION['timestamp']) ) {
 
                         <li class="divider last"></li>
 
-                        <li><a href="javascript:void(0);" id="view-recents"><i class=" icon-time"></i> Recents</a></li>
+                        <li><a href="javascript:void(0);" id="view-recents"><i class="icon-time"></i> Recents</a></li>
                         <li><a href="login.php?logout"><i class=" icon-signout"></i> logout (<?php echo $_SESSION['login'] ?>)</a></li>
                         
                         <li class="divider"></li>
@@ -159,6 +159,12 @@ if ( empty($_SESSION['timestamp']) ) {
                                 <span class="btn" onClick="$m.storage.set( 'state.scale' , $m.state.scale / 0.75 ); $m.explorer.resize(); return false;">&nbsp;+&nbsp;</span>
                             </div>
                         </a></li>
+                        
+                        
+                        <?php if ( isset($config[$_SESSION['login']]) && isset($config[$_SESSION['login']]['admin']) && $config[$_SESSION['login']]['admin'] ): ?>
+                        <li class="divider"></li>
+                        <li><a href="javascript:$m.admin.panel();" id="view-admin-panel"><i class="icon-wrench"></i> Configuration</a></li>
+                        <?php endif; ?>
                         
                         <li class="divider"></li>
                         

@@ -90,6 +90,9 @@
             // Resources to load :
             $m.state.loading = jQuery.extend(true, [], $m.config.externals);
             
+            // Addition of conditional resources :
+            if ( $('#view-admin-panel').length ) $m.state.loading.push( 'js/plugins/admin.js' )
+            
             // Tic Tac computation :
             $m.state.tic= (new Date()).getTime();
             
