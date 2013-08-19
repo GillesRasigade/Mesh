@@ -1,33 +1,12 @@
 #!/bin/bash
 
-echo -e "Mesh installer\n";
+echo -e "* * * * * * * * * * * * * * * * * * * *"
+echo -e "Mesh installer";
+echo -e "* * * * * * * * * * * * * * * * * * * *\n"
 
-cd config
-rm config.ini.pre
-cp config.ini.template config.ini.pre
+TEMPLATE="MESH.config.ini.template";
 
-path=$(grep -r ^path config.ini.pre | sed "s/.*=//" | sed "s/'//g" );
-data=$(grep -r ^data config.ini.pre | sed "s/.*=//" | sed "s/'//g" );
-logs=$(grep -r ^logs config.ini.pre | sed "s/.*=//" | sed "s/'//g" );
-
-echo -e "Enter the MESH main files location and press [ENTER]:"
-read -e -p ">> " -i "$path" path
-
-echo -e "Enter the MESH data files location and press [ENTER]:"
-read -e -p ">> " -i "$data" data
-
-echo -e "Enter the MESH log file location and press [ENTER]:"
-read -e -p ">> " -i "$logs" logs
-
-sed -irn "s,path.*=.*,path='$path'," config.ini.pre
-sed -irn "s,data.*=.*,data='$data'," config.ini.pre
-sed -irn "s,logs.*=.*,logs='$logs'," config.ini.pre
-
-cat config.ini.pre
-
-# TODO: add here the last save config.ini process with prompt question.
-
-exit;
+p=$(find -name $TEMPLATE | sed -r "s,/[^/]*$,,")
 
 # Testing git existence:
 t=$(which git);
@@ -111,6 +90,50 @@ sudo /etc/init.d/apache2 restart
 
 # Clone git project:
 #git clone https://github.com/billou-fr/media-manager.git
+read -p "Clone github project here? " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    git clone https://github.com/billou-fr/media-manager.git
+else
+    echo "Project not cloned.";
+    echo "Please move the command line to the app/ folder of the MESH";
+    echo "source code project and execute the script install-linux.sh";
+    exit;
+fi
 
+
+
+
+
+cd "$p"
+rm config.ini.pre
+cp $TEMPLATE config.ini.pre
+
+path=$(grep -r ^path config.ini.pre | sed "s/.*=//" | sed "s/'//g" );
+data=$(grep -r ^data config.ini.pre | sed "s/.*=//" | sed "s/'//g" );
+logs=$(grep -r ^logs config.ini.pre | sed "s/.*=//" | sed "s/'//g" );
+
+echo -e "Enter the MESH main files location and press [ENTER]:"
+read -e -p ">> " -i "$path" path
+
+echo -e "Enter the MESH data files location and press [ENTER]:"
+read -e -p ">> " -i "$data" data
+
+echo -e "Enter the MESH log file location and press [ENTER]:"
+read -e -p ">> " -i "$logs" logs
+
+sed -i "s,path.*=.*,path='$path'," config.ini.pre
+sed -i "s,data.*=.*,data='$data'," config.ini.pre
+sed -i "s,logs.*=.*,logs='$logs'," config.ini.pre
+
+cat config.ini.pre
+
+# TODO: add here the last save config.ini process with prompt question.
+read -p "Do I install this configuration file? " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    mv config.ini $(date +%F)".config.ini"
+    mv config.ini.pre config.ini
+else
+    echo "Please read and rename the file config.ini.pre into config.ini to end the MESH installation."
+fi
 
 
