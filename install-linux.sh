@@ -174,7 +174,7 @@ echo -e "Enter the MESH log file location and press [ENTER]:"
 read -e -p ">> " -i "$logs" logs
 echo ""
 
-sed -i "s,users\['admin'\].*=.*,users\['admin'\]='$password'," config.ini.pre
+sed -i "s,users\['admin'\].*=.*,users['admin']='$password'," config.ini.pre
 sed -i "s,path.*=.*,path='$path'," config.ini.pre
 sed -i "s,data.*=.*,data='$data'," config.ini.pre
 sed -i "s,logs.*=.*,logs='$logs'," config.ini.pre
