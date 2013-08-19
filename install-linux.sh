@@ -118,7 +118,7 @@ sudo /etc/init.d/apache2 restart
 #git clone https://github.com/billou-fr/media-manager.git
 read -p "Clone github project here? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    git clone https://github.com/billou-fr/media-manager.git
+    git clone https://github.com/billou-fr/media-manager.git ./
 else
     echo "Project not cloned.";
     echo "Please move the command line to the app/ folder of the MESH";
@@ -129,8 +129,8 @@ fi
 
 
 
-
-
+# Sleeping a little bit...
+sleep 1;
 
 
 
@@ -185,17 +185,17 @@ fi
 
 # Check folders existence and permissions:
 if [ ! -d "$path" ]; then
-    mkdir -p "$path";
+    sudo mkdir -p "$path";
 fi
 
 if [ ! -d "$data" ]; then
-    mkdir -p "$data";
+    sudo mkdir -p "$data";
     sudo chown www-data: "$data";
 fi
 
 if [ ! -f "$logs" ]; then
     l="$(echo "$logs" | sed -r 's,/[^/]*$,,')";
-    mkdir -p "$l";
+    sudo mkdir -p "$l";
     touch "$logs";
 fi
 
