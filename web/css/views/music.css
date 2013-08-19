@@ -16,6 +16,11 @@
     cursor: pointer;
 }
 
+.music-details {
+    height: 10em;
+    border: 1px solid #ccc;
+}
+
 #mini-player .splash {
     z-index: 0;
 }

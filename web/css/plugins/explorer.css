@@ -217,5 +217,8 @@
         margin-left: 0em;
         margin-right: 0em;
         margin-top: 1em;
-    } 
+    }
+    
+    .music-details { margin-top: -1em !important; }
+    .music-details .album-background { padding-left: 1em; }
 }

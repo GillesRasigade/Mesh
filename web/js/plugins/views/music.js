@@ -4,7 +4,8 @@
         
             music: {
                 data: {
-                    track : { title:'#', class: 'tablet' },
+                    //track : { title:'#', class: 'tablet' },
+                    status: { title:'', class: 'phone' },
                     title : { title:'Title', class: 'phone' },
                     duration: { title:'Duration', class: 'phone' },
                     album : { title:'Album', class: 'tablet' },
@@ -53,6 +54,15 @@
                         }
                         $thead.append( $tr );
                     
+                        $folders.append( '<div class="music-details">'+
+                            '<div class="album-cover smartphone"></div>'+
+                            '<div class="album-background">'+
+                                '<div class="album-artist"></div>'+
+                                '<div class="album-album"></div>'+
+                                '<div class="album-duration"></div>'+
+                            '</div>'+
+                        '</div>' );
+                        
                         $folders.append( $table
                             .append( $thead )
                             .append( $tbody )
@@ -112,7 +122,7 @@
                             
                         },
                         function() {
-                            
+                            /*
                             //setTimeout(function(){// Why ???
                                 $m.api.get({
                                     c:'music', a:'list', path: path,
@@ -133,24 +143,33 @@
                                     }
                                 });
                             //},500);
+                            */
                         },
                         function() {
+                        
+                            console.warn( 143 , (new Date()).getTime() );
+                        
                             $m.api.get({
-                                c:'music', a:'list', path: path,
+                                c:'music', a:'list', offset: $folder.find('.music-song').length , limit:100, path: path,
                                 offset: offset, limit: json.length
                             },function(json){
+
+                                console.warn( 147 , json );
 
                                 if ( json && json.length ) {
                                     for ( var i in json ) {
                                         
                                         var p = path + '/' + json[i].path;
                                         
+                                        if ( $folder.find('*[data-path="'+p+'"]').length ) {
+                                            break;
+                                        }
+                                        
                                         var $tr = $tbody.find('.song-title:contains("'+json[i].title+'")');
                                         if ( $tr.length == 0 ) {
                                             $tr = $('<tr class="music-song" data-path="'+p+'" data-name="'+json[i].path+'"></tr>');
                                         
                                             for ( var d in $m.view.music.data ) {
-                                                
                                             
                                                 $tr.append( '<td class="song-'+d+' '+$m.view.music.data[d].class+'">'+
                                                     ( json[i][d] !== undefined ? json[i][d] : '' ) +
@@ -160,6 +179,40 @@
 
                                             $tbody.append( $tr );
                                         }
+                                    }
+                                    
+                                    // Displaying album details:
+                                    var $details = $folder.find( '.music-details' );
+                                    
+                                    var album = $tbody.find('.song-album').first().text();
+                                    var artist = $tbody.find('.song-artist').first().text();
+                                    var duration = 0;
+                                    $('.song-duration',$tbody).each(function(i,o){
+                                        var d = $(o).text().split(':').reverse();
+                                        var unit = 1;
+                                        for ( var i in d ) {
+                                            duration += parseInt(d[i],10) * unit;
+                                            unit *= 60;// sec -> min -> hour
+                                            if ( i == 2 ) break;
+                                        }
+                                    });
+                                    
+                                    $details.find('.album-artist').text( artist );
+                                    $details.find('.album-album').text( album );
+                                    if ( !isNaN( duration ) ) {
+                                        var $duration = $details.find('.album-duration').empty();
+                                        var dd = [], unit = 3600;
+                                        for ( var i = 0 ; i < 3 ; i++ ) {
+                                            var r = Math.floor( duration / unit );
+                                            dd[i] = ( i > 0 && r < 10 ? '0' : '' )+r;
+                                            duration -= r * unit;
+                                            unit /= 60;
+                                        }
+                                        $duration.html( dd.join(':') );
+                                    }
+                                    
+                                    if ( $folder.find('.image.entry:first').length ) {
+                                        $details.find('.album-cover').andSelf().css( 'background-image' , 'url(\''+$folder.find('.image.entry:first img').attr('src')+'\')' )
                                     }
                                 }
                             });
@@ -369,7 +422,12 @@
                                 var folder = path.replace(/\/[^\/]+$/,'');
                                 
                                 var _play = function ( base64 ) {
+                                
+                                    $('.music-song .song-status').empty();
+                                
                                     $('.music-song[data-path="'+path+'"]').addClass('active').siblings('.active').removeClass('active');
+                                    
+                                    $('.music-song[data-path="'+path+'"] .song-status').html('<i class="icon-play" style="position: absolute; left: 0.5em;"></i>');
                                 
                                     $m.view.music.player.$elt.removeClass('closed');
                                     

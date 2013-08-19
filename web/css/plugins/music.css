@@ -17,6 +17,50 @@
  * limitations under the License.
  * ========================================================== */
 
+.music-details {
+    margin-top: -2em;
+    /*z-index: -1;
+    position: relative;*/
+    height: 10em;
+    
+    background: transparent url('../../images/default-album.gif') center center no-repeat;
+    background-size: cover;
+}
+
+.music-details .album-cover {
+    float: left;
+    width: 10em;
+    height: 10em;
+    background: transparent url('../../images/default-album.gif') center center no-repeat;
+    background-size: cover;
+    margin-right: 1em;
+    border-right: 1px solid rgba(128,128,128,0.5);
+}
+
+.music-details .album-background {
+    height: 100%;
+    /*background: rgba(255,255,255,0.90);*/
+    background: rgba(0,0,0,0.70); color: white;
+}
+
+.music-details .album-artist {
+    margin-top: 0.5em;
+    font-size: 1.5em;
+    padding-top: 1em;
+}
+
+.music-details .album-album {
+    margin-top: 0.5em;
+    font-size: 1.25em;
+    color: #ddd;
+}
+
+.music-details .album-duration {
+    font-size: 1em;
+    color: #aaa;
+    margin-top: 0.5em;
+}
+
 .music.type > .title {
     float: left;
     margin: -1em auto 0.5em 1em;

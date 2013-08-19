@@ -46,6 +46,8 @@
                         $elt = $( target ); break;
                 }
                 
+                console.warn( 49 , type , target );
+                
                 if ( $elt ) {
                     if ( !$m.events.binded[type] ) $m.events.binded[type] = {};
                     if ( !$m.events.binded[type][target] ) $m.events.binded[type][target] = [];

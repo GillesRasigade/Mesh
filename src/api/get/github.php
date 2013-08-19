@@ -72,7 +72,11 @@ class Api_Get_Github {
         chdir( '../..' );
 //        $result = Api_Utils::exec( 'git clone git://github.com/billou-fr/media-manager.git' );
 //        $result = Api_Utils::exec( 'git pull' );
-        $result = `git pull`;
+        `git pull`;
+        echo Api_Utils::outputJson( array(
+            'info' => 'Nothing to update',
+        ));
+        die();
         error_log( $result );
         
         if ( !preg_match('/Already up-to-date/i',$result ) ) {
