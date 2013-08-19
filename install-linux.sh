@@ -118,7 +118,7 @@ sudo /etc/init.d/apache2 restart
 #git clone https://github.com/billou-fr/media-manager.git
 read -p "Clone github project here? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    git clone https://github.com/billou-fr/media-manager.git .
+    git clone https://github.com/billou-fr/media-manager.git
 else
     echo "Project not cloned.";
     echo "Please move the command line to the app/ folder of the MESH";
