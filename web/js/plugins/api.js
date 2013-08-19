@@ -198,7 +198,7 @@
                     },*/
                     error: function( xhr, textStatus ) {
                         if ( typeof($m.api.errors[xhr.status]) == 'function' ) $m.api.errors[xhr.status]();
-                        else $m.api.errors[401]();
+                        //else $m.api.errors[401]();
                     },
                     success: function ( json ) {
                         if ( typeof(callback) == 'function' ) callback(json);
