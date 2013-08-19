@@ -443,7 +443,7 @@
                                         .parent().attr('src',src).attr('data',src);
 
                                     var thumb = $m.api.utils.url('image','access',{ path: path.replace(/\/[^\/]+$/,''), mode: 'micro' });
-                                    $('#mini-player .thumb').html('<img onClick="$(this).click();" data-path="'+path.replace(/\/[^\/]+$/,'')+'" src="'+thumb+'"/>');
+                                    $('#mini-player .thumb').html('<img onClick="$m.explorer.goto(\''+path.replace(/\/[^\/]+$/,'')+'\',true);" data-path="'+path.replace(/\/[^\/]+$/,'')+'" src="'+thumb+'"/>');
 
                                     $('#splash-cover').attr('src',$m.api.utils.url('image','access',{ path: path.replace(/\/[^\/]+$/,''), mode: 'preview' }));
 
