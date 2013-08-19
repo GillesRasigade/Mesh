@@ -201,7 +201,8 @@ fi
 if [ ! -f "$logs" ]; then
     l="$(echo "$logs" | sed -r 's,/[^/]*$,,')";
     sudo mkdir -p "$l";
-    touch "$logs";
+    sudo chown www-data: "$1";
+    sudo touch "$logs";
 fi
 
 # WWW symbolik link creation:
