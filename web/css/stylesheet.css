@@ -1081,5 +1081,7 @@ body {
 
 @media only screen and (max-width : 320px) {
     .column .column-content{ margin: 0em; }
-    .album { margin-top: 0.25em; }
+    .album { margin-top: 0.25em; background: white; }
+    .album:first-child { margin-top: 3.25em; }
+    .album-img { float: left; height: 4em; width: 4em; }
 }
