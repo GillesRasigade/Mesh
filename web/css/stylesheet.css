@@ -151,6 +151,7 @@ body {
     border-radius: 0em;
     border-top-color: #ccc;
     margin-top: 1px;
+    overflow-y: auto;
     
     -webkit-transition: left 0.3s;
     -moz-transition: left 0.3s;
