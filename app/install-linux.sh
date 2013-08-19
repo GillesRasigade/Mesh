@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 echo -e "* * * * * * * * * * * * * * * * * * * *"
 echo -e "Mesh installer";
 echo -e "* * * * * * * * * * * * * * * * * * * *\n"
@@ -136,4 +137,20 @@ else
     echo "Please read and rename the file config.ini.pre into config.ini to end the MESH installation."
 fi
 
+
+# Check folders existence and permissions:
+if [ ! -d "$path" ]; then
+    mkdir -p "$path";
+fi
+
+if [ ! -d "$data" ]; then
+    mkdir -p "$data";
+    sudo chown www-data: "$data";
+fi
+
+if [ ! -f "$logs" ]; then
+    l="$(echo "$logs" | sed -r 's,/[^/]*$,,')";
+    mkdir -p "$l";
+    touch "$logs";
+fi
 
