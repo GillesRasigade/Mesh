@@ -24,8 +24,6 @@ echo -e "* * * * * * * * * * * * * * * * * * * *\n"
 
 TEMPLATE="MESH.config.ini.template";
 
-p=$(find -name $TEMPLATE | sed -r "s,/[^/]*$,,")
-
 
 
 
@@ -130,11 +128,7 @@ fi
 
 
 
-# Sleeping a little bit...
-sleep 1;
-
-
-
+p=$(find -name $TEMPLATE | sed -r "s,/[^/]*$,,")
 
 
 # Building the main configuration file:
