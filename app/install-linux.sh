@@ -1,5 +1,22 @@
 #!/bin/bash
-
+# ===================================================
+# Media Manager v0.1
+# https://github.com/billou-fr/media-manager/
+# ===================================================
+# Copyright 2013 Gilles Rasigade
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==========================================================
 
 echo -e "* * * * * * * * * * * * * * * * * * * *"
 echo -e "Mesh installer";
@@ -8,6 +25,14 @@ echo -e "* * * * * * * * * * * * * * * * * * * *\n"
 TEMPLATE="MESH.config.ini.template";
 
 p=$(find -name $TEMPLATE | sed -r "s,/[^/]*$,,")
+
+
+
+
+
+
+
+
 
 # Testing git existence:
 t=$(which git);
@@ -105,6 +130,13 @@ fi
 
 
 
+
+
+
+
+
+
+# Building the main configuration file:
 cd "$p"
 rm config.ini.pre
 cp $TEMPLATE config.ini.pre
@@ -136,6 +168,19 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 else
     echo "Please read and rename the file config.ini.pre into config.ini to end the MESH installation."
 fi
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Check folders existence and permissions:
