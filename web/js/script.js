@@ -185,9 +185,14 @@
                                 $('.git-sha').parent().after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>');
                                 
                                 // Perform the auto-update process :
-//                              $m.api.get({c:'github',a:'pull'},function( json ){
-//                                  if ( json.success ) location.reload();
-//                              });
+                              $m.api.get({c:'github',a:'pull'},function( json ){
+                                  if ( json.success ) {
+                                      // Project files cleaning... then reloading
+                                      if ( confirm(json.success+' Do you want to reload ?') ) {
+                                        location.reload();
+                                      }
+                                  }
+                              });
                             }
                             
                         });
