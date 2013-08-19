@@ -85,7 +85,7 @@ pdf['thumb']          = 'thumb'
 filters['hidden']       ="(^\.)"
 
 [users]
-users['admin']         = 'admin'
+users['admin']         = ''
 
 admin['admin']         = 1
 admin['methods']       = '["get","post","put","delete"]'
