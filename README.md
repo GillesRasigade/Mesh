@@ -66,11 +66,11 @@ nano config.ini
 Load the following address in your browser:
 
 ```bash
-http://localhost/media-server/index.php
+http://localhost/mesh
 ```
 
 You will be redirected to the login page and if you did not update the users' section in the configuration file yet, you can use the following information :
 ```bash
 login: admin
-password: admin
+password: ***
 ```
