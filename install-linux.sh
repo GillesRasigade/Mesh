@@ -203,5 +203,5 @@ sudo ln -s "$pwd/web" /var/www/mesh
 # Printing user information to test the installation:
 echo -e "\nMESH Media Server has been successfully installed!"
 echo -e "Please open a compatible browser (Chrome, FF, ...) and go to the following URL:"
-echo -e "localhost/mesh"
+echo -e ">> http://localhost/mesh"
 echo -e ""
