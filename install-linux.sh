@@ -150,18 +150,36 @@ path=$(grep -r ^path config.ini.pre | sed "s/.*=//" | sed "s/'//g" );
 data=$(grep -r ^data config.ini.pre | sed "s/.*=//" | sed "s/'//g" );
 logs=$(grep -r ^logs config.ini.pre | sed "s/.*=//" | sed "s/'//g" );
 
+echo -e "Enter the administration password and press [ENTER]:"
+read -s -e -p ">> " -i "" password
+echo ""
+
+read -s -e -p ">> " -i "" password2
+echo ""
+
+if [ "$password" != "$password2" ]; then
+    echo "password mismatch";
+    exit;
+fi
+
 echo -e "Enter the MESH main files location and press [ENTER]:"
 read -e -p ">> " -i "$path" path
+echo ""
 
 echo -e "Enter the MESH data files location and press [ENTER]:"
 read -e -p ">> " -i "$data" data
+echo ""
 
 echo -e "Enter the MESH log file location and press [ENTER]:"
 read -e -p ">> " -i "$logs" logs
+echo ""
 
+sed -i "s,users['admin'].*=.*,users['admin']='$password'," config.ini.pre
 sed -i "s,path.*=.*,path='$path'," config.ini.pre
 sed -i "s,data.*=.*,data='$data'," config.ini.pre
 sed -i "s,logs.*=.*,logs='$logs'," config.ini.pre
+
+
 
 cat config.ini.pre
 
