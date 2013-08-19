@@ -65,13 +65,13 @@ if [ "$t" == "" ]; then
     echo "php5-gd package not found"
     sudo apt-get install php5-gd
 else
-    echo "php6-gd correctly installed"
+    echo "php5-gd correctly installed"
 fi
 
 # PHP5 cURL library installation:
 t=$(dpkg --get-selections | grep php5-curl);
 if [ "$t" == "" ]; then
-    echo "php5-gd package not found"
+    echo "php5-curl package not found"
     sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
 else
     echo "php5-curl correctly installed"
