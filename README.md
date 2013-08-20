@@ -1,3 +1,5 @@
+![Presentation](https://raw.github.com/billou-fr/media-manager/master/web/images/presentation.png)
+
 Media Manager
 =============
 
