@@ -218,7 +218,7 @@
                               $m.api.get({c:'github',a:'pull'},function( json ){
                                   if ( json.success ) {
                                       // Project files cleaning... then reloading
-                                      if ( confirm(json.success+' Do you want to reload ?') ) {
+                                      if ( confirm(json.success+'\n\nReload now ?') ) {
                                         location.reload();
                                       }
                                   }
