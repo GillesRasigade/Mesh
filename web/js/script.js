@@ -181,6 +181,7 @@
                         $m.api.get({c:'github',a:'commits'},function( commits ){
                             var sha = $('.git-sha').text().trim();
                             if ( $m.storage.get('state.sha') !== sha ) {
+                            
                                 // Reset all cache data then reload:
                                 var appCache = window.applicationCache;
 
@@ -194,11 +195,12 @@
                                         if (confirm('A new version of this site is available. Load it?'))
                                             window.location.reload();
                                             
-                                    } else if ( attemps < 10 ) {
+                                    } else if ( attempts < 10 ) {
                                         attempts++;
-                                        setTimeout(function(){ f[0](); },attemps*500);
+                                        setTimeout(function(){ f[0](); },attempts*500);
                                     }
                                 }];
+                                f[0]();
 
                                 
                             }
