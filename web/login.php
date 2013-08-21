@@ -124,6 +124,15 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
                             //$(this).get(0).reset();
                             //$('*[name="hash"]').val( hash );
                             $('*[name="timestamp"]').val( timestamp );
+                            
+                            var servers = $m.storage.get('state.servers');
+                            //console.log( servers );
+                            if ( undefined !== servers['local'] ) {
+                                servers['local']['login'] = $('*[name="login"]').val();
+                                servers['local']['timestamp'] = timestamp;
+                                servers['local']['hash'] = hash;
+                                $m.storage.set('state.servers',servers);
+                            }
 
                             $m.storage.set( 'hash' , hash );
                             $m.storage.set( 'timestamp' , timestamp );

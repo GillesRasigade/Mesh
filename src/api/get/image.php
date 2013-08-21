@@ -124,10 +124,20 @@ class Api_Get_Image extends Api_Get_File {
         die();
     }
     
+    public function iconAction ( $p = null ) {
+        global $config;
+        
+        return $this->accessAction(array(
+            //'path' => preg_replace('/[^\/]+/','..',$config['path']) . $config['icon'],
+            'path' => $config['icon'],
+            'mode' => 'micro'
+        ));
+    }
+    
     public function accessAction ( $p = NULL ) {
         global $config;
     
-        $p = Api_Utils::readToken();
+        $p = $p !== NULL ? $p : Api_Utils::readToken();
         
         if ( array_key_exists('path',$p) ) {
             $path = $config['path'] . $p['path'];

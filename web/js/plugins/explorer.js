@@ -130,8 +130,8 @@
                         
                         if ( $li.length ) {
                             $li.addClass('active').siblings('.active').removeClass('active');
-                            $('#servers-dropdown .dropdown-toggle').css( 'background-image' , 'url("'+$li.find('img').attr('src')+'")' )
-                                .empty().html('&nbsp;');
+                            //$('#servers-dropdown .dropdown-toggle').css( 'background-image' , 'url("'+$li.find('img').attr('src')+'")' ).empty().html('&nbsp;');
+                            $('#servers-dropdown .dropdown-toggle img').attr('src',$li.find('img').attr('src'));
                         }
                         
                         // Store the current path on the actual server:

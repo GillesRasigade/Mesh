@@ -162,8 +162,7 @@
                     }
                     var $li = $('#servers-dropdown .dropdown-menu li a[data-name="'+$m.state.server+'"]').parent();
                     $li.addClass('active').siblings('.active').removeClass('active');
-                    $('#servers-dropdown .dropdown-toggle').css( 'background-image' , 'url("'+$li.find('img').attr('src')+'")' )
-                                .empty().html('&nbsp;');
+                    $('#servers-dropdown .dropdown-toggle img').attr('src',$m.api.utils.url('image','icon',{},$m.state.servers[$m.state.server].url));
                     
                     $m.state.tac = (new Date()).getTime();
                     $m.state.loadingTime = $m.state.tac - $m.state.tic;
@@ -323,7 +322,7 @@
         
             if ( undefined !== credentials ) {
                 $item = $('<li class="server"><a data-name="'+credentials.name+'" title="Explore files on server" href="javascript:void(0);">'+
-                    '<img class="img-circle" src="'+credentials.url.replace(/api\.php/,'')+'images/server-icon.png">'+
+                    '<img class="img-circle" src="'+$m.api.utils.url('image','icon',{},credentials.url)+'">'+
                     '<span title="Go to this server" onclick="window.location = \''+credentials.url.replace(/index\.php/,'')+'\';" target="_top">'+credentials.name+'</span>'+
                     '<span class="btn btn-link" onClick="$m.editServer(\''+credentials.name+'\')"><i class="icon-edit"></i></span>'+
                 '</a></li>');
