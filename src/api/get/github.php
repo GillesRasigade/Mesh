@@ -59,6 +59,26 @@ class Api_Get_Github {
         return json_decode($this->_getJson("repos/$user/$repo/commits"),true);
     }
     
+    protected function _run ( $command ) {
+        $descriptorspec = array(
+			1 => array('pipe', 'w'),
+			2 => array('pipe', 'w'),
+		);
+		$pipes = array();
+		$resource = proc_open($command, $descriptorspec, $pipes, $this->repo_path);
+
+		$stdout = stream_get_contents($pipes[1]);
+		$stderr = stream_get_contents($pipes[2]);
+		foreach ($pipes as $pipe) {
+			fclose($pipe);
+		}
+
+		$status = trim(proc_close($resource));
+		if ($status) throw new Exception($stderr);
+
+		return $stdout;
+    }
+    
     public function commitsAction () {
         echo Api_Utils::outputJson( $this->_getCommits( 'media-manager' , 'billou-fr' ) );
         die();
@@ -72,7 +92,11 @@ class Api_Get_Github {
         chdir( '../..' );
 //        $result = Api_Utils::exec( 'git clone git://github.com/billou-fr/media-manager.git' );
 //        $result = Api_Utils::exec( 'git pull' );
-        `git pull`;
+
+        $this->_run('git pull');
+        die();
+
+        proc_open('git pull');
         echo Api_Utils::outputJson( array(
             'info' => 'Nothing to update',
         ));
