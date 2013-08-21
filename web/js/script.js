@@ -180,6 +180,30 @@
                         // Read Git/Github versions to offer update :
                         $m.api.get({c:'github',a:'commits'},function( commits ){
                             var sha = $('.git-sha').text().trim();
+                            if ( $m.storage.get('state.sha') !== sha ) {
+                                // Reset all cache data then reload:
+                                var appCache = window.applicationCache;
+
+                                appCache.update(); // Attempt to update the user's cache.
+
+                                var attempts = 0;
+                                var f = [function(){
+                                    if (appCache.status == window.applicationCache.UPDATEREADY) {
+                                        appCache.swapCache();  // The fetch was successful, swap in the new cache.
+                                        
+                                        if (confirm('A new version of this site is available. Load it?'))
+                                            window.location.reload();
+                                            
+                                    } else if ( attemps < 10 ) {
+                                        attempts++;
+                                        setTimeout(function(){ f[0](); },attemps*500);
+                                    }
+                                }];
+
+                                
+                            }
+                            
+                            
                             if ( commits.length && commits[0].sha !== sha ) {
                                 $('.git-sha').parent().after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>');
                                 
