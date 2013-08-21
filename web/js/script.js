@@ -184,25 +184,30 @@
                             
                                 // Reset all cache data then reload:
                                 var appCache = window.applicationCache;
-
-                                appCache.update(); // Attempt to update the user's cache.
-
-                                var attempts = 0;
-                                var f = [function(){
-                                    if (appCache.status == window.applicationCache.UPDATEREADY) {
-                                        appCache.swapCache();  // The fetch was successful, swap in the new cache.
-                                        
-                                        if (confirm('A new version of this site is available. Load it?'))
-                                            window.location.reload();
-                                            
-                                    } else if ( attempts < 10 ) {
-                                        attempts++;
-                                        setTimeout(function(){ f[0](); },attempts*500);
-                                    }
-                                }];
-                                f[0]();
-
                                 
+                                window.applicationCache.onupdateready = function(e) {
+                                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                                        // Browser downloaded a new app cache.
+                                        // Swap it in and reload the page to get the new hotness.
+                                        window.applicationCache.swapCache();
+                                        if (confirm('A new version of this site is available. Load it?')) {
+                                            window.location.reload();
+                                        }
+                                    } else {
+                                        // Manifest didn't changed. Nothing new to server.
+                                    }
+                                };
+                                
+                                
+                                appCache.update(); // Attempt to update the user's cache.
+                                
+                                // OMG: on application cache update ready never triggered...
+                                setTimeout(function(){
+                                    //$m.storage.set('state.sha',sha);
+                                    if (confirm('A new version of this site is available.\nLoad it?')) {
+                                        window.location.reload();
+                                    }
+                                },10000);
                             }
                             
                             
