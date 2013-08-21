@@ -162,7 +162,9 @@
                     }
                     var $li = $('#servers-dropdown .dropdown-menu li a[data-name="'+$m.state.server+'"]').parent();
                     $li.addClass('active').siblings('.active').removeClass('active');
-                    $('#servers-dropdown .dropdown-toggle img').attr('src',$m.api.utils.url('image','icon',{},$m.state.servers[$m.state.server].url));
+                    if ( $m.state.server && undefined !== $m.state.servers[$m.state.server] ) {
+                        $('#servers-dropdown .dropdown-toggle img').attr('src',$m.api.utils.url('image','icon',{},$m.state.servers[$m.state.server].url));
+                    }
                     
                     $m.state.tac = (new Date()).getTime();
                     $m.state.loadingTime = $m.state.tac - $m.state.tic;

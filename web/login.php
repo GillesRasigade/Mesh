@@ -125,13 +125,16 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
                             //$('*[name="hash"]').val( hash );
                             $('*[name="timestamp"]').val( timestamp );
                             
-                            var servers = $m.storage.get('state.servers');
-                            //console.log( servers );
-                            if ( undefined !== servers['local'] ) {
-                                servers['local']['login'] = $('*[name="login"]').val();
-                                servers['local']['timestamp'] = timestamp;
-                                servers['local']['hash'] = hash;
-                                $m.storage.set('state.servers',servers);
+                            if ( $m.storage ) {
+                                var servers = $m.storage.get('state.servers');
+                                
+                                //console.log( servers );
+                                if ( servers && undefined !== servers['local'] ) {
+                                    servers['local']['login'] = $('*[name="login"]').val();
+                                    servers['local']['timestamp'] = timestamp;
+                                    servers['local']['hash'] = hash;
+                                    $m.storage.set('state.servers',servers);
+                                }
                             }
 
                             $m.storage.set( 'hash' , hash );
