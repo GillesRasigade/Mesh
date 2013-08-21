@@ -203,7 +203,7 @@
                                 
                                 // OMG: on application cache update ready never triggered...
                                 setTimeout(function(){
-                                    //$m.storage.set('state.sha',sha);
+                                    $m.storage.set('state.sha',sha);
                                     if (confirm('A new version of this application is available.\n\nReload now?')) {
                                         window.location.reload();
                                     }
