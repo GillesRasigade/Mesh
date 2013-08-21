@@ -175,8 +175,12 @@ if ( empty($_SESSION['timestamp']) ) {
                 </div>
                 
                 <div id="servers-dropdown" style="float: left; margin-top: 0.4em;" class="dropdown">
-                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#" style="width: 0.5em;">
-                        <img class="img-circle" src="http://192.168.0.22/media-manager/api.php?c=image&amp;a=icon&amp;auth=eyJUaW1lc3RhbXAiOjEzNzcxMTIyMTUwNjIsIlRpbWVzdGFtcDIiOjEzNzcxMTA3MjYyNjUsIkF1dGhlbnRpY2F0aW9uSGFzaCI6ImVjYzQ4N2YxYTYxMjdkMTYwNzYyMjk2ZDg5NDhlNjNiMTdjNTA5YmFjNDQ1MTYzMWVjZTg3NzBlOGY0NmQ4YTcifQ==&amp;token=e30=" style="max-height: 2.5em;max-width: 2.5em;position: relative;top: -0.2em;left: -1em;">
+                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#" style="max-width: 2.5em;
+overflow: hidden;
+position: relative;
+top: -0.55em;
+margin-right: -1em;">
+                        <img class="img-circle" src="images/favicon-256.png" style="height: 2.5em;">
                     </a>
                     
                     <ul class="dropdown-menu  lateral-left">
