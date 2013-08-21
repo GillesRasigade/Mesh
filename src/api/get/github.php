@@ -92,6 +92,7 @@ class Api_Get_Github {
         chdir( '../..' );
 //        $result = Api_Utils::exec( 'git clone git://github.com/billou-fr/media-manager.git' );
 //        $result = Api_Utils::exec( 'git pull' );
+        // Github
 
         $result = $this->_run('git pull');
         
