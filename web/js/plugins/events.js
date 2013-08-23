@@ -64,7 +64,7 @@
                 var target = event.data.target;
                 if ( $m.events.binded[type] && $m.events.binded[type][target] ) {
                     
-                    setTimeout(function(){
+                    var f = [function(){
                         if ( !$m.events.binded[type][target].triggered ) {
                             $m.events.binded[type][target].triggered = true;
                             
@@ -77,7 +77,12 @@
                             
                             setTimeout(function(){ $m.events.binded[type][target].triggered = false; }, 100 );
                         }
-                    },15);
+                    }];
+                    
+                    if ( !type.match(/(drag|drop)/) ) setTimeout(f[0],15);
+                    else f[0]();
+                    
+                    return true;
                 }
             },
         },
