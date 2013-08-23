@@ -37,6 +37,8 @@ if (false&&ini_get("session.use_cookies")) {
     );
 }
 
+$error = '';
+
 // Authentication :
 if ( !array_key_exists('timestamp',$_SESSION) ) {
     if ( array_key_exists('timestamp',$_POST) ) {
@@ -46,11 +48,13 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
                 $_SESSION['timestamp'] = $_POST['timestamp'];
                 $_SESSION['login'] = $login;
                 
+                header('Location: index.php');
+                
                 break;
             }
         }
         
-        header('Location: index.php');
+        $error = 'Invalid password';
         
     } else {
         session_destroy();
@@ -155,7 +159,8 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
                 <input type="hidden" name="timestamp"/>
                 <input type="text" name="login" placeholder="login" style="width: 100%; height: 2em; max-width: 15em;"/><br/>
                 <input type="password" name="password" placeholder="password" style="width: 100%; height: 2em; max-width: 15em;"/><br/>
-                <input type="submit" class="btn btn-primary" style="width: 100%; max-width: 15em; padding: 0.5em;"/>
+                <input type="submit" class="btn btn-primary" style="width: 100%; max-width: 15em; padding: 0.5em;"/><br/>
+                <div class="text-error" style="text-align: center; padding-top: 1em;"><?php echo $error; ?></div>
             </form>
         </div>
         
