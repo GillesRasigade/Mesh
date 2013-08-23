@@ -65,7 +65,7 @@ class Api_Get_Github {
 			2 => array('pipe', 'w'),
 		);
 		$pipes = array();
-		$resource = proc_open($command, $descriptorspec, $pipes, $this->repo_path);
+		$resource = proc_open($command, $descriptorspec, $pipes, '.');
 
 		$stdout = stream_get_contents($pipes[1]);
 		$stderr = stream_get_contents($pipes[2]);
