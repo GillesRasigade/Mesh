@@ -178,56 +178,59 @@
                     
                     setTimeout(function(){
                         $m.explorer.path( path );
+                        
+                        if ( $('#menu-dropdown a[href*=logout]').length ) {
                     
-                        // Read Git/Github versions to offer update :
-                        $m.api.get({c:'github',a:'commits'},function( commits ){
-                            var sha = $('.git-sha').text().trim();
-                            if ( $m.storage.get('state.sha') !== sha ) {
-                            
-                                // Reset all cache data then reload:
-                                var appCache = window.applicationCache;
+                            // Read Git/Github versions to offer update :
+                            $m.api.get({c:'github',a:'commits'},function( commits ){
+                                var sha = $('.git-sha').text().trim();
+                                if ( $m.storage.get('state.sha') !== sha ) {
                                 
-                                window.applicationCache.onupdateready = function(e) {
-                                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-                                        // Browser downloaded a new app cache.
-                                        // Swap it in and reload the page to get the new hotness.
-                                        window.applicationCache.swapCache();
-                                        if (confirm('A new version of this site is available. Load it?')) {
+                                    // Reset all cache data then reload:
+                                    var appCache = window.applicationCache;
+                                    
+                                    window.applicationCache.onupdateready = function(e) {
+                                        if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                                            // Browser downloaded a new app cache.
+                                            // Swap it in and reload the page to get the new hotness.
+                                            window.applicationCache.swapCache();
+                                            if (confirm('A new version of this site is available. Load it?')) {
+                                                window.location.reload();
+                                            }
+                                        } else {
+                                            // Manifest didn't changed. Nothing new to server.
+                                        }
+                                    };
+                                    
+                                    
+                                    appCache.update(); // Attempt to update the user's cache.
+                                    
+                                    // OMG: on application cache update ready never triggered...
+                                    setTimeout(function(){
+                                        $m.storage.set('state.sha',sha);
+                                        if (confirm('A new version of this application is available.\n\nReload now?')) {
                                             window.location.reload();
                                         }
-                                    } else {
-                                        // Manifest didn't changed. Nothing new to server.
-                                    }
-                                };
+                                    },10000);
+                                }
                                 
                                 
-                                appCache.update(); // Attempt to update the user's cache.
-                                
-                                // OMG: on application cache update ready never triggered...
-                                setTimeout(function(){
-                                    $m.storage.set('state.sha',sha);
-                                    if (confirm('A new version of this application is available.\n\nReload now?')) {
-                                        window.location.reload();
-                                    }
-                                },10000);
-                            }
-                            
-                            
-                            if ( commits.length && commits[0].sha !== sha ) {
-                                $('.git-sha').parent().after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>');
-                                
-                                // Perform the auto-update process :
-                              $m.api.get({c:'github',a:'pull'},function( json ){
-                                  if ( json.success ) {
-                                      // Project files cleaning... then reloading
-                                      if ( confirm(json.success+'\n\nReload now ?') ) {
-                                        location.reload();
+                                if ( commits.length && commits[0].sha !== sha ) {
+                                    $('.git-sha').parent().after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>');
+                                    
+                                    // Perform the auto-update process :
+                                  $m.api.get({c:'github',a:'pull'},function( json ){
+                                      if ( json.success ) {
+                                          // Project files cleaning... then reloading
+                                          if ( confirm(json.success+'\n\nReload now ?') ) {
+                                            location.reload();
+                                          }
                                       }
-                                  }
-                              });
-                            }
-                            
-                        });
+                                  });
+                                }
+                                
+                            });
+                        }
                     },0);
                 
                 }
