@@ -187,7 +187,7 @@
                                     for ( var c = 0; c < commits.length; c++ ) {
                                         if ( commits[c].sha == sha ) break;
                                         if ( c > 10 ) { releases  += '...\n'; break; }
-                                        releases += commits[c].commit.message+'\n';
+                                        releases += '- '+ commits[c].commit.message+'\n';
                                     }
                                     
                                     console.log( releases );
@@ -216,20 +216,11 @@
                                         $m.api.get({c:'github',a:'pull'},function( json ){
                                             console.log( '>>> UU: ' , json );
                                             
-                                            if ( json && json.success ) {
-                                                // Reset all cache data then reload:
-                                                window.applicationCache.update(); // Attempt to update the user's cache.
-                                                
-                                            } else {
+                                            $m.storage.set('state.sha',sha);
                                             
-                                                // First time initialization:
-                                                if ( null === csha ) $m.storage.set('state.sha',sha);
-                                                else if ( csha !== sha ) {
-                                                    
-                                                    window.applicationCache.update(); // Attempt to update the user's cache.
-                                                    
-                                                }
-                                            }
+                                            // Reset all cache data then reload:
+                                            window.applicationCache.update(); // Attempt to update the user's cache.
+                                            
                                         });
                                     }
                                 });
