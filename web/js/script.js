@@ -212,6 +212,7 @@
                                             if ( null === csha ) {
                                                 
                                                 $m.storage.set('state.sha',sha);
+                                                
                                             } else if ( csha !== sha ) {
                                                 
                                                 window.applicationCache.onupdateready = function(e) {
@@ -232,11 +233,16 @@
                                                 
                                                 // OMG: on application cache update ready never triggered...
                                                 setTimeout(function(){
-                                                    window.applicationCache.swapCache();
-                                                    $m.storage.set('state.sha',sha);
-                                                    if (confirm('A new version of this application is available.\n\nReload now?')) {
-                                                        window.location.reload();
+                                                    
+                                                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                                                        window.applicationCache.swapCache();
+                                                        $m.storage.set('state.sha',sha);
+                                                        
+                                                        if (confirm('A new version of this application is available.\n\nReload now?')) {
+                                                            window.location.reload();
+                                                        }
                                                     }
+                                                    
                                                 },10000);
                                             }
                                         }
