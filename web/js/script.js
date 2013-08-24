@@ -402,7 +402,7 @@
                         };
                         
                         // Current cached version is not synced with Github project:
-                        if ( commits.length && commits[0].sha !== sha ) {
+                        if ( commits.length && commits[0].sha !== csha ) {
                             
                             // Try to perform the auto-update process :
                             $m.api.get({c:'github',a:'pull'},function( json ){
