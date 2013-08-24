@@ -123,7 +123,7 @@ sudo /etc/init.d/apache2 restart
 
 # Clone git project:
 #git clone https://github.com/billou-fr/media-manager.git
-read -p "Clone github project here? " -n 1 -r
+read -e -p "Clone github project here [Yy] ?" -i "Y" REPLY
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     rm -Rf ./* .git/
     git clone https://github.com/billou-fr/media-manager.git ./

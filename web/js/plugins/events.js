@@ -64,9 +64,11 @@
                 var target = event.data.target;
                 if ( $m.events.binded[type] && $m.events.binded[type][target] ) {
                     
-                    var f = [function(){
+                    var f = [function( triggered ){
                         if ( !$m.events.binded[type][target].triggered ) {
-                            $m.events.binded[type][target].triggered = true;
+                            if ( triggered !== false ) {
+                                $m.events.binded[type][target].triggered = true;
+                            }
                             
                             
         //                    console.log( 'events', type, target, $m.events.binded[type][target] );
@@ -75,12 +77,14 @@
                                 return callback( event );
                             });
                             
-                            setTimeout(function(){ $m.events.binded[type][target].triggered = false; }, 100 );
+                            if ( triggered !== false ) {
+                                setTimeout(function(){ $m.events.binded[type][target].triggered = false; }, 100 );
+                            }
                         }
                     }];
                     
                     if ( !type.match(/(drag|drop)/) ) setTimeout(f[0],15);
-                    else f[0]();
+                    else f[0](false);
                     
                     return true;
                 }
