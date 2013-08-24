@@ -223,7 +223,7 @@ if [ ! -d "$path" ]; then
     sudo mkdir -p "$path";
     echo -e "Changing ownership for $path: $user:$www"
     sudo chown -R $user:$www "$path"
-    chmod g+w "$path"
+    chmod g+rwx "$path"
 fi
 
 if [ ! -d "$data" ]; then
