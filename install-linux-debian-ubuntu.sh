@@ -118,19 +118,25 @@ else
     echo "ghostscript correctly installed"
 fi
 
+# REF: http://stackoverflow.com/a/4682570
+user=$( whoami )
+www=$( echo $(ps axho user,comm|grep -E "httpd|apache"|uniq|grep -v "root"|awk 'END {if ($1) print $1}') )
+
 # Apache restarting:
 sudo /etc/init.d/apache2 restart
 
 # Clone git project:
 #git clone https://github.com/billou-fr/media-manager.git
 read -e -p "Clone github project here [Yy] ?" -i "Y" REPLY
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    rm -Rf ./* .git/
-    git clone https://github.com/billou-fr/media-manager.git ./
-    
-    # REF: http://stackoverflow.com/a/4682570
-    user=$( whoami )
-    www=$( echo $(ps axho user,comm|grep -E "httpd|apache"|uniq|grep -v "root"|awk 'END {if ($1) print $1}') )
+if [[ $REPLY =~ ^Y?y?$ ]]; then
+
+    if [ -d ".git" ]; then
+        git fetch https://github.com/billou-fr/media-manager.git ./
+    else
+        rm -Rf ./* .git/
+        git clone https://github.com/billou-fr/media-manager.git ./
+    fi
+
     sudo chown -R $www:$user .
     
 else
@@ -191,7 +197,7 @@ cat config.ini.pre
 
 # TODO: add here the last save config.ini process with prompt question.
 read -p "Do I install this configuration file? " -n 1 -r
-if [[ $REPLY =~ ^[Yy]$ ]]; then
+if [[ $REPLY =~ ^Y?y?$ ]]; then
     mv config.ini $(date +%F)".config.ini"
     mv config.ini.pre config.ini
 else
@@ -215,17 +221,21 @@ fi
 # Check folders existence and permissions:
 if [ ! -d "$path" ]; then
     sudo mkdir -p "$path";
+    echo -e "Changing ownership for $path: $user:$www"
+    sudo chown -R $user:$www "$path"
+    chmod g+w "$path"
 fi
 
 if [ ! -d "$data" ]; then
     sudo mkdir -p "$data";
     sudo chown www-data: "$data";
+    sudo chown -R $www:$user "$data"
 fi
 
 if [ ! -f "$logs" ]; then
     l="$(echo "$logs" | sed -r 's,/[^/]*$,,')";
     sudo mkdir -p "$l";
-    sudo chown www-data: "$1";
+    sudo chown -R $www:$user "$l"
     sudo touch "$logs";
 fi
 
