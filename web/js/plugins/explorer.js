@@ -48,7 +48,7 @@
                     var e = event.originalEvent;
                     var state = e.state;
                     
-                    if ( undefined !== state ) {
+                    if ( state ) {
                         console.log( 'Moving back to: ' + state.server + '://' + state.path , event );
                         $m.storage.set('state.server',state.server);
                         $m.explorer.goto( state.path , true );

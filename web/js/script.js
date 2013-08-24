@@ -149,21 +149,15 @@
                     
                     $m.log( '> Servers dropdown update' );
                     $m.log( $m.state.servers );
-                    // 
-                    /*$server = $('#servers-dropdown .dropdown-menu a[data-url="'+$m.state.api+'"]').closest('li');
-                    if ( $server.length ) {
-                        $server.addClass('active').siblings('.active').removeClass('active');
-                        //$('#servers-dropdown .dropdown-toggle').empty().append( $server.find('img').clone() );
-                        $('#servers-dropdown .dropdown-toggle').addClass('server').css( 'background-image' , 'url("'+$server.find('img').attr('src')+'")' )
-                            .empty().html('&nbsp;');
-                    }*/
                     for ( var s in $m.state.servers ) {
                         $m.addServer( $m.state.servers[s] );
                     }
-                    var $li = $('#servers-dropdown .dropdown-menu li a[data-name="'+$m.state.server+'"]').parent();
-                    $li.addClass('active').siblings('.active').removeClass('active');
-                    if ( $m.state.server && undefined !== $m.state.servers[$m.state.server] ) {
-                        $('#servers-dropdown .dropdown-toggle img').attr('src',$m.api.utils.url('image','icon',{},$m.state.servers[$m.state.server].url));
+                    if ( $m.state && $m.state.server ) {
+                        var $li = $('#servers-dropdown .dropdown-menu li a[data-name="'+$m.state.server+'"]').parent();
+                        $li.addClass('active').siblings('.active').removeClass('active');
+                        if ( undefined !== $m.state.servers[$m.state.server] ) {
+                            $('#servers-dropdown .dropdown-toggle img').attr('src',$m.api.utils.url('image','icon',{},$m.state.servers[$m.state.server].url));
+                        }
                     }
                     
                     $m.state.tac = (new Date()).getTime();
@@ -184,49 +178,69 @@
                             // Read Git/Github versions to offer update :
                             $m.api.get({c:'github',a:'commits'},function( commits ){
                                 var sha = $('.git-sha').text().trim();
-                                if ( $m.storage.get('state.sha') !== sha ) {
+                                var csha = $m.storage.get('state.sha');
+                                var releases = '';
                                 
-                                    // Reset all cache data then reload:
-                                    var appCache = window.applicationCache;
-                                    
-                                    window.applicationCache.onupdateready = function(e) {
-                                        if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-                                            // Browser downloaded a new app cache.
-                                            // Swap it in and reload the page to get the new hotness.
-                                            window.applicationCache.swapCache();
-                                            if (confirm('A new version of this site is available. Load it?')) {
-                                                window.location.reload();
-                                            }
-                                        } else {
-                                            // Manifest didn't changed. Nothing new to server.
-                                        }
-                                    };
-                                    
-                                    
-                                    appCache.update(); // Attempt to update the user's cache.
-                                    
-                                    // OMG: on application cache update ready never triggered...
-                                    setTimeout(function(){
-                                        $m.storage.set('state.sha',sha);
-                                        if (confirm('A new version of this application is available.\n\nReload now?')) {
-                                            window.location.reload();
-                                        }
-                                    },10000);
+                                console.log('commits',commits,sha,csha);
+                                for ( var c = 0; c < commits.length; c++ ) {
+                                    if ( commits[c].sha == sha ) break;
+                                    if ( c > 10 ) { releases  += '...\n'; break; }
+                                    releases += commits[c].commit.message+'\n';
                                 }
                                 
+                                console.log( releases );
                                 
+                                // Current cached version is not synced with Github project:
                                 if ( commits.length && commits[0].sha !== sha ) {
+                                    // Add a message to the main configuration panel
                                     $('.git-sha').parent().after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>');
                                     
-                                    // Perform the auto-update process :
-                                  $m.api.get({c:'github',a:'pull'},function( json ){
-                                      if ( json.success ) {
-                                          // Project files cleaning... then reloading
-                                          if ( confirm(json.success+'\n\nReload now ?') ) {
-                                            location.reload();
-                                          }
-                                      }
-                                  });
+                                    // Try to perform the auto-update process :
+                                    $m.api.get({c:'github',a:'pull'},function( json ){
+                                        if ( json && json.success ) {
+                                            // Reset all cache data then reload:
+                                            window.applicationCache.update(); // Attempt to update the user's cache.
+                                            
+                                            setTimeout(function(){
+                                                // Project files cleaning... then reloading
+                                                if ( confirm(json.success+'\nChanges:\n'+releases+'\nReload now ?') ) {
+                                                    window.applicationCache.swapCache();
+                                                    location.reload();
+                                                }
+                                            },5000);
+                                        } else {
+                                            if ( null === csha ) {
+                                                
+                                                $m.storage.set('state.sha',sha);
+                                            } else if ( csha !== sha ) {
+                                                
+                                                window.applicationCache.onupdateready = function(e) {
+                                                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                                                        // Browser downloaded a new app cache.
+                                                        // Swap it in and reload the page to get the new hotness.
+                                                        window.applicationCache.swapCache();
+                                                        if (confirm('A new version of this site is available. Load it?')) {
+                                                            window.location.reload();
+                                                        }
+                                                    } else {
+                                                        // Manifest didn't changed. Nothing new to server.
+                                                    }
+                                                };
+                                                
+                                                
+                                                window.applicationCache.update(); // Attempt to update the user's cache.
+                                                
+                                                // OMG: on application cache update ready never triggered...
+                                                setTimeout(function(){
+                                                    window.applicationCache.swapCache();
+                                                    $m.storage.set('state.sha',sha);
+                                                    if (confirm('A new version of this application is available.\n\nReload now?')) {
+                                                        window.location.reload();
+                                                    }
+                                                },10000);
+                                            }
+                                        }
+                                    });
                                 }
                                 
                             });

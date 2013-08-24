@@ -302,6 +302,7 @@
                                 '<source src="" type="audio/webm" />'+
                                 '<source src="" type="audio/mp4" />'+
                                 '<source src="" type="audio/aac" />'+
+                                '<embed src="" height="1" width="1">'+
     //                            '<object id="audio-player-flash" type="application/x-shockwave-flash" data="js/player_mp3_js.swf" width="1" height="1">'+
     //                                '<param name="movie" value="js/player_mp3_js.swf">'+
     //                                '<param name="AllowScriptAccess" value="always">'+
@@ -439,7 +440,7 @@
                                     //$('#audio-player > object').get(0).SetVariable("method:setUrl", src);
                                     //document.getElementById('audio-player-flash').SetVariable("method:setUrl", src);
 
-                                    $('#music-player > source').attr('src',src).attr('data',src)
+                                    $('#music-player > *').attr('src',src).attr('data',src)
                                         .parent().attr('src',src).attr('data',src);
 
                                     var thumb = $m.api.utils.url('image','access',{ path: path.replace(/\/[^\/]+$/,''), mode: 'micro' });
