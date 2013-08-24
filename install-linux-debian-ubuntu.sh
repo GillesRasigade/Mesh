@@ -125,7 +125,7 @@ sudo /etc/init.d/apache2 restart
 #git clone https://github.com/billou-fr/media-manager.git
 read -p "Clone github project here? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    rm -f install-linux.sh
+    rm -Rf ./*
     git clone https://github.com/billou-fr/media-manager.git ./
     
     # REF: http://stackoverflow.com/a/4682570
