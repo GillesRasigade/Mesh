@@ -2,7 +2,7 @@
 
 /* ===================================================
  * Media Manager v0.1
- * https://github.com/billou-fr/media-manager/
+ * https://github.com/billou-fr/Mesh/
  * ===================================================
  * Copyright 2013 Gilles Rasigade
  *

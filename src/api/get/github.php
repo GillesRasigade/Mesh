@@ -2,7 +2,7 @@
 
 /* ===================================================
  * Media Manager v0.1
- * https://github.com/billou-fr/media-manager/
+ * https://github.com/billou-fr/Mesh/
  * ===================================================
  * Copyright 2013 Gilles Rasigade
  *
@@ -80,7 +80,7 @@ class Api_Get_Github {
     }
     
     public function commitsAction () {
-        echo Api_Utils::outputJson( $this->_getCommits( 'media-manager' , 'billou-fr' ) );
+        echo Api_Utils::outputJson( $this->_getCommits( 'Mesh' , 'billou-fr' ) );
         die();
     }
     
@@ -97,7 +97,7 @@ class Api_Get_Github {
     
     public function pullAction () {
         chdir( '../..' );
-//        $result = Api_Utils::exec( 'git clone git://github.com/billou-fr/media-manager.git' );
+//        $result = Api_Utils::exec( 'git clone git://github.com/billou-fr/Mesh.git' );
 //        $result = Api_Utils::exec( 'git pull' );
         // Github
 

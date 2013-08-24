@@ -2,7 +2,7 @@
 
 /* ===================================================
  * Media Manager v0.1
- * https://github.com/billou-fr/media-manager/
+ * https://github.com/billou-fr/Mesh/
  * ===================================================
  * Copyright 2013 Gilles Rasigade
  *
@@ -167,8 +167,8 @@ if ( empty($_SESSION['timestamp']) ) {
                         <li class="divider"></li>
                         
                         <li><a href="javascript:void(0)" style="text-align: center;"><img src="images/logo.png" style="height: 3em; margin: 1em auto;"></img></a></li>
-                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a></li>
-                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
+                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh" target="_blank">Fork us on Github!</a></li>
+                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
                     </ul>
                 </div>
                 
