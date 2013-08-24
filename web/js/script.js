@@ -378,12 +378,13 @@
                         var csha = $m.storage.get('state.sha');
                         var releases = '';
                         
-                        //console.log('commits',commits,sha,csha);
+                        
                         for ( var c = 0; c < commits.length; c++ ) {
                             if ( commits[c].sha == sha ) break;
                             if ( c > 10 ) { releases  += '...\n'; break; }
                             releases += '- '+ commits[c].commit.message+'\n';
                         }
+                        console.log('commits: ',commits,'sha: '+sha,'csha: '+csha,'releases: '+releases);
                         
                         // Bind a cache update event:
                         window.applicationCache.onupdateready = function(e) {
