@@ -19,8 +19,6 @@
  * limitations under the License.
  * ========================================================== */
 
-//var_dump( $_SERVER ); die();
-
 // Parse the main ini file :
 $config = parse_ini_file('config.ini') + array(
     'limit' => 25
