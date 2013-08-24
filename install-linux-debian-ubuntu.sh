@@ -127,6 +127,12 @@ read -p "Clone github project here? " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     rm -f install-linux.sh
     git clone https://github.com/billou-fr/media-manager.git ./
+    
+    # REF: http://stackoverflow.com/a/4682570
+    user=$( whoami )
+    www=$( echo $(ps axho user,comm|grep -E "httpd|apache"|uniq|grep -v "root"|awk 'END {if ($1) print $1}') )
+    sudo chown -R $www:$user .
+    
 else
     echo "Project not cloned.";
     echo "Please move the command line to the app/ folder of the MESH";
