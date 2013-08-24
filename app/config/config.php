@@ -27,7 +27,7 @@ $config = parse_ini_file('config.ini') + array(
 );
 
 // Extract the current git sha version :
-$git = exec("git rev-parse --verify HEAD;");
+$git = $config['sha'] = exec("git rev-parse --verify HEAD;");
 
 if ( isset($config['test']) ) {
     switch ( $config['test'] ) {

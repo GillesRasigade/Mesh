@@ -1,8 +1,6 @@
 CACHE MANIFEST
-# 2013-08-24:v2a
+# 2013-08-24:v2j
 
-
-# .
 # Explicitly cached 'master entries'.
 CACHE:
 external/js/jquery.min.js

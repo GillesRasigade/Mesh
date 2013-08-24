@@ -88,6 +88,13 @@ class Api_Get_Github {
         //git status -uno
     }
     
+    public function shaAction () {
+        global $config;
+        echo Api_Utils::outputJson(array(
+            'sha' => $config['sha']
+        ));
+    }
+    
     public function pullAction () {
         chdir( '../..' );
 //        $result = Api_Utils::exec( 'git clone git://github.com/billou-fr/media-manager.git' );

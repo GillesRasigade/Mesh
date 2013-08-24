@@ -53,6 +53,7 @@
                         $m.storage.set('state.server',state.server);
                         $m.explorer.goto( state.path , true );
                         
+                        // 
                         //event.preventDefault();
                         //event.stopPropagation();
                         //return false;
