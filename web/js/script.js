@@ -214,7 +214,7 @@
                                         
                                         // Try to perform the auto-update process :
                                         $m.api.get({c:'github',a:'pull'},function( json ){
-                                            console.log( '>>> UU: ' , json );
+                                            console.log( '>>> A: ' , json );
                                             
                                             $m.storage.set('state.sha',sha);
                                             
