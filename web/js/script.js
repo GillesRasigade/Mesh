@@ -403,7 +403,7 @@
                         
                         // Current cached version is not synced with Github project:
                         if ( csha !== sha                                           // Local server/client unsynced
-                            || ( commits.length && commits[0].sha !== sha )         // local server/github unsynced
+                            || ( commits.length && commits[0].sha !== sha )         // local server /github unsynced
                         ) {
                             
                             // Try to perform the auto-update process :
