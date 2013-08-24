@@ -166,6 +166,10 @@ class Api_Get_Image extends Api_Get_File {
                 }
             }
             
+            if ( !file_exists( $path ) ) {
+                $path = getcwd() . '/../../web/images/default-album.gif';
+                $p['mode'] = null;
+            }
             
             if ( file_exists( $path ) ) {
                 
