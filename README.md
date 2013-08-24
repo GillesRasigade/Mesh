@@ -1,4 +1,4 @@
-![Presentation](https://raw.github.com/billou-fr/media-manager/master/web/images/presentation.png)
+[![Presentation](https://raw.github.com/billou-fr/media-manager/master/web/images/presentation.png)](http://billou-fr.github.io/mesh/)
 
 MESH - Media Manager
 =============
