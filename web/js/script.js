@@ -385,7 +385,7 @@
                             releases += '- '+ commits[c].commit.message+'\n';
                         }
                         
-                        console.log( releases );
+                        //console.log( releases );
                         
                         // Bind a cache update event:
                         window.applicationCache.onupdateready = function(e) {
