@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Mesh : The Media Manager project aims to break for media files the borders between servers, desktop computers and mobiles devices such as a tablet or a smartphone." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Mesh</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/billou-fr/mesh">View on GitHub</a>
+
+          <h1 id="project_title">Mesh</h1>
+          <h2 id="project_tagline">The Media Manager project aims to break for media files the borders between servers, desktop computers and mobiles devices such as a tablet or a smartphone.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/billou-fr/mesh/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/billou-fr/mesh/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><img src="https://raw.github.com/billou-fr/media-manager/master/web/images/presentation.png" alt="Presentation"></p>
+
+<h1>
+<a name="mesh---media-manager" class="anchor" href="#mesh---media-manager"><span class="octicon octicon-link"></span></a>MESH - Media Manager</h1>
+
+<p>The Media Manager project aims to break the borders between servers, desktop computers and mobiles devices such as a tablet or a smartphone.</p>
+
+<p>Media Manager is composed of 2 main parts : a webservice (WS) and a user interface (UI).</p>
+
+<p>The web service exposes an API accessed asynchronously y the UI. All methods have been developed and tested for now on an Linux Ubuntu and might work as the same any Unix system.</p>
+
+<p>The user interface is developed in HTML5, Javascript and CSS. No additional language is used here. As HTML5 specifications are not samely integrated in all browsers, some differences may appear.</p>
+
+<h1>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting started</h1>
+
+<h2>
+<a name="get-the-source" class="anchor" href="#get-the-source"><span class="octicon octicon-link"></span></a>Get the source</h2>
+
+<p>Fetch the source code in a proper folder on your media server:</p>
+
+<div class="highlight"><pre>git clone https://github.com/billou-fr/media-manager.git
+</pre></div>
+
+<h2>
+<a name="prepare-your-system" class="anchor" href="#prepare-your-system"><span class="octicon octicon-link"></span></a>Prepare your system</h2>
+
+<p>Create symbolic link in the default Apache2 folder (or simply use your own Virtualhost !):</p>
+
+<div class="highlight"><pre>sudo ln -s ./web /var/www/media-server
+</pre></div>
+
+<p>Create directories used by the application and manage permissions:</p>
+
+<ul>
+<li>Main directory where all media files are located:</li>
+</ul><div class="highlight"><pre>mkdir /usr/local/media-server
+chown -R www-data: /usr/local/media-server
+</pre></div>
+
+<ul>
+<li>Directory used to store the application data:</li>
+</ul><div class="highlight"><pre>mkdir /etc/media-server
+chown -R www-data: /etc/media-server
+</pre></div>
+
+<ul>
+<li>Log file directory:</li>
+</ul><div class="highlight"><pre>mkdir /var/log/media-server;
+chown -R www-data: /var/log/media-server
+
+touch /var/log/media-server/application.log
+chown -R www-data: /var/log/media-server/application.log
+</pre></div>
+
+<h2>
+<a name="create-and-update-the-application-configuration-file" class="anchor" href="#create-and-update-the-application-configuration-file"><span class="octicon octicon-link"></span></a>Create and update the application configuration file:</h2>
+
+<div class="highlight"><pre><span class="nb">cd</span> ./app/config
+cp config.ini.template config.ini
+nano config.ini
+</pre></div>
+
+<h2>
+<a name="test-it-" class="anchor" href="#test-it-"><span class="octicon octicon-link"></span></a>Test it !</h2>
+
+<p>Load the following address in your browser:</p>
+
+<div class="highlight"><pre>http://localhost/mesh
+</pre></div>
+
+<p>You will be redirected to the login page and if you did not update the users' section in the configuration file yet, you can use the following information :</p>
+
+<div class="highlight"><pre>login: admin
+password: ***
+</pre></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Mesh maintained by <a href="https://github.com/billou-fr">billou-fr</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
