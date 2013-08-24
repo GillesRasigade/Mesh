@@ -32,7 +32,7 @@ class Api_Get_Github {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
-          //curl_setopt($curl, CONNECTTIMEOUT, 1);
+        //curl_setopt($curl, CONNECTTIMEOUT, 1);
         $content = curl_exec($curl);
         curl_close($curl);
         return $content;
