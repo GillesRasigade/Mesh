@@ -403,13 +403,16 @@
                         // Current cached version is not synced with Github project:
                         if ( commits.length && commits[0].sha !== sha ) {
                             // Add a message to the main configuration panel
-                            $('.git-sha').parent().after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>');
+                            /*$('.git-sha').parent()
+                                .after('<li><a href="https://github.com/billou-fr/media-manager/commits/master" target="_blank" class="git-new-version" title="At the project root, execute the following command:\n>> git pull\n\n...or maybe you need to commit your code ">New version available !</a></li>')
+                                .siblings('.git-new-version').remove();*/
                             
                             // Try to perform the auto-update process :
                             $m.api.get({c:'github',a:'pull'},function( json ){
                                 $m.log( 'Server update status' , json );
                                 
                                 $m.storage.set('state.sha',sha);
+                                $('.git-sha').text( sha ).attr('title',sha);
                                 
                                 // Reset all cache data then reload:
                                 window.applicationCache.update(); // Attempt to update the user's cache.

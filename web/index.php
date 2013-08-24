@@ -170,7 +170,7 @@ if ( empty($_SESSION['timestamp']) ) {
                         
                         <li><a href="javascript:void(0)" style="text-align: center;"><img src="images/logo.png" style="height: 3em; margin: 1em auto;"></img></a></li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/media-manager" target="_blank">Fork us on Github!</a></li>
-                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="Build: <?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
+                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/media-manager/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
                     </ul>
                 </div>
                 
