@@ -120,11 +120,9 @@ if ( empty($_SESSION['timestamp']) ) {
             </div>
         </div>
         
-        <!--div class=""  style="position: absolute;left: 0px;right: 0px;top: 0px;bottom: 0px; z-index: 0;"-->
-            <div class="tab-content">
-                <div id="explorer" class="tab-pane row-fluid active"></div>
-            </div>
-        <!--/div-->
+        <div class="tab-content">
+            <div id="explorer" class="tab-pane row-fluid active"></div>
+        </div>
         
         <div id="top">
             
