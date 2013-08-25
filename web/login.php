@@ -19,47 +19,85 @@
  * limitations under the License.
  * ========================================================== */
 
-// Parse configuration :
-include_once '../app/config/config.php';
+// Parse configuration:
+require_once '../app/config/config.php';
 
+// Implement OpenID authentication:
+require_once '../src/external/openid.php';
+
+// Standard authentication process:
 session_set_cookie_params(3600); // sessions last 1 hour
 session_start();
 
-if ( isset($_GET['logout']) ) {
-    session_destroy();
-    session_start();
-}
-
-if (false&&ini_get("session.use_cookies")) {
-    $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000,
-        $params["path"], $params["domain"],
-        $params["secure"], $params["httponly"]
-    );
-}
-
 $error = '';
 
-// Authentication :
-if ( !array_key_exists('timestamp',$_SESSION) ) {
-    if ( array_key_exists('timestamp',$_POST) ) {
-        foreach ( $config['users'] as $login => $password ) {
-            if ( hash( 'sha256' , $_POST['timestamp'] . '|' . $_POST['login'] . '|' . $_POST['password'] ) == hash( 'sha256' , $_POST['timestamp'] . '|' . $login . '|' . $password ) ) {
-                
-                $_SESSION['timestamp'] = $_POST['timestamp'];
-                $_SESSION['login'] = $login;
-                
-                header('Location: index.php');
-                
-                break;
-            }
+// Implement the OpenId for the application:
+if(isset($_GET['openid'])) {
+
+    # Change 'localhost' to your domain name.
+    $openid = new LightOpenID( $_SERVER['HTTP_HOST'] );
+
+    // Open id not yet initialized:
+    if(!$openid->mode) {
+
+        if(isset($_GET['login'])) {
+            $openid->identity = 'https://www.google.com/accounts/o8/id';
+            $openid->required = array('contact/email');
+            $openid->optional = array('namePerson', 'namePerson/friendly');
+            header('Location: ' . $openid->authUrl());
         }
         
-        $error = 'Invalid password';
+    }elseif($openid->mode == 'cancel') {
+        $error = 'User has canceled authentication!';
+    } else if ( $openid->validate() ) {
+    
+        $attributes = $openid->getAttributes();
+    
+        $_SESSION['timestamp'] = mktime()*1000;
+        $_SESSION['login'] = $attributes['contact/email'];
         
+        header('Location: index.php?openid');
     } else {
-        session_destroy();
+        echo 'User ' . ($openid->validate() ? $openid->identity . ' has ' : 'has not ') . 'logged in.';
     }
+    
+} else {
+
+    if ( isset($_GET['logout']) ) {
+        session_destroy();
+        session_start();
+    }
+
+    if (false&&ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+
+    // Authentication :
+    if ( !array_key_exists('timestamp',$_SESSION) ) {
+        if ( array_key_exists('timestamp',$_POST) ) {
+            foreach ( $config['users'] as $login => $password ) {
+                if ( hash( 'sha256' , $_POST['timestamp'] . '|' . $_POST['login'] . '|' . $_POST['password'] ) == hash( 'sha256' , $_POST['timestamp'] . '|' . $login . '|' . $password ) ) {
+                    
+                    $_SESSION['timestamp'] = $_POST['timestamp'];
+                    $_SESSION['login'] = $login;
+                    
+                    header('Location: index.php');
+                    
+                    break;
+                }
+            }
+            
+            $error = 'Invalid password';
+            
+        } else {
+            session_destroy();
+        }
+    }
+    
 }
 
 ?>
@@ -162,6 +200,10 @@ if ( !array_key_exists('timestamp',$_SESSION) ) {
                 <input type="password" name="password" placeholder="password" style="width: 100%; height: 2em; max-width: 15em;"/><br/>
                 <input type="submit" class="btn btn-primary" style="width: 100%; max-width: 15em; padding: 0.5em;"/><br/>
                 <div class="text-error" style="text-align: center; padding-top: 1em;"><?php echo $error; ?></div>
+            </form>
+            
+            <form action="?openid&login" method="post">
+                <input type="image" src="http://www.google.com/favicon.ico"/>
             </form>
         </div>
         

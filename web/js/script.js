@@ -80,6 +80,8 @@
         // Public methods :
         log: function ( message ) { if ( $m.state.debug ) console.log( message ); },
         init: function () {
+        
+            
 
             // Configure AJAX request to use the cache handling method:
             // REF: http://stackoverflow.com/questions/9297873/is-it-possible-to-use-jquery-getscript-on-a-file-that-is-cached-with-a-cache-man
@@ -137,6 +139,27 @@
                 },
                 // Events binding :
                 function () {
+                
+                    // OpenId login:
+                    if ( window.openId ) {
+                        $m.state.hash = openId.hash = $m.api.utils.generateHash([openId.timestamp,openId.login,openId.i]);
+                        $m.state.timestamp = openId.timestamp;
+                        $m.storage.set( 'hash' , openId.hash );
+                        $m.storage.set( 'timestamp' , openId.timestamp );
+                        console.log( openId.i );
+                        
+                        //console.log( servers );
+                        $m.state.servers['local'] = {
+                            name: 'local',
+                            url: window.location.pathname.replace(/\/[^\/]+$/,'/api.php'),    
+                            login: openId.login,
+                            timestamp: openId.timestamp,
+                            hash: openId.hash
+                        }
+                        console.log( $m.state.servers );
+                        $m.storage.set('state.servers',$m.state.servers);
+                        console.log( $m.storage.get('state.servers') );
+                    }
                 
                     // URL parameters reading :
 //                    var p = window.location.search.replace(/^\?/,'').split('&');

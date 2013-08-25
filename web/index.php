@@ -22,8 +22,31 @@
 // Parse configuration :
 include_once '../app/config/config.php';
 
+// Implement OpenID authentication:
+require_once '../src/external/openid.php';
+
 session_set_cookie_params(3600); // sessions last 1 hour
 session_start();
+
+// Implement the OpenId for the application:
+if( isset($_GET['openid'])) {
+    
+    # Change 'localhost' to your domain name.
+    $openid = new LightOpenID( $_SERVER['HTTP_HOST'] );
+    
+    $logged = false;
+    if ( isset($_SESSION['login']) ) {
+        $login = $_SESSION['login'];
+        
+        if ( array_key_exists($login,$config['users']) ) {
+            if ( in_array( $login , $config['openid'] ) ) {
+                $logged = true;
+            }
+        }
+    }
+    
+    if ( !$logged ) header('Location: login.php');
+}   
 
 if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['timestamp'])/1000) >= 3600 ) {
     header('Location: login.php');
@@ -75,6 +98,16 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
         
         <!--script type="text/javascript" src="external/js/jquery.event.move.js"></script>
         <script type="text/javascript" src="external/js/jquery.event.swipe.js"></script-->
+        
+        <?php if( isset($_GET['openid'])): ?>
+        <script type="text/javascript">
+            var openId = {
+                login: '<?php echo $_SESSION['login']; ?>',
+                timestamp: '<?php echo $_SESSION['timestamp']; ?>',
+                i: '<?php echo $config['users'][$_SESSION['login']]; ?>',
+            };
+        </script>
+        <?php endif; ?>
         
         <script type="text/javascript" src="js/script.js"></script>
         
@@ -148,7 +181,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                         <li class="divider last"></li>
 
                         <li><a href="javascript:void(0);" id="view-recents"><i class="icon-time"></i> Recents</a></li>
-                        <li><a href="login.php?logout"><i class="icon-signout"></i> logout (<?php echo $_SESSION['login'] ?>)</a></li>
+                        <li><a href="login.php?logout"><i class="icon-signout"></i> logout &nbsp; <i class="icon-user" title="<?php echo $_SESSION['login'] ?>"></i></a></li>
                         
                         <li class="divider"></li>
                         
