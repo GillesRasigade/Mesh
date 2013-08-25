@@ -84,7 +84,7 @@ class Api_Get_Video extends Api_Get_File {
             Api_Utils::createFolder( $folder );
         }
         
-        $result = Api_Utils::exec('ffmpeg -i "'.$original.'" -an -ss 00:00:00 -an -r 1 -vframes 1 -y "'.$path.'"');
+        $result = Api_Utils::exec('ffmpeg -i "'.$original.'" -an -ss 00:00:10 -an -r 1 -vframes 1 -y "'.$path.'"');
     }
     
     public function accessAction ( $p = NULL ) {

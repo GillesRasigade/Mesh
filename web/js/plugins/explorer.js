@@ -286,53 +286,56 @@
                 });
                 
                 // Search form binding :
-                $m.events.bind( 'change' , '#s' , function ( event ) {
+                $m.events.bind( 'keypress' , '#s' , function ( event ) {
                     
-                    var search = $('#s').val();
-                    
-                    $('#filter-panel').addClass('loading');
-                    
-                    $m.api.get({
-                        c:'file',
-                        a:'search',
-                        path: $m.state.path,
-                        search: search
-                    },
-                    function( json ){
+                    var keyCode = event.originalEvent.keyCode || event.originalEvent.which;
+                    if (keyCode == '13'){
+                        var search = $('#s').val();
                         
-                        $('#search-results').remove();
-                        $('#filter-panel').removeClass('loading');
+                        $('#filter-panel').addClass('loading');
                         
-                        if ( $('#search-results').length == 0 ) {
+                        $m.api.get({
+                            c:'file',
+                            a:'search',
+                            path: $m.state.path,
+                            search: search
+                        },
+                        function( json ){
                             
-                            var $results = $('<div id="search-results" class="column folder" data-level="0" data-path="search://'+$m.state.path+'" style="width: 100%;">'+
-                                '<div class="content"></div>'+
-                                '</div>');
-                        
-                            $m.explorer.elt.append( $results );
+                            $('#search-results').remove();
+                            $('#filter-panel').removeClass('loading');
                             
-                            $results.addClass('active').siblings('.active').removeClass('active');
-                        
-                            for ( var type in json ) {
-                                if ( type !== 'music' && $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
-                                    $m.view[type].load( 'search://'+$m.state.path , json[type] );
+                            if ( $('#search-results').length == 0 ) {
+                                
+                                var $results = $('<div id="search-results" class="column folder" data-level="0" data-path="search://'+$m.state.path+'" style="width: 100%;">'+
+                                    '<div class="content"></div>'+
+                                    '</div>');
+                            
+                                $m.explorer.elt.append( $results );
+                                
+                                $results.addClass('active').siblings('.active').removeClass('active');
+                            
+                                for ( var type in json ) {
+                                    if ( type !== 'music' && $m.view && $m.view[type] && typeof($m.view[type].load) == 'function' ) {
+                                        $m.view[type].load( 'search://'+$m.state.path , json[type] );
+                                    }
+                                }
+                                
+                                $('#s').blur();
+                                
+                                if ( $('.content > *',$results).length == 0 ) {
+                                    $('.content',$results).append('<div style="text-align:center; padding: 3em; line-height: 1.5em; font-size: 2em; color: #aaa;">'+
+                                            '<i class="icon-frown"></i> Sorry, no result found.<br/>'+
+                                            '<span style="font-size: 0.75em; font-style: italic;">'+search+'</span>'+
+                                        '</div>')
                                 }
                             }
-                            
-                            $('#s').blur();
-                            
-                            if ( $('.content > *',$results).length == 0 ) {
-                                $('.content',$results).append('<div style="text-align:center; padding: 3em; line-height: 1.5em; font-size: 2em; color: #aaa;">'+
-                                        '<i class="icon-frown"></i> Sorry, no result found.<br/>'+
-                                        '<span style="font-size: 0.75em; font-style: italic;">'+search+'</span>'+
-                                    '</div>')
-                            }
-                        }
-                    });
-                    
-                    event.stopPropagation();
-                    event.preventDefault();
-                    return false;
+                        });
+                        
+                        event.stopPropagation();
+                        event.preventDefault();
+                        return false;
+                    }
                 });
                 
                 // Search form binding :
