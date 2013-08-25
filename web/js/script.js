@@ -417,9 +417,9 @@
                                 // Browser downloaded a new app cache.
                                 // Swap it in and reload the page to get the new hotness.
                                 window.applicationCache.swapCache();
-                                if (confirm('New version available:\n'+releases+'\nLoad it?')) {
+                                //if (confirm('New version available:\n'+releases+'\nLoad it?')) {
                                     window.location.reload();
-                                }
+                                //}
                             } else {
                                 // Manifest didn't changed. Nothing new to server.
                             }
