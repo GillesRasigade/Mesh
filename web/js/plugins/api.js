@@ -103,6 +103,13 @@
             },
         
             errors: {
+                0: function () {
+                    if ( $('#menu-dropdown a[href*=logout]').length ) {
+                        if ( $m.state.server == 'local' ) {
+                            window.location = $('#menu-dropdown a[href*=logout]').attr('href');
+                        } else $m.api.errors[401]();
+                    }
+                },
                 403: function () {
                     console.error(403,'Forbidden >> reloading page');
                     
@@ -197,6 +204,8 @@
                         401: $m.api.errors['401'],
                     },*/
                     error: function( xhr, textStatus ) {
+                        console.error( xhr , textStatus );
+                        
                         if ( typeof($m.api.errors[xhr.status]) == 'function' ) $m.api.errors[xhr.status]();
                         //else $m.api.errors[401]();
                     },

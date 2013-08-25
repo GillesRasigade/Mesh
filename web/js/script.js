@@ -308,7 +308,7 @@
             if ( undefined !== credentials ) {
                 $item = $('<li class="server"><a data-name="'+credentials.name+'" title="Explore files on server" href="javascript:void(0);">'+
                     '<img class="img-circle" src="'+$m.api.utils.url('image','icon',{},credentials.url)+'">'+
-                    '<span title="Go to this server" onclick="window.location = \''+credentials.url.replace(/index\.php/,'')+'\';" target="_top">'+credentials.name+'</span>'+
+                    '<span title="Go to this server" onclick="window.location = \''+credentials.url.replace(/api\.php/,'')+'\';" target="_top">'+credentials.name+'</span>'+
                     '<span class="btn btn-link" onClick="$m.editServer(\''+credentials.name+'\')"><i class="icon-edit"></i></span>'+
                 '</a></li>');
                 

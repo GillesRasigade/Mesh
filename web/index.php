@@ -25,7 +25,7 @@ include_once '../app/config/config.php';
 session_set_cookie_params(3600); // sessions last 1 hour
 session_start();
 
-if ( empty($_SESSION['timestamp']) ) {
+if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['timestamp'])/1000) >= 3600 ) {
     header('Location: login.php');
 }
 
