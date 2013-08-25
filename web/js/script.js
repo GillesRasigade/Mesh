@@ -137,6 +137,7 @@
                 },
                 // Events binding :
                 function () {
+                
                     // URL parameters reading :
 //                    var p = window.location.search.replace(/^\?/,'').split('&');
 //                    $m.url = {};

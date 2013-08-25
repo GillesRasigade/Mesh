@@ -195,7 +195,8 @@ body {
 #servers-dropdown .dropdown-menu a img {
     display: block;
     margin: 1em auto 0.5em auto;
-    max-height: 5em;
+    height: 5em;
+    width: 5em;
     background: white;
     box-shadow: inset 0px 0px 1em rgba(0,0,0,0.25);
     padding: 0.5em;

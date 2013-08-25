@@ -22,6 +22,7 @@
 // Parse configuration :
 include_once '../app/config/config.php';
 
+session_set_cookie_params(3600); // sessions last 1 hour
 session_start();
 
 if ( empty($_SESSION['timestamp']) ) {
@@ -147,7 +148,7 @@ if ( empty($_SESSION['timestamp']) ) {
                         <li class="divider last"></li>
 
                         <li><a href="javascript:void(0);" id="view-recents"><i class="icon-time"></i> Recents</a></li>
-                        <li><a href="login.php?logout"><i class=" icon-signout"></i> logout (<?php echo $_SESSION['login'] ?>)</a></li>
+                        <li><a href="login.php?logout"><i class="icon-signout"></i> logout (<?php echo $_SESSION['login'] ?>)</a></li>
                         
                         <li class="divider"></li>
                         
@@ -178,7 +179,7 @@ overflow: hidden;
 position: relative;
 top: -0.55em;
 margin-right: -1em;">
-                        <img class="img-circle" src="images/favicon-256.png" style="height: 2.5em;">
+                        <img class="img-circle" src="images/favicon-256.png" style="height: 2.5em; width: 2.5em;">
                     </a>
                     
                     <ul class="dropdown-menu  lateral-left">

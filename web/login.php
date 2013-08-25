@@ -22,6 +22,7 @@
 // Parse configuration :
 include_once '../app/config/config.php';
 
+session_set_cookie_params(3600); // sessions last 1 hour
 session_start();
 
 if ( isset($_GET['logout']) ) {

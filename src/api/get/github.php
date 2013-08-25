@@ -101,9 +101,12 @@ class Api_Get_Github {
 //        $result = Api_Utils::exec( 'git pull' );
         // Github
 
-        $result = $this->_run('git pull');
+        $result = '';
+        try {
+            $result = $this->_run('git pull');
+        } catch ( Exception $e ) {}
         
-        if ( !preg_match('/Already up-to-date/i',$result ) ) {
+        if ( $result !== '' && !preg_match('/Already up-to-date/i',$result ) ) {
             echo Api_Utils::outputJson( array(
                 'success' => 'The project has been successfully updated !',
             ));

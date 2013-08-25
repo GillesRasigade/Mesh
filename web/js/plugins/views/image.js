@@ -208,24 +208,29 @@
                 
                 
                 cover: function ( path ) {
+                    console.log( 'Cover.....' );
+                
                     var target = path;
                     if ( target.match( /\/[^\/]+\..+$/ ) ) target = target.replace(/\/[^\/]*$/,'');
-                    if ( response = prompt( 'Which folder would you like to update ?' , target ) ) {
+                    response = prompt( 'Which folder would you like to update ?' , target )
                     
-                        if ( path.match( new RegExp( response )) ) {
-                            var end = path.replace( response , '' );
-                            var level = end.replace( /[^\/]/g , '' ).length - 1;
+                    //console.log('\n\n',response);
+                
+                    if ( path.match( new RegExp( response )) ) {
+                        var end = path.replace( response , '' );
+                        var level = end.replace( /[^\/]/g , '' ).length - 1;
                         
-                            $m.api.put({ c: 'image', a: 'cover', path: path, level: level, mode: 'thumb' },function(json){
-                                if ( json.status == 'success' ) {
-                                    var album = target.replace( new RegExp( '(\/[^\/]+){'+level+'}$' , 'g' ) , '' );
-                                    $m.storage.fs.remove( album , 'm.thumb.txt' );
-                                    $('.album[data-path="'+album+'"] .album-img').css( 'background-image' , 'url("'+$m.view.image.src(album,'thumb')+'&t='+(new Date().getTime())+'")' )
-                                }
-                            });
-                        } else {
-                            console.error('Only parent folders\' covers can be updated.')
-                        }
+                        //console.log('\n\n',level,end,path);
+                    
+                        $m.api.put({ c: 'image', a: 'cover', path: path, level: level, mode: 'thumb' },function(json){
+                            if ( json.status == 'success' ) {
+                                var album = target.replace( new RegExp( '(\/[^\/]+){'+level+'}$' , 'g' ) , '' );
+                                $m.storage.fs.remove( album , 'm.thumb.txt' );
+                                $('.album[data-path="'+album+'"] .album-img').css( 'background-image' , 'url("'+$m.view.image.src(album,'thumb')+'&t='+(new Date().getTime())+'")' )
+                            }
+                        });
+                    } else {
+                        console.error('Only parent folders\' covers can be updated.')
                     }
                 }
             },

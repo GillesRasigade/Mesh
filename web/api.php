@@ -68,7 +68,7 @@ switch ( $method ) {
             $timestamp2 = NULL;
             
             // Check request timestamp delay :
-            if ( mktime() - round(floatval($timestamp)/1000) < 24 * 60 ) {
+            if ( mktime() - round(floatval($timestamp)/1000) < 60 ) {
             
                 if ( array_key_exists('Timestamp2',$auth) ) { // Anonymous connection - Not yet managed
                     $timestamp2 = $auth['Timestamp2'];

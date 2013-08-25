@@ -129,7 +129,8 @@ class Api_Get_Image extends Api_Get_File {
         
         return $this->accessAction(array(
             //'path' => preg_replace('/[^\/]+/','..',$config['path']) . $config['icon'],
-            'path' => $config['icon'],
+            //'path' => $config['icon'],
+            'path' => '/',
             'mode' => 'micro'
         ));
     }
