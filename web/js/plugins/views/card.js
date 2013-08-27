@@ -152,7 +152,7 @@
                     var body = card.body ? card.body : '';
                     
                     // Body formatting :
-                    body = body.replace( /\n/ , '<br/>' );
+                    body = body.replace( /\n/g , '<br/>' );
                     
                     if ( card.media && card.media !== '' ) {
                         type = 'image';
