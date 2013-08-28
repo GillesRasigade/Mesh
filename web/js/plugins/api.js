@@ -116,8 +116,8 @@
                     if ( !window.location.href.match('/login.php/') ) {
                         // Reloading page redirect to login page:
 //                                window.location = window.location;
-                        if ( $('#menu-dropdown a[href*=logout]').length ) {
-                            //window.location = $('#menu-dropdown a[href*=logout]').attr('href');
+                        if ( $('#menu-dropdown a[href*=logout]').length && $m.state.server == 'local' ) {
+                            window.location = $('#menu-dropdown a[href*=logout]').attr('href');
                             //if ( typeof(callback) == 'function' ) callback( 403 );
                         }
                     }
