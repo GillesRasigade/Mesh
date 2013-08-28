@@ -42,9 +42,7 @@
             columns: 1,
             views: [],      // List of possible views
             externals: [
-                'external/js/base64.js',
-                'external/js/sha256.js',
-            
+                
                 'js/utils/utils.js',
             
                 'js/plugins/events.js',
@@ -73,6 +71,8 @@
                 
                 'js/plugins/views/video.js',
                 'css/plugins/video.css',
+                
+                'js/plugins/app.js',
             ],
         },
         
@@ -80,8 +80,6 @@
         // Public methods :
         log: function ( message ) { if ( $m.state.debug ) console.log( message ); },
         init: function () {
-        
-            
 
             // Configure AJAX request to use the cache handling method:
             // REF: http://stackoverflow.com/questions/9297873/is-it-possible-to-use-jquery-getscript-on-a-file-that-is-cached-with-a-cache-man
@@ -102,19 +100,19 @@
             $m.log( 'Loading started...' );
         
             // Asynchronous initialization process :
-            var f = [
+            var i = 0, f = [
                 // External resources loading :
                 function () {
                     if ( $m.state.loading.length > 0 ) {
                     
                         $m.log( '> Loading : ' + $m.state.loading[0] );
                         $m.loadExternalResource( $m.state.loading[0] , function(){
-                            $m.state.loading.shift(); f[0]();
+                            $m.state.loading.shift(); f[i]();
                         });
                         
                     } else {
                     
-                        delete $m.state.loading; f[1]();
+                        delete $m.state.loading; f[++i]();
                         
                     }
                 },
@@ -135,7 +133,7 @@
                         }
                     }
                     
-                    f[2]();
+                    f[++i]();
                 },
                 // Events binding :
                 function () {
@@ -166,7 +164,24 @@
 //                    $m.url = {};
 //                    for ( var i in p ) $m.url[ p[i].replace(/=.*$/,'') ] = p[i].replace(/[^=]+=/,'');
                     
-                    f[3]();
+                    f[++i]();
+                },
+                function () {
+                    // Loading external user and application configuration:
+                    $m.api.get({c:'app',a:'init',api:'api.php'},function(json){
+                        console.log( 171 , json );
+                        
+                        // Update the lateral menu:
+                        $('#menu-dropdown .icon-user').attr('title',json.user.login);
+                        
+                        // Update UI with input data:
+                        if ( json.user.admin ) {
+                            $('#menu-dropdown .dropdown-menu .divider.a').before('<li class="divider"></li>'+
+                            '<li><a href="javascript:$m.app.panel();" id="view-admin-panel"><i class="icon-wrench"></i> Configuration</a></li>');
+                        }
+                        
+                        f[++i]();
+                    });
                 },
                 // Finalization :
                 function () {
@@ -206,7 +221,7 @@
                     },0);
                 
                 }
-            ]; f[0]();
+            ]; f[i]();
         },
         
         
@@ -390,62 +405,6 @@
                 <span class="btn btn-link"><i class="icon-remove"></i></span>
             </a>*/
         },
-        
-        
-        // Private methods :
-        app: {
-            update: function() {
-                // Read Git/Github versions to offer update :
-                $m.api.get({c:'github',a:'commits'},function( commits ){
-                    $m.api.get({c:'github',a:'sha',api:'api.php'},function( j ){
-                        var sha = j.sha;
-                        var csha = $m.storage.get('state.sha');
-                        var releases = '';
-                        
-                        
-                        for ( var c = 0; c < commits.length; c++ ) {
-                            if ( commits[c].sha == sha ) break;
-                            if ( c > 10 ) { releases  += '...\n'; break; }
-                            releases += '- '+ commits[c].commit.message+'\n';
-                        }
-                        console.log('commits: ',commits,'sha: '+sha,'csha: '+csha,'releases: '+releases);
-                        
-                        // Bind a cache update event:
-                        window.applicationCache.onupdateready = function(e) {
-                            if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-                                $m.storage.set('state.sha',sha);
-                                // Browser downloaded a new app cache.
-                                // Swap it in and reload the page to get the new hotness.
-                                window.applicationCache.swapCache();
-                                //if (confirm('New version available:\n'+releases+'\nLoad it?')) {
-                                    window.location.reload();
-                                //}
-                            } else {
-                                // Manifest didn't changed. Nothing new to server.
-                            }
-                        };
-                        
-                        // Current cached version is not synced with Github project:
-                        if ( csha !== sha                                           // Local server/client unsynced
-                            || ( commits.length && commits[0].sha !== sha )         // local server /github unsynced
-                        ) {
-                            
-                            // Try to perform the auto-update process :
-                            $m.api.get({c:'github',a:'pull'},function( json ){
-                                $m.log( 'Server update status' , json );
-                                
-                                $m.storage.set('state.sha',sha);
-                                $('.git-sha').text( sha ).attr('title',sha);
-                                
-                                // Reset all cache data then reload:
-                                window.applicationCache.update(); // Attempt to update the user's cache.
-                                
-                            });
-                        }
-                    });
-                });
-            }
-        }
     });
     
     

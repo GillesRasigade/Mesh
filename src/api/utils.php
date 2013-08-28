@@ -179,4 +179,17 @@ class Api_Utils {
         
         return $result;
     }
+    
+    public static function requestAdmin () {
+        global $config;
+        
+        if ( !isset($config['user'])
+            || !isset($config['user']['admin'])
+            || !$config['user']['admin'] ) {
+            
+            header('HTTP/1.0 403 Forbidden');
+            die();
+            
+        }
+    }
 }

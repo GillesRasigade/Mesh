@@ -74,60 +74,11 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
         <meta name="apple-mobile-web-app-title" content="Media">
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <link rel="apple-touch-startup-image" href="images/default-album.gif" />
-    
-        <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script-->
-        <!--link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet"/-->
-        <!--script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.js"></script-->
         
-        <script src="external/js/jquery.min.js"></script>
-        <!--link href="external/css/bootstrap-combined.min.css" rel="stylesheet"/-->
-        <script src="external/js/bootstrap.js"></script>
-        
-        <!--link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"-->
-        
-        <!--link rel="stylesheet/less" type="text/css" href="css/less/sprites.less"-->
-        <!--script src="//cloud.github.com/downloads/cloudhead/less.js/less-1.3.1.min.js" type="text/javascript"></script-->
-        
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+        <link href="external/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link href="external/css/font-awesome.css" rel="stylesheet">
             
         <link type="text/css" href="css/stylesheet.css" rel="stylesheet"/>
-        <!--script type="text/javascript" src="js/jquery.base64.min.js"></script-->
-        <script type="text/javascript" src="external/js/base64.js"></script>
-        <script type="text/javascript" src="external/js/sha256.js"></script>
-        
-        <!--script type="text/javascript" src="external/js/jquery.event.move.js"></script>
-        <script type="text/javascript" src="external/js/jquery.event.swipe.js"></script-->
-        
-        <?php if( isset($_GET['openid'])): ?>
-        <script type="text/javascript">
-            var openId = {
-                login: '<?php echo $_SESSION['login']; ?>',
-                timestamp: '<?php echo $_SESSION['timestamp']; ?>',
-                i: '<?php echo $config['users'][$_SESSION['login']]; ?>',
-            };
-        </script>
-        <?php endif; ?>
-        
-        <script type="text/javascript" src="js/script.js"></script>
-        
-        <script type="text/javascript">
-            window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
-                state: {
-                    typesOrder: [ 'folder' , 'music' , 'card' , 'video' , 'pdf' ],
-                    server: 'local',
-                    servers: {
-                        'local': {
-                            name: 'local',
-                            url: '<?php echo $config['servers']['local']; ?>',
-                            login: '<?php echo $_SESSION['login']; ?>',
-                            timestamp: '<?php echo $_SESSION['timestamp']; ?>',
-                            hash: '<?php echo hash( 'sha256' , $_SESSION['timestamp'] . '|' . $_SESSION['login'] . '|' . $config['users'][$_SESSION['login']] ); ?>',
-                        }
-                    }
-                },
-            });
-        </script>
         
     </head>
     <body>
@@ -181,7 +132,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                         <li class="divider last"></li>
 
                         <li><a href="javascript:void(0);" id="view-recents"><i class="icon-time"></i> Recents</a></li>
-                        <li><a href="login.php?logout"><i class="icon-signout"></i> logout &nbsp; <i class="icon-user" title="<?php echo $_SESSION['login'] ?>"></i></a></li>
+                        <li><a href="login.php?logout"><i class="icon-signout"></i> logout &nbsp; <i class="icon-user"></i></a></li>
                         
                         <li class="divider"></li>
                         
@@ -192,13 +143,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                             </div>
                         </a></li>
                         
-                        
-                        <?php if ( isset($config[$_SESSION['login']]) && isset($config[$_SESSION['login']]['admin']) && $config[$_SESSION['login']]['admin'] ): ?>
-                        <li class="divider"></li>
-                        <li><a href="javascript:$m.admin.panel();" id="view-admin-panel"><i class="icon-wrench"></i> Configuration</a></li>
-                        <?php endif; ?>
-                        
-                        <li class="divider"></li>
+                        <li class="divider a"></li>
                         
                         <li><a href="javascript:void(0)" style="text-align: center;"><img src="images/logo.png" style="height: 3em; margin: 1em auto;"></img></a></li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh" target="_blank">Fork us on Github!</a></li>
@@ -223,19 +168,6 @@ margin-right: -1em;">
                         </li>
                         
                         <li class="divider"></li>
-                    
-                        <?php if ( FALSE ): ?>
-                        <?php foreach ( $config['servers'] as $server => $url ): ?>
-                        <li class="server">
-                            <a data-url="<?php echo $url; ?>" title="Explore files on <?php echo $server; ?>" href="javascript:void(0);">
-                                <img class="img-circle" src="<?php echo preg_replace('/\/[^\/]+$/' , '/images/server-icon.png', $url); ?>" />
-                                <span title="Go to this server" onClick="window.location = '<?php echo preg_replace('/\/[^\/]+$/' , '/index.php', $url); ?>';" target="_top"><?php echo $server; ?></span>
-                                <span class="btn btn-link"><i class="icon-remove"></i></span>
-                            </a>
-                        </li>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
-                        
                         
                     </ul>
                 </div>
@@ -248,5 +180,59 @@ margin-right: -1em;">
         </div>
         
         <div id="application-details"></div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <script src="external/js/jquery.min.js"></script>
+        <script src="external/js/bootstrap.js"></script>
+        <script type="text/javascript" src="external/js/base64.js"></script>
+        <script type="text/javascript" src="external/js/sha256.js"></script>
+        
+        <?php if( isset($_GET['openid'])): ?>
+        <script type="text/javascript">
+            var openId = {
+                login: '<?php echo $_SESSION['login']; ?>',
+                timestamp: '<?php echo $_SESSION['timestamp']; ?>',
+                i: '<?php echo $config['users'][$_SESSION['login']]; ?>',
+            };
+        </script>
+        <?php endif; ?>
+        
+        <script type="text/javascript" src="js/script.js"></script>
+        
+        <script type="text/javascript">
+            window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
+                state: {
+                    typesOrder: [ 'folder' , 'music' , 'card' , 'video' , 'pdf' ],
+                    server: 'local',
+                    servers: {
+                        'local': {
+                            name: 'local',
+                            url: '<?php echo $config['servers']['local']; ?>',
+                            login: '<?php echo $_SESSION['login']; ?>',
+                            timestamp: '<?php echo $_SESSION['timestamp']; ?>',
+                            hash: '<?php echo hash( 'sha256' , $_SESSION['timestamp'] . '|' . $_SESSION['login'] . '|' . $config['users'][$_SESSION['login']] ); ?>',
+                        }
+                    }
+                },
+            });
+        </script>
+        
+        
+        
     </body>
 </html>

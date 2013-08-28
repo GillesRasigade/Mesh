@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2013-08-28:v1a
+# 2013-08-28:v1b
 
 # Explicitly cached 'master entries'.
 CACHE:
@@ -7,10 +7,8 @@ external/js/jquery.min.js
 external/js/bootstrap.js
 external/js/sha256.js
 external/js/base64.js
-
-external/css/bootstrap-combined.min.css
-css/font-awesome.min.css
-css/stylesheet.css
+external/css/bootstrap-combined.no-icons.min.css
+external/css/font-awesome.css
 
 images/favicon.png
 images/favicon-32.png
@@ -19,7 +17,37 @@ images/favicon-128.png
 images/icon-iphone.png
 images/default-album.gif
 
+
+
+
+css/stylesheet.css
+css/plugins/card.css
+css/plugins/explorer.css
+css/plugins/folder.css
+css/plugins/image.css
+css/plugins/music.css
+css/plugins/pdf.css
+css/plugins/video.css
+
+
+
+
 js/script.js
+js/utils/utils.js
+
+js/plugins/api.js
+js/plugins/app.js
+js/plugins/events.js
+js/plugins/explorer.js
+js/plugins/storage.js
+js/plugins/utils.js
+
+js/plugins/views/card.js
+js/plugins/views/folder.js
+js/plugins/views/image.js
+js/plugins/views/music.js
+js/plugins/views/pdf.js
+js/plugins/views/video.js
 
 NETWORK:
 *

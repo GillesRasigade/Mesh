@@ -93,7 +93,10 @@ switch ( $method ) {
                     foreach ( $config['users'] as $login => $password ) {
                         if ( $hash == hash( 'sha256' , $timestamp . hash( 'sha256' , $timestamp2 . '|' . $login . '|' . $password ) ) ) {
                             $isAuthenticated = TRUE;
-                            if ( isset( $config[$login] ) ) $config['user'] = $config[$login];
+                            if ( isset( $config[$login] ) ) {
+                                $config['user'] = $config[$login];
+                                $config['user']['login'] = $login;
+                            }
                             break;
                         }
                     }
