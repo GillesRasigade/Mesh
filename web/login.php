@@ -20,7 +20,7 @@
  * ========================================================== */
 
 // Parse configuration:
-require_once '../app/config/config.php';
+require_once '../app/config/initialize.php';
 
 // Implement OpenID authentication:
 require_once '../src/external/openid.php';
@@ -53,6 +53,7 @@ if(isset($_GET['openid'])) {
     
         $attributes = $openid->getAttributes();
     
+        $_SESSION['openId'] = true;
         $_SESSION['timestamp'] = mktime()*1000;
         $_SESSION['login'] = $attributes['contact/email'];
         

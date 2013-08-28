@@ -19,9 +19,7 @@
  * limitations under the License.
  * ========================================================== */
 
-// Parse the main ini file :
-$config = parse_ini_file('config.ini') + array(
-    'limit' => 25,
-    
-);
+include_once 'config.php';
 
+// Extract the current git sha version :
+$git = $config['sha'] = exec("git rev-parse --verify HEAD;");

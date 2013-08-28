@@ -20,7 +20,7 @@
  * ========================================================== */
 
 // Parse configuration :
-include_once '../app/config/config.php';
+include_once '../app/config/initialize.php';
 
 // Implement OpenID authentication:
 require_once '../src/external/openid.php';

@@ -180,6 +180,29 @@
                             '<li><a href="javascript:$m.app.panel();" id="view-admin-panel"><i class="icon-wrench"></i> Configuration</a></li>');
                         }
                         
+                        // OpenId authentication:
+                        if ( json.openId ) {
+                            window.openId = json.openId;
+                        
+                            $m.state.hash = openId.hash = $m.api.utils.generateHash([openId.timestamp,openId.login,openId.i]);
+                            $m.state.timestamp = openId.timestamp;
+                            $m.storage.set( 'hash' , openId.hash );
+                            $m.storage.set( 'timestamp' , openId.timestamp );
+                            console.log( openId.i );
+                            
+                            //console.log( servers );
+                            $m.state.servers['local'] = {
+                                name: 'local',
+                                url: window.location.pathname.replace(/\/[^\/]+$/,'/api.php'),    
+                                login: openId.login,
+                                timestamp: openId.timestamp,
+                                hash: openId.hash
+                            }
+                            console.log( $m.state.servers );
+                            $m.storage.set('state.servers',$m.state.servers);
+                            console.log( $m.storage.get('state.servers') );
+                        }
+                        
                         f[++i]();
                     });
                 },

@@ -33,6 +33,13 @@ class Api_Get_App {
         $json['user']['login'] = $config['user']['login'];
         $json['user']['admin'] = ( isset($config['user']) && isset($config['user']['admin']) && $config['user']['admin'] );
         
+        if ( isset($_SESSION['openId']) && $_SESSION['openId'] === TRUE ) {
+            $json['openId'] = array(
+                'login' => $_SESSION['login'],
+                'timestamp' => $_SESSION['timestamp'],
+                'i' => $config['users'][$_SESSION['login']],
+            );
+        }
         
         
         echo Api_Utils::outputJson($json);
