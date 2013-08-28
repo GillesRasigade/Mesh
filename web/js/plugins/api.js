@@ -106,7 +106,7 @@
                 0: function () {
                     if ( $('#menu-dropdown a[href*=logout]').length ) {
                         if ( $m.state.server == 'local' ) {
-                            window.location = $('#menu-dropdown a[href*=logout]').attr('href');
+                            //window.location = $('#menu-dropdown a[href*=logout]').attr('href');
                         } else $m.api.errors[401]();
                     }
                 },
