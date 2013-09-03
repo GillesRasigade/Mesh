@@ -175,6 +175,10 @@
                     var $target = $( event.target );
                     
                     switch ( true ) {
+                        case $target.hasClass( 'folder-share' ) || $target.closest( '.folder-share' ).length > 0 :
+                            return false;
+                            break;
+                            
                         case $target.hasClass( 'folder-download' ) || $target.closest( '.folder-download' ).length > 0 :
                             var path = $target.closest('.entry').attr('data-path');
                             window.open($m.api.utils.url('file','zip',{path: path}), '_blank');
@@ -276,7 +280,9 @@
                 $m.events.bind( 'click' , '#explorer-tree-nav' , function ( event ) {
                     var $target = $( event.target );
                     var path = $target.attr('data-path');
-                    $m.explorer.goto( path );
+                    if ( !$m.shared || path.match( new RegExp( $m.shared ) ) ) {
+                        $m.explorer.goto( path );
+                    }
                 });
                 
                 // Menu actions :
@@ -515,7 +521,7 @@
                             // Current folder absolute path :
                             var p = folders.slice(0,i+1).join('/');
                             
-                            
+                            if ( undefined !== $m.shared && null === p.match( new RegExp( $m.shared ) ) ) return f[1]();
                             
                             if ( $('.folder[data-path="'+p+'"]').length == 0 ) {
                                 // Update the navigation bar :
@@ -534,11 +540,12 @@
                                     
                                         // Move to the last folder :
                                         $m.explorer.goto( $m.explorer.elt.find('.folder:last-child').attr('data-path') );
+                                        
                                         i--; setTimeout( f[0] , 100 );
                                     });
                                 } else {
-                                        i--; setTimeout( f[0] , 100 );
-                                    }
+                                    i--; setTimeout( f[0] , 100 );
+                                }
                             } else {
                                 i--; f[0]();
                             }
@@ -549,6 +556,15 @@
                         //$m.explorer.elt.find('.folder:last-child').addClass('active');
                         //$m.explorer.goto( $m.explorer.elt.find('.folder:last-child').attr('data-path') );
                         $m.state.loading = false;
+                        
+                        // Share toek building:
+                        var sharedToken = $m.api.utils.token({
+                            shared: true,
+                            url: $m.state.servers[ $m.state.server ].url,
+                            path: path,
+                            auth: $m.state.servers[ $m.state.server ].share
+                        });
+                        console.log( 'sharedToken' , sharedToken );
                         
                         setTimeout(function(){
                             $m.explorer.events.scroll();

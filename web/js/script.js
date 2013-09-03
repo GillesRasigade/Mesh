@@ -167,6 +167,38 @@
                     f[++i]();
                 },
                 function () {
+                    // Read parameter link:
+                    if ( window.location.href.match(/link=/) ) {
+                        var link = window.location.href.replace(/^.*link=([^&]*).*$/,'$1');
+                        var token = $m.api.utils.token( link );
+                        if ( token.shared === true ) {
+                            // Removing UI elements:
+                            $('body').addClass('anonymous');
+                        
+                            $m.loadExternalResource( 'css/plugins/anonymous.css' );
+                        
+                        
+                            // Setting up anonymous connection settings:
+                            $m.state.path = token.path;
+                            $m.shared = token.path;
+                            $m.state.servers = {
+                                local: {
+                                    name: token.path.replace(/.*\//,''),
+                                    url: token.url,
+                                    login: 'Anonymous',
+                                    timestamp: token.path,
+                                    hash: token.auth,
+                            }};
+                            $m.state.server= 'local';
+                            //delete $m.events.binded['click']['#explorer-tree-nav'];
+                            
+                            
+                        }
+                        
+                        $m.api.get({c:'app',a:'init'},function(json){});
+                        
+                    }
+                
                     // Loading external user and application configuration:
                     $m.api.get({c:'app',a:'init',api:'api.php'},function(json){
                         console.log( 171 , json );
@@ -193,7 +225,7 @@
                             //console.log( servers );
                             $m.state.servers['local'] = {
                                 name: 'local',
-                                url: window.location.pathname.replace(/\/[^\/]+$/,'/api.php'),    
+                                url: window.location.pathname.replace(/\/[^\/]+$/,'/api.php'),
                                 login: openId.login,
                                 timestamp: openId.timestamp,
                                 hash: openId.hash
@@ -388,6 +420,7 @@
                     timestamp: (new Date()).getTime(),
                 }
                 credentials.hash = $m.api.utils.generateHash([credentials.timestamp,credentials.login,$('*[name="password"]',$popup).val()]);
+                credentials.share = $m.api.utils.generateHash([0,credentials.login,$('*[name="password"]',$popup).val()]);
                 
                 //$m.api.get({},function( json ){ console.log(json); });
                 
@@ -405,6 +438,7 @@
                         
                         credentials.timestamp = $m.state.servers[credentials.name].timestamp;
                         credentials.hash = $m.state.servers[credentials.name].hash;
+                        credentials.share = $m.state.servers[credentials.name].share;
                         
                     }
                 

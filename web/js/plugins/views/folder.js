@@ -133,12 +133,23 @@
                                         details.push( title.replace(/^([\d-,]+) .*/,'$1') );
                                         title = title.replace(/^[\d-,]+ /,'');
                                     }
+                                    
+                                    // Share toek building:
+                                    var sharedToken = $m.api.utils.token({
+                                        shared: true,
+                                        url: $m.state.servers[ $m.state.server ].url,
+                                        path: p,
+                                        auth: $m.state.servers[ $m.state.server ].share
+                                    });
 
                                     //title="'+json['folder'][i]+'"
                                     var $div = $('<a data-path="'+p+'" href="javascript:void(0)" class="album entry">'+
                                             '<i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>'+
                                             '<span class="album-img img-polaroid" style="height: '+($m.view.folder.columns.width*9/16)+'px"></span>'+
                                             '<span class="actions">'+
+                                                //'<a href="'+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'" target="_blank" class="btn btn-link folder-share"><i class="icon-share"></i></a>'+
+                                                //'<a class="icon-share">&nbsp;</a>'+
+                                                '<div onClick="$m.view.folder.share(\''+p+'\',\''+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'\');" class="btn btn-link folder-share"><i class="icon-share"></i></div>'+
                                                 '<div title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i></div>'+
                                                 '<i class="icon-remove delete-folder"></i>'+
                                             '</span>'+
@@ -235,6 +246,32 @@
                             },50);
                         }
                     ]; f[0]();
+                },
+                
+                
+                share: function ( path , url ) {
+                    if ( undefined === $m.shared ) {
+                    
+                        if ( !url.match(/^https?:\/\//) ) {
+                            url = url.replace( /^.*\?/ , window.location.href.replace(/\?.*$/,'') + '?' );
+                        }
+                    
+                        //prompt( 'Share' , url );
+                        $('#folder-share-link').remove();
+                        $('body').append('<div id="folder-share-link" class="modal hide fade server-authentication" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
+                            '<div class="modal-header">Share link for '+path.replace(/^.*\//,'')+'</div>'+
+                            '<div class="modal-body">'+
+                                '<textarea rows="3" style="width: 100%; overflow: hidden;">'+url+'</textarea>'+ 
+                            '</div>'+
+                            '<div class="modal-footer">'+
+                                '<button class="btn" data-dismiss="modal">Close</button>'+
+                            '</div>'+
+                        '</div>');
+                        
+                        $('#folder-share-link').modal('show');
+                    }
+                
+                    return false;
                 }
             },
         }

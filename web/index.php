@@ -28,6 +28,23 @@ require_once '../src/external/openid.php';
 session_set_cookie_params(3600); // sessions last 1 hour
 session_start();
 
+// Shared link access:
+if ( isset($_GET['link']) ) {
+    require_once '../src/api/utils.php';
+    $token = Api_Utils::readToken( $_GET['link'] );
+    if ( isset($token['shared']) && $token['shared'] ) {
+        $_SESSION['anonymous'] = true;
+        $_SESSION['timestamp'] = mktime()*10000;
+        $_SESSION['user'] = array(
+            'login' => 'Anonymous',
+            'methods' => array( 'get' ),
+            'path' => $token['path']
+        );
+    }
+    
+    //var_dump( $token , $_SESSION ); die();
+}
+
 // Implement the OpenId for the application:
 if( isset($_GET['openid'])) {
     
@@ -46,7 +63,7 @@ if( isset($_GET['openid'])) {
     }
     
     if ( !$logged ) header('Location: login.php');
-}   
+}
 
 if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['timestamp'])/1000) >= 3600 ) {
     header('Location: login.php');
@@ -54,7 +71,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
 
 ?>
 <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">
-<html lang="en" manifest="cache.manifest">
+<html lang="en" manifest="__cache.manifest">
     <head>
         <title>Media explorer</title>
         
@@ -145,7 +162,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                         
                         <li class="divider a"></li>
                         
-                        <li><a href="javascript:void(0)" style="text-align: center;"><img src="images/logo.png" style="height: 3em; margin: 1em auto;"></img></a></li>
+                        <li class="application-details"><a href="https://plus.google.com/b/108102348820509719254/108102348820509719254/posts" target="_blank" style="text-align: center;"><img src="images/logo.png" style="height: 3em; margin: 1em auto;"/></a></li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh" target="_blank">Fork us on Github!</a></li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
                     </ul>

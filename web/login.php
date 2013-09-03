@@ -103,7 +103,7 @@ if(isset($_GET['openid'])) {
 
 ?>
 <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">
-<html lang="en" manifest="cache.manifest">
+<html lang="en" manifest="__cache.manifest">
     <head>
         <title>Media explorer</title>
         
@@ -136,10 +136,12 @@ if(isset($_GET['openid'])) {
         <link href="external/css/bootstrap-combined.min.css" rel="stylesheet"/>
         <script src="external/js/bootstrap.js"></script>
         
-        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
         <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
         
+        <script type="text/javascript" src="external/js/base64.js"></script>
         <script type="text/javascript" src="external/js/sha256.js"></script>
+        
         <script type="text/javascript" src="js/script.js"></script>
     </head>
     <body>
@@ -159,6 +161,7 @@ if(isset($_GET['openid'])) {
 
                             // Hash generation :
                             var hash = Sha256.hash( timestamp + '|' + $('*[name="login"]').val() + '|' + $('*[name="password"]').val() );
+                            var share = Sha256.hash( 0 + '|' + $('*[name="login"]').val() + '|' + $('*[name="password"]').val() );
                             /*var hash = $m.api.utils.generateHash([
                                 timestamp,
                                 $('*[name="login"]').val(),
@@ -177,11 +180,13 @@ if(isset($_GET['openid'])) {
                                     servers['local']['login'] = $('*[name="login"]').val();
                                     servers['local']['timestamp'] = timestamp;
                                     servers['local']['hash'] = hash;
+                                    servers['local']['share'] = share;
                                     $m.storage.set('state.servers',servers);
                                 }
                             }
 
                             $m.storage.set( 'hash' , hash );
+                            $m.storage.set( 'share' , share );
                             $m.storage.set( 'timestamp' , timestamp );
 
                             $(this).get(0).submit();

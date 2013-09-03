@@ -42,6 +42,9 @@ switch ( $method ) {
         // Moving to the API folder :
         chdir('../src/api/');
         
+        // Load utilities class object : static access.
+        require_once 'utils.php';
+        
         // Authentication :
         $auth = array();
         if ( array_key_exists( 'auth' , $_REQUEST ) ) {
@@ -58,6 +61,7 @@ switch ( $method ) {
         }
         
         error_log( var_export( $auth , TRUE ) );
+        //var_dump( $auth );
         
         if ( array_key_exists( 'AuthenticationHash' , $auth ) && array_key_exists( 'Timestamp' , $auth ) ) {
             $hash = $auth['AuthenticationHash'];
@@ -69,8 +73,8 @@ switch ( $method ) {
             
             // Check request timestamp delay :
             if ( mktime() - round(floatval($timestamp)/1000) < 60 ) {
-            
-                if ( array_key_exists('Timestamp2',$auth) ) { // Anonymous connection - Not yet managed
+                
+                if ( array_key_exists('Timestamp2',$auth) && $auth['Timestamp2'] !== NULL && is_numeric($auth['Timestamp2']) ) { // Anonymous connection - Not yet managed
                     $timestamp2 = $auth['Timestamp2'];
 
                     // Check authentication timestamp delay :
@@ -84,6 +88,16 @@ switch ( $method ) {
 
                 } else if ( array_key_exists('timestamp',$_SESSION) ) {
                     $timestamp2 = $_SESSION['timestamp'];
+                } else if ( isset($auth['Timestamp2']) && is_string($auth['Timestamp2']) ) {
+                    // Anonymous access to folders and files:
+                    $timestamp2 = 0;
+                    
+                    $p = Api_Utils::readToken();
+                    if ( isset($p['path']) && !preg_match('@'.$auth['Timestamp2'].'@',$p['path'])) {
+                        session_destroy();
+                        header('HTTP/1.0 403 Forbidden');
+                        die('Wrong credentials.');
+                    }
                 }
 
                 if ( $timestamp2 !== NULL ) {
@@ -93,6 +107,7 @@ switch ( $method ) {
                     foreach ( $config['users'] as $login => $password ) {
                         if ( $hash == hash( 'sha256' , $timestamp . hash( 'sha256' , $timestamp2 . '|' . $login . '|' . $password ) ) ) {
                             $isAuthenticated = TRUE;
+                            if ( $timestamp2 == 0 ) $login = 'anonymous';
                             if ( isset( $config[$login] ) ) {
                                 $config['user'] = $config[$login];
                                 $config['user']['login'] = $login;
@@ -101,8 +116,9 @@ switch ( $method ) {
                         }
                     }
                 }
-                
             }
+            
+            //var_dump( $timestamp2 , json_decode( $config['user']['methods'] ) );
             
             if ( !$isAuthenticated ) {
                 session_destroy();
@@ -116,6 +132,8 @@ switch ( $method ) {
         }
         
         $m = strtolower($method);
+        
+        //var_dump( $m , json_decode($config['user']['methods']) );
         
         // Filter request based on the user permissions :
         if ( !in_array( $m , json_decode($config['user']['methods'])) ) {
@@ -132,8 +150,7 @@ switch ( $method ) {
             
             $lib = './' . $m . '/' . strtolower($c) . '.php';
             if ( file_exists($lib) ) {
-                // Load utilities class object : static access.
-                require_once 'utils.php';
+                
             
                 // Require the correct controller :
                 require_once $lib;

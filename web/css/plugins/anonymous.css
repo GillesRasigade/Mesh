@@ -17,40 +17,8 @@
  * limitations under the License.
  * ========================================================== */
 
-.type.folders .album .actions {
-    float: right;
-    margin-left: -100%;
-    padding: 0.5em;
-    position: relative;
-    background: white;
-    padding-bottom: 0em;
-}
+.anonymous #menu-dropdown .dropdown-menu li:not(.application-details),
+.actions { display: none; }
 
-.type.folders .album .actions *,
-.type.folders .album .details {
-    color: #ccc !important;
-    
-    -webkit-transition: color 0.3s;
-    -moz-transition: color 0.3s;
-    -o-transition: color 0.3s;
-    transition: color 0.3s;
-}
-
-.type.folders .album:hover .actions *,
-.type.folders .album:hover .details {
-    color: #777 !important;
-}
-
-.album .icon-spinner {
-    display: none;
-}
-
-.album.loading .icon-spinner {
-    display: inline-block;
-    float: right;
-    margin-bottom: -100%;
-    color: white;
-    text-shadow: 0px 0px 2px #ccc;
-    margin-right: 0.5em;
-    margin-top: 0.5em;
-}
+.anonymous #servers-dropdown
+{ pointer-events: none; }
