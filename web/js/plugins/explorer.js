@@ -664,9 +664,9 @@
                         '</div>'+
                     '</div>');
                     
-                    if ( undefined !== content.header ) $('.modal-header',$modal).append( content.header );
-                    if ( undefined !== content.body ) $('.modal-body',$modal).append( content.body );
-                    if ( undefined !== content.footer ) $('.modal-footer',$modal).append( content.footer );
+                    if ( undefined !== content.header ) $('.modal-header',$modal).html( content.header );
+                    if ( undefined !== content.body ) $('.modal-body',$modal).html( content.body );
+                    if ( undefined !== content.footer ) $('.modal-footer',$modal).html( content.footer );
                     
                     $('body').append( $modal );
                     
