@@ -73,6 +73,9 @@
                 'css/plugins/video.css',
                 
                 'js/plugins/app.js',
+                
+                // Other Javascript or stylesheets stuff:
+                'https://apis.google.com/js/plusone.js',
             ],
         },
         
