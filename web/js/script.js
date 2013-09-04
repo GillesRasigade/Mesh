@@ -76,6 +76,7 @@
                 
                 // Other Javascript or stylesheets stuff:
                 'https://apis.google.com/js/plusone.js',
+                //'https://connect.facebook.net/fr_FR/all.js',
             ],
         },
         

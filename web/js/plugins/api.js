@@ -38,8 +38,16 @@
                     
                     if ( $m.state && $m.state.servers ) {
                         if ( $m.state.server && $m.state.servers[$m.state.server] ) {
-                            credentials = $m.state.servers[$m.state.server];
+                            credentials = $.extend(true,{},$m.state.servers[$m.state.server]);
+                            //credentials = $m.state.servers[$m.state.server];
                         }
+                    }
+                    
+                    if ( token && token.shared ) {
+                        credentials.hash = credentials.share;
+                        credentials.timestamp = token.path;
+                        credentials.shared = true;
+                        delete credentials.share;
                     }
                 
                     api = api !== undefined ? api : window.$m.state.api;
@@ -67,6 +75,9 @@
                     var timestamp = (new Date()).getTime();
                     var hash = credentials !== undefined && credentials.hash ? credentials.hash : $m.storage.get( 'hash' );
                     
+                    // Build link available 1 year:
+                    if ( credentials && credentials.shared ) timestamp += 1000*60*60*24*365;
+                    
                     if ( hash == '' ) {
                         if ( document.cookie.match( /(?:^|;)hash=/ ) ) {
                             hash = document.cookie.replace( /(?:^|.*;)hash=([^;]*)(?:;.*|$)/ , '$1' );
@@ -75,7 +86,7 @@
                     
                     var auth = {
                         'Timestamp': timestamp ,
-                        'Timestamp2': credentials !== undefined && credentials.timestamp ? credentials.timestamp : $m.storage.get( 'timestamp' ),
+                        'Timestamp2': undefined !== credentials && undefined !== credentials.timestamp ? credentials.timestamp : $m.storage.get( 'timestamp' ),
                         'AuthenticationHash': Sha256.hash( '' + ( undefined !== timestamp ? timestamp : '' ) + ( undefined !== hash ? hash : '' ) ) ,
                     };
                     

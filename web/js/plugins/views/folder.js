@@ -266,7 +266,14 @@
                         $m.explorer.helper.modal({
                             header: 'Share <i>'+folder+'</i> with links below',
                             body: '<textarea rows="3" style="width: 100%; overflow: hidden;">'+url+'</textarea><br/>'+
-                                '<g:plus action="share" href="'+url+'"></g:plus>',
+                                '<a class="btn" style="margin-bottom: 1em;" href="mailto:?'+
+                                    'subject='+escape('I shared the folder "'+folder+'" with you')+'&'+
+                                    'body='+escape('Hi,\n\nPlease have a look here:\n'+url)+
+                                    '" target="_blank">Email</a><span class="btn btn-link" style="margin-bottom: 1em;">Send the link via email</span><br/>'+
+                                '<div style="margin-left: 1px;"><g:plus action="share" href="'+url+'"></g:plus></div>'+
+                                //'<div class="fb-like" data-href="http://developers.facebook.com/docs/reference/plugins/like" data-width="450" data-layout="button_count" data-show-faces="true" data-send="true"></div>',
+                                '<iframe src="//www.facebook.com/plugins/like.php?href='+escape(url)+'&amp;width=450&amp;height=80&amp;colorscheme=light&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;send=true" scrolling="no" frameborder="0" style="margin-top: 1em; border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>'
+                            ,
                             onshown: function( modal ) {
                                 gapi.plus.go( modal );
                             }

@@ -105,7 +105,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
     <body>
         
         <div id="splash-screen" style="display: none;">
-            <div class="icon-remove close" style="color: white; text-shadow: 0px 0px 5px black; padding: 0.25em; margin-left: -100%; font-size: 3em;z-index: 1001; position: relative;">&nbsp;</div>
+            <div class="icon-remove close" style="color: white; text-shadow: 0px 0px 5px black; padding: 0.25em; margin-left: -100%; font-size: 3em; z-index: 1001; position: relative; right: 0.5em;">&nbsp;</div>
             <table style="">
                 <tbody>
                     <tr>
@@ -115,7 +115,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
             </table>
             
             <div class="btn-prev prev"><i class="icon-arrow-left">&nbsp;</i></div>
-            <div class="btn-next next"><i class="icon-arrow-right">&nbsp;</i></div>
+            <div class="btn-next next" style="margin-right: 0.5em;"><i class="icon-arrow-right">&nbsp;</i></div>
             <div class="icon-spin icon-spinner" style="display: none; color: white;padding: 0.25em;font-size: 3em;opacity: 0.5;position: absolute;bottom: 0px;right: 0px;">&nbsp;</div>
             <div class="controls"style="position: fixed; bottom: 0px; width: 20%; left: 40%; overflow: visible; font-size: 3em; padding: 0.25em; text-align: center;">
                 <div class="btn-group">

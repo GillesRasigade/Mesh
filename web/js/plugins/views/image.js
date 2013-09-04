@@ -155,10 +155,18 @@
                                                 h = height; column = c;
                                             }
                                         }
+                                        
+                                        
+                                        var sharedLink = $m.api.utils.url('image','access',{
+                                            path: p, mode: 'preview', base64: false, shared: true
+                                        },$m.state.servers[ $m.state.server ].url );
 
                                         $folder.find('.images > .column:nth-child('+column+') > .column-content').append(
                                             $div.append( $img )
                                                 .append( '<div class="actions">'+
+                                                
+                                                    '<div onClick="$m.view.folder.share(\''+p+'\',\''+sharedLink+'\');" class="btn btn-link image-share"><i class="icon-share"></i></div>'+
+                                                
                                                     '<div class="btn btn-link image-rotate" data-value="-90"><i class="icon-rotate-left"></i></div>'+
                                                     '<div class="btn btn-link image-rotate" data-value="90"><i class="icon-rotate-right"></i></div>'+
 

@@ -176,6 +176,7 @@
                     
                     switch ( true ) {
                         case $target.hasClass( 'folder-share' ) || $target.closest( '.folder-share' ).length > 0 :
+                        case $target.hasClass( 'image-share' ) || $target.closest( '.image-share' ).length > 0 :
                             return false;
                             break;
                             
