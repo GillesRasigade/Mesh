@@ -648,7 +648,31 @@
             },
             
             
-            
+            helper: {
+                modal: function ( content , id ) {
+                    id = undefined !== id ? id : 'modal';
+                    content = undefined !== content ? content : {};
+                    
+                    //prompt( 'Share' , url );
+                    $('#'+id).remove();
+                    
+                    var $modal = $('<div id="'+id+'" class="modal hide fade server-authentication" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
+                        '<div class="modal-header">Modal</div>'+
+                        '<div class="modal-body"></div>'+
+                        '<div class="modal-footer">'+
+                            '<button class="btn" data-dismiss="modal">Close</button>'+
+                        '</div>'+
+                    '</div>');
+                    
+                    if ( undefined !== content.header ) $('.modal-header',$modal).append( content.header );
+                    if ( undefined !== content.body ) $('.modal-body',$modal).append( content.body );
+                    if ( undefined !== content.footer ) $('.modal-footer',$modal).append( content.footer );
+                    
+                    $('body').append( $modal );
+                    
+                    $modal.modal('show');
+                }
+            },
             
             events: {
                 scroll: function ( event ) {
@@ -748,6 +772,7 @@
             }
             
         },
+
     });
     
     $m.explorer.init();
