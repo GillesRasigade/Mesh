@@ -673,8 +673,8 @@
                     $modal.modal('show').on('hidden', function () {
                         if ( typeof(content.onhidden) === 'function' ) content.onhidden(id);
                         $(this).remove();
-                    }).on('show', function () {
-                        if ( typeof(content.onshow) === 'function' ) content.onshow(id);
+                    }).on('shown', function () {
+                        if ( typeof(content.onshown) === 'function' ) content.onshown(id);
                     });;
                 }
             },
