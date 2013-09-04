@@ -177,7 +177,6 @@
                         
                             $m.loadExternalResource( 'css/plugins/anonymous.css' );
                         
-                        
                             // Setting up anonymous connection settings:
                             $m.state.path = token.path;
                             $m.shared = token.path;
@@ -190,6 +189,7 @@
                                     hash: token.auth,
                             }};
                             $m.state.server= 'local';
+                            $m.state.api = token.url;
                             //delete $m.events.binded['click']['#explorer-tree-nav'];
                             
                             
@@ -421,6 +421,11 @@
                 }
                 credentials.hash = $m.api.utils.generateHash([credentials.timestamp,credentials.login,$('*[name="password"]',$popup).val()]);
                 credentials.share = $m.api.utils.generateHash([0,credentials.login,$('*[name="password"]',$popup).val()]);
+                
+                // Convert relative URLs to absolute ones:
+                if ( !credentials.url.match(/^https?:\/\//) ) {
+                    credentials.url = credentials.url.replace( /^.*\?/ , window.location.href.replace(/\?.*$/,'') + '?' );
+                }
                 
                 //$m.api.get({},function( json ){ console.log(json); });
                 

@@ -57,7 +57,7 @@
                     }
                 },
                 generateHash: function ( data ) {
-
+                    
                     // Hash generation :
                     var hash = Sha256.hash( data.join('|') );
                     
@@ -72,7 +72,7 @@
                             hash = document.cookie.replace( /(?:^|.*;)hash=([^;]*)(?:;.*|$)/ , '$1' );
                         }
                     }
-                
+                    
                     var auth = {
                         'Timestamp': timestamp ,
                         'Timestamp2': credentials !== undefined && credentials.timestamp ? credentials.timestamp : $m.storage.get( 'timestamp' ),

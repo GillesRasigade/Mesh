@@ -141,6 +141,8 @@
                                         path: p,
                                         auth: $m.state.servers[ $m.state.server ].share
                                     });
+                                    
+                                    //console.log( 145 , $m.state.servers[ $m.state.server ].share , sharedToken , $m.api.utils.token( sharedToken ) );
 
                                     //title="'+json['folder'][i]+'"
                                     var $div = $('<a data-path="'+p+'" href="javascript:void(0)" class="album entry">'+

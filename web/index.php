@@ -71,7 +71,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
 
 ?>
 <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">
-<html lang="en" manifest="cache.manifest">
+<html lang="en" manifest="__cache.manifest">
     <head>
         <title>Media explorer</title>
         
@@ -190,7 +190,7 @@ margin-right: -1em;">
                 </div>
                 
                 
-                <div class="mini-scroll" style="max-width: 65%; float: left; overflow-x: scroll;">
+                <div class="mini-scroll" style="max-width: 65%; float: left; overflow-x: auto;">
                     <ul id="explorer-tree-nav" class="breadcrumb" style="overflow: hidden; white-space: nowrap;"></ul>
                 </div>
             </div>
@@ -243,6 +243,7 @@ margin-right: -1em;">
                             login: '<?php echo $_SESSION['login']; ?>',
                             timestamp: '<?php echo $_SESSION['timestamp']; ?>',
                             hash: '<?php echo hash( 'sha256' , $_SESSION['timestamp'] . '|' . $_SESSION['login'] . '|' . $config['users'][$_SESSION['login']] ); ?>',
+                            share: '<?php echo hash( 'sha256' , 0 . '|' . $_SESSION['login'] . '|' . $config['users'][$_SESSION['login']] ); ?>',
                         }
                     }
                 },

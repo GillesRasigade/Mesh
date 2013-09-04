@@ -413,6 +413,9 @@
             goto: function ( path , noHistory ) {
                 var $folder = $('.folder[data-path="'+path+'"]');
                 
+                // Update the window title:
+                document.title = ( !path || path == '' ? 'Home' : path.replace(/^.*\//,'') ) + ' - Mesh';
+                
                 // Update the browser history:
                 if ( noHistory !== true ) {
                     history.pushState({
