@@ -670,7 +670,9 @@
                     
                     $('body').append( $modal );
                     
-                    $modal.modal('show');
+                    $modal.modal('show').on('hidden', function () {
+                        $(this).remove();
+                    });
                 }
             },
             
