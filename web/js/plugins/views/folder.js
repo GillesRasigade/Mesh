@@ -264,8 +264,9 @@
                                 '<g:plus action="share" href="'+url+'"></g:plus>',
                             onshow: function( modal ) {
                                 setTimeout(function(){
+                                    console.log( 267 , modal , gapi.plus.go( modal ) );
                                     gapi.plus.go( modal );
-                                },250);
+                                },150);
                             }
                         });
                         
