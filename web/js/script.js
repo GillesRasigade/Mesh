@@ -168,7 +168,7 @@
                 },
                 function () {
                     // Read parameter link:
-                    if ( window.location.href.match(/link=/) ) {
+                    if ( window.location.href.match(/link=/) && undefined === $m.shared ) {
                         var link = window.location.href.replace(/^.*link=([^&]*).*$/,'$1');
                         var token = $m.api.utils.token( link );
                         if ( token.shared === true ) {
@@ -195,48 +195,51 @@
                             
                         }
                         
+                        // Don't know why this line is required...
                         $m.api.get({c:'app',a:'init'},function(json){});
+                        setTimeout(f[i],250);
                         
-                    }
+                    } else {
                 
-                    // Loading external user and application configuration:
-                    $m.api.get({c:'app',a:'init',api:'api.php'},function(json){
-                        console.log( 171 , json );
-                        
-                        // Update the lateral menu:
-                        $('#menu-dropdown .icon-user').attr('title',json.user.login);
-                        
-                        // Update UI with input data:
-                        if ( json.user.admin ) {
-                            $('#menu-dropdown .dropdown-menu .divider.a').before('<li class="divider"></li>'+
-                            '<li><a href="javascript:$m.app.panel();" id="view-admin-panel"><i class="icon-wrench"></i> Configuration</a></li>');
-                        }
-                        
-                        // OpenId authentication:
-                        if ( json.openId ) {
-                            window.openId = json.openId;
-                        
-                            $m.state.hash = openId.hash = $m.api.utils.generateHash([openId.timestamp,openId.login,openId.i]);
-                            $m.state.timestamp = openId.timestamp;
-                            $m.storage.set( 'hash' , openId.hash );
-                            $m.storage.set( 'timestamp' , openId.timestamp );
-                            console.log( openId.i );
+                        // Loading external user and application configuration:
+                        $m.api.get({c:'app',a:'init',api:'api.php'},function(json){
+                            console.log( 171 , json );
                             
-                            //console.log( servers );
-                            $m.state.servers['local'] = {
-                                name: 'local',
-                                url: window.location.pathname.replace(/\/[^\/]+$/,'/api.php'),
-                                login: openId.login,
-                                timestamp: openId.timestamp,
-                                hash: openId.hash
+                            // Update the lateral menu:
+                            $('#menu-dropdown .icon-user').attr('title',json.user.login);
+                            
+                            // Update UI with input data:
+                            if ( json.user.admin ) {
+                                $('#menu-dropdown .dropdown-menu .divider.a').before('<li class="divider"></li>'+
+                                '<li><a href="javascript:$m.app.panel();" id="view-admin-panel"><i class="icon-wrench"></i> Configuration</a></li>');
                             }
-                            console.log( $m.state.servers );
-                            $m.storage.set('state.servers',$m.state.servers);
-                            console.log( $m.storage.get('state.servers') );
-                        }
-                        
-                        f[++i]();
-                    });
+                            
+                            // OpenId authentication:
+                            if ( json.openId ) {
+                                window.openId = json.openId;
+                            
+                                $m.state.hash = openId.hash = $m.api.utils.generateHash([openId.timestamp,openId.login,openId.i]);
+                                $m.state.timestamp = openId.timestamp;
+                                $m.storage.set( 'hash' , openId.hash );
+                                $m.storage.set( 'timestamp' , openId.timestamp );
+                                console.log( openId.i );
+                                
+                                //console.log( servers );
+                                $m.state.servers['local'] = {
+                                    name: 'local',
+                                    url: window.location.pathname.replace(/\/[^\/]+$/,'/api.php'),
+                                    login: openId.login,
+                                    timestamp: openId.timestamp,
+                                    hash: openId.hash
+                                }
+                                console.log( $m.state.servers );
+                                $m.storage.set('state.servers',$m.state.servers);
+                                console.log( $m.storage.get('state.servers') );
+                            }
+                            
+                            f[++i]();
+                        });
+                    }
                 },
                 // Finalization :
                 function () {
