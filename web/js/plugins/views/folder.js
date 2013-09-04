@@ -257,20 +257,11 @@
                         if ( !url.match(/^https?:\/\//) ) {
                             url = url.replace( /^.*\?/ , window.location.href.replace(/\?.*$/,'') + '?' );
                         }
-                    
-                        //prompt( 'Share' , url );
-                        $('#folder-share-link').remove();
-                        $('body').append('<div id="folder-share-link" class="modal hide fade server-authentication" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
-                            '<div class="modal-header">Share link for '+path.replace(/^.*\//,'')+'</div>'+
-                            '<div class="modal-body">'+
-                                '<textarea rows="3" style="width: 100%; overflow: hidden;">'+url+'</textarea>'+ 
-                            '</div>'+
-                            '<div class="modal-footer">'+
-                                '<button class="btn" data-dismiss="modal">Close</button>'+
-                            '</div>'+
-                        '</div>');
                         
-                        $('#folder-share-link').modal('show');
+                        $m.explorer.helper.modal({
+                            header: 'Share link for '+path.replace(/^.*\//,''),
+                            body: '<textarea rows="3" style="width: 100%; overflow: hidden;">'+url+'</textarea>'
+                        });
                     }
                 
                     return false;
