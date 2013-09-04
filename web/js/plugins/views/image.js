@@ -160,6 +160,8 @@
                                         var sharedLink = $m.api.utils.url('image','access',{
                                             path: p, mode: 'preview', base64: false, shared: true
                                         },$m.state.servers[ $m.state.server ].url );
+                                        
+                                        console.log( $m.state.servers[ $m.state.server ].url );
 
                                         $folder.find('.images > .column:nth-child('+column+') > .column-content').append(
                                             $div.append( $img )
