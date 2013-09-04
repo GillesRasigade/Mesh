@@ -76,7 +76,7 @@
                     var auth = {
                         'Timestamp': timestamp ,
                         'Timestamp2': credentials !== undefined && credentials.timestamp ? credentials.timestamp : $m.storage.get( 'timestamp' ),
-                        'AuthenticationHash': Sha256.hash( timestamp + hash ) ,
+                        'AuthenticationHash': Sha256.hash( '' + ( undefined !== timestamp ? timestamp : '' ) + ( undefined !== hash ? hash : '' ) ) ,
                     };
                     
                     return $m.api.utils.token( auth );
