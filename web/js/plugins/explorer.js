@@ -671,10 +671,10 @@
                     $('body').append( $modal );
                     
                     $modal.modal('show').on('hidden', function () {
-                        if ( typeof(content.onhidden) === 'function' ) content.onhidden(this);
+                        if ( typeof(content.onhidden) === 'function' ) content.onhidden(id);
                         $(this).remove();
                     }).on('show', function () {
-                        if ( typeof(content.onshow) === 'function' ) content.onshow(this);
+                        if ( typeof(content.onshow) === 'function' ) content.onshow(id);
                     });;
                 }
             },
