@@ -266,7 +266,7 @@
                         $m.explorer.helper.modal({
                             header: 'Share <i>'+folder+'</i> with links below',
                             body: '<textarea rows="3" style="width: 100%; overflow: hidden;">'+url+'</textarea><br/>'+
-                                '<g:plus action="share" href="'+url+'&desc='+escape(folder)+'"></g:plus>',
+                                '<g:plus action="share" href="'+url+'"></g:plus>',
                             onshown: function( modal ) {
                                 gapi.plus.go( modal );
                             }
