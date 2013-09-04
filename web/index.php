@@ -97,6 +97,10 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
             
         <link type="text/css" href="css/stylesheet.css" rel="stylesheet"/>
         
+        <meta property="og:title" content="Mesh" />
+        <meta property="og:image" content="images/favicon.png" />
+        <meta property="og:description" content="Media Server for Humans" />
+        
     </head>
     <body>
         
