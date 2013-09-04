@@ -265,7 +265,7 @@
                             onshow: function( modal ) {
                                 setTimeout(function(){
                                     gapi.plus.go( modal );
-                                },150);
+                                },250);
                             }
                         });
                         
