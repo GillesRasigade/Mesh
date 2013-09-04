@@ -263,7 +263,9 @@
                             body: '<textarea rows="3" style="width: 100%; overflow: hidden;">'+url+'</textarea><br/>'+
                                 '<g:plus action="share" href="'+url+'"></g:plus>',
                             onshow: function( modal ) {
-                                gapi.plus.go( modal );
+                                setTimeout(function(){
+                                    gapi.plus.go( modal );
+                                },150);
                             }
                         });
                         
