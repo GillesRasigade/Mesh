@@ -262,7 +262,7 @@
                             header: 'Share link for '+path.replace(/^.*\//,''),
                             body: '<textarea rows="3" style="width: 100%; overflow: hidden;">'+url+'</textarea><br/>'+
                                 '<g:plus action="share" href="'+url+'"></g:plus>',
-                            onshow: function( modal ) {
+                            onshown: function( modal ) {
                                 gapi.plus.go( modal );
                             }
                         });
