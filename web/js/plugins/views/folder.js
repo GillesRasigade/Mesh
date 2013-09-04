@@ -260,6 +260,9 @@
                             url = url.replace( /^.*\?/ , window.location.href.replace(/\?.*$/,'') + '?' );
                         }
                         
+                        // Update meta data information:
+                        $('meta[property="og:title"]').attr('content',folder + ' on Mesh');
+                        
                         $m.explorer.helper.modal({
                             header: 'Share <i>'+folder+'</i> with links below',
                             body: '<textarea rows="3" style="width: 100%; overflow: hidden;">'+url+'</textarea><br/>'+
