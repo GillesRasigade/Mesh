@@ -167,7 +167,10 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                         
                         <li class="divider a"></li>
                         
-                        <li class="application-details"><a href="https://plus.google.com/b/108102348820509719254/108102348820509719254/posts" target="_blank" style="text-align: center;"><img src="images/logo.png" style="height: 3em; margin: 1em auto;"/></a></li>
+                        <!--li class="application-details"><a href="https://plus.google.com/b/108102348820509719254/108102348820509719254/posts" target="_blank" style="text-align: center;"><img src="images/logo.png" style="height: 3em; margin: 1em auto;"/></a></li-->
+                        <li class="application-details" style="margin-top: -0.8em;">
+                            <div class="g-page" data-layout="portrait" data-width="240" data-href="https://plus.google.com/b/108102348820509719254/108102348820509719254/posts"></div>
+                        </li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh" target="_blank">Fork us on Github!</a></li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
                     </ul>
@@ -205,7 +208,22 @@ margin-right: -1em;">
         
         
         
-        
+        <div id="sharePost"></div>
+<script type="text/javascript">
+  var options = {
+    contenturl: 'https://plus.google.com/pages/',
+    contentdeeplinkid: '/pages',
+    clientid: '590506346694-tgcq5emh1lcvnsnt5qa8piqao9akb8af.apps.googleusercontent.com',
+    cookiepolicy: 'single_host_origin',
+    prefilltext: 'Create your Google+ Page too!',
+    calltoactionlabel: 'CREATE',
+    calltoactionurl: 'http://plus.google.com/pages/create',
+    calltoactiondeeplinkid: '/pages/create'
+  };
+  // Call the render method when appropriate within your app to display
+  // the button.
+  gapi.interactivepost.render('sharePost', options);
+</script>
         
         
         
