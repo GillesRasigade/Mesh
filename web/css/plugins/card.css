@@ -131,3 +131,6 @@
     position: relative;
     padding-left: 1em;
 }
+
+.entries.cards .card-footer .actions > * { position: relative; }
+
