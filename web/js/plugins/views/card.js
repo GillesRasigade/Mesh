@@ -160,7 +160,7 @@
                         $img = $('<div class="card-image"></div>');
                             
                         switch ( true ) {
-                            case card.media.match ( /^https?:\/\// ) !== null:
+                            case card.media.match ( /^(https?:)?\/\// ) !== null:
                                 $img.append('<img src="'+card.media+'" />');
                                 break;
                             case card.media.match ( /^<iframe/ ) !== null:
@@ -195,7 +195,7 @@
                     
                     // Addition of the reference :
                     if ( card.references ) {
-                        var references = card.references.split(',');
+                        var references = card.references.replace(/(^,|,$)/,'').split(',');
                         $references = $('<ul class="references"></ul>');
                         for ( var ref in references ) {
                             $references.append('<li class="reference"><a target="_blank" href="'+references[ref].trim()+'">'+references[ref].trim()+'</a></li>')
@@ -250,19 +250,40 @@
 
                                     $card = $('<div class="card entry" data-path="'+p+'" style="display: none;"></div>');
                                     $folder.find('.cards > .column:nth-child('+column+') > .column-content').append( $card );
-
+                                    
                                     $m.api.get({ c: 'file', a: 'access', path: p },function( data ) {
+                                        var g = [function(data,p){
+                                            console.log( 256 , data );
+                                            $c = $m.view.card.get( data , p );
+                                    
+                                            $('.entry[data-path="'+p+'"]').replaceWith( $c ).fadeIn();
 
-                                        $c = $m.view.card.get( data , p );
+                                            setTimeout(function(){ i++; f[0](); },25);
+                                        }];
+                                    
+                                        if ( data.title.match(/^wiki:/) ) {
+                                            $m.view.card.source.wiki(p,data,function(data){
+                                                g[0](data,p);
+                                            });
+                                            
+                                        } else g[0](data,p);
                                         
-                                        $('.entry[data-path="'+p+'"]').replaceWith( $c ).fadeIn();
-
-                                        setTimeout(function(){ i++; f[0](); },25);
+                                        
                                     });
                                 } else {
                                     i++; f[0]();
                                 }
-                            }
+                            } else return f[1]();
+                        },
+                        // Loading external cards data
+                        function(){
+                            return;
+                            var titles = undefined;
+                            $folder.find('.entry.card:not(.loading) .card-title:contains(wiki:)').each(function(i,o){
+                                if ( !titles ) titles = {};
+                                titles[ $(o).closest('.entry').addClass('loading').attr('data-path') ] = $(o).text();
+                            });
+                            if ( undefined !== titles ) $m.view.card.source.wiki(titles);
                         }
                     ];
                     f[0]();
@@ -302,7 +323,112 @@
                             '</div>'+
                         '</div>');
                     }
+                },
+                
+                source: {
+                    wiki: function ( path , data , callback ) {
+                        var $card = $('.entry[data-path="'+path+'"]');
+                        var title = data.title.replace(/^[^:]+:/,'');
+                        $card.removeClass('default').addClass('image').find('.card-title').html( title + ' - <i>Loading...</i>' );
+                        
+                        $.ajax({
+                            url: 'http://fr.wikipedia.org/w/api.php',
+                            dataType: 'jsonp',
+                            data: {
+                                action:'parse',
+                                page:title,
+                                prop:'text',
+                                section:0,
+                                format:'json',
+                                disablepp:true,
+                                redirects:true,
+                            },
+                            success: function ( json ) {
+                                console.log( 341 , json , data.media );
+                                if ( json.parse ) {
+                                
+                                    // Extracting useful information only:
+                                    var $html = $(json.parse.text['*']);
+                                    
+                                    data.type = 'image';
+                                    data.references = 'http://fr.wikipedia.org/wiki/'+json.parse.title+','+data.references;
+                                    if ( data.media == '' ) {
+                                        var $image = $html.find('.thumbimage').first();
+                                        if ( $image.length ) {
+                                            data.media = $image.attr('src').replace(/\/[0-9]+px-([^\/]+)$/,'/'+$m.view.card.columns.width+'px-$1');
+                                        }
+                                    }
+                                    
+                                    console.log( data.media )
+                                    
+                                    data.title = $('<a href="http://fr.wikipedia.org/wiki/'+json.parse.title+'" target="_blank"/>').text( json.parse.title ).html();
+                                    data.body = $html.siblings('p').first().html().replace(/href="\//g,'href="http://fr.wikipedia.org/');
+                                }
+                                
+                                if ( typeof(callback) === 'function' ) callback(data);
+                            }
+                        });
+                    },
+                    __wiki: function ( titles , callback ) {
+                        console.log( 316 , titles );
+                        var paths = Object.keys(titles);
+                        var f = [function(){
+                            if ( paths.length ) {
+                                var path = paths.shift();
+                                
+                                var $card = $('.entry[data-path="'+path+'"]');
+                                var title = titles[path].replace(/^[^:]+:/,'');
+                                $card.removeClass('default').addClass('image').find('.card-title').html( title + ' - <i>Loading...</i>' );
+                                
+                                $.ajax({
+                                    url: 'http://fr.wikipedia.org/w/api.php',
+                                    dataType: 'jsonp',
+                                    data: {
+                                        action:'parse',
+                                        page:title,
+                                        prop:'text',
+                                        section:0,
+                                        format:'json',
+                                        disablepp:true,
+                                        redirects:true,
+                                    },
+                                    success: function ( json ) {
+                                        console.log( 341 , json );
+                                        if ( json.parse ) {
+                                        
+                                            setTimeout(function(){ f[0](); },25);
+                                            
+                                            // Extracting useful information only:
+                                            var $html = $(json.parse.text['*']);
+                                            
+                                            // Addition of a new image:
+                                            if ( $card.find('.card-image').length == 0 ) {
+                                                var $image = $html.find('.thumbimage').first();
+                                                if ( $image.length ) {
+                                                    $image.attr('src',$image.attr('src').replace(/\/[0-9]+px-([^\/]+)$/,'/'+$m.view.card.columns.width+'px-$1') );
+                                                
+                                                    $card.find('.card-category').after( $('<div class="card-image"/>').append($image) );
+                                                }
+                                            }
+                                            
+                                            $card
+                                                .find('.card-title').html( $('<a href="http://fr.wikipedia.org/wiki/'+json.parse.title+'" target="_blank"/>').text( json.parse.title ) )
+                                                .after(
+                                                    $('<div class="card-body"/>').append(
+                                                        $html.siblings('p').first().html().replace(/href="\//g,'href="http://fr.wikipedia.org/')
+                                                    )
+                                                );
+                                            
+                                            $card.removeClass('loading');
+                                        }
+                                    }
+                                });
+                            }
+                        }];
+                        f[0]();
+                    }
                 }
+                
             }
         }
     });
