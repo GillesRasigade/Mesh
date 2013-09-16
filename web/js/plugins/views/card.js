@@ -96,6 +96,8 @@
                     
                     $('#card-creation-form *[name="path"]').val('');
                     
+                    console.log( 99 , card );
+                    
                     $card = $m.view.card.get( card , p );
                     
                     if ( card.path != '' ) {
@@ -212,7 +214,16 @@
                         var references = card.references.replace(/(^,|,$)/,'').split(',');
                         $references = $('<ul class="references"></ul>');
                         for ( var ref in references ) {
-                            $references.append('<li class="reference"><a target="_blank" href="'+references[ref].trim()+'">'+references[ref].trim()+'</a></li>')
+                            var url = references[ref].trim();
+                            var name = url;
+                            
+                            if ( url.match(/^"([^"]+)":(.*)$/) ) {
+                                name = url.replace(/^"([^"]+)":(.*)$/,'$1');
+                                url = url.replace(/^"([^"]+)":(.*)$/,'$2');
+                            }
+                        
+                        
+                            $references.append('<li class="reference"><a target="_blank" href="'+url+'">'+name+'</a></li>')
                         }
                         $card.append( $references );
                     }
