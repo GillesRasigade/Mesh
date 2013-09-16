@@ -251,24 +251,38 @@
                                     $card = $('<div class="card entry" data-path="'+p+'" style="display: none;"></div>');
                                     $folder.find('.cards > .column:nth-child('+column+') > .column-content').append( $card );
                                     
-                                    $m.api.get({ c: 'file', a: 'access', path: p },function( data ) {
+                                    var ps = p.replace(/^[^:]+:\/\//,'').replace(/[^\/]+$/,'');
+                                    var file = p.replace(/^.*\//,'');
+                                    $m.storage.fs.get(ps,file,function( content ){
+                                    
                                         var g = [function(data,p){
                                             console.log( 256 , data );
+                                            
+                                            $m.storage.fs.set(ps,file,JSON.stringify( data ));
+                                            
                                             $c = $m.view.card.get( data , p );
                                     
                                             $('.entry[data-path="'+p+'"]').replaceWith( $c ).fadeIn();
 
                                             setTimeout(function(){ i++; f[0](); },25);
                                         }];
+                        
+                                        if ( content !== '' ) {
+                                            g[0](JSON.parse( content ),p)
+                                        } else {
                                     
-                                        if ( data.title.match(/^wiki:/) ) {
-                                            $m.view.card.source.wiki(p,data,function(data){
-                                                g[0](data,p);
+                                            $m.api.get({ c: 'file', a: 'access', path: p },function( data ) {
+                                            
+                                                if ( data.title.match(/^wiki:/) ) {
+                                                    $m.view.card.source.wiki(p,data,function(data){
+                                                        g[0](data,p);
+                                                    });
+                                                    
+                                                } else g[0](data,p);
+                                                
                                             });
                                             
-                                        } else g[0](data,p);
-                                        
-                                        
+                                        }
                                     });
                                 } else {
                                     i++; f[0]();
@@ -357,7 +371,8 @@
                                         if ( $image.length == 0 ) $image = $html.find('.image img').first();
                                         
                                         if ( $image.length ) {
-                                            data.media = $image.attr('src').replace(/\/[0-9]+px-([^\/]+)$/,'/'+$m.view.card.columns.width+'px-$1');
+                                            //data.media = $image.attr('src').replace(/\/[0-9]+px-([^\/]+)$/,'/'+$m.view.card.columns.width+'px-$1');
+                                            data.media = $image.attr('src');//.replace(/\/[0-9]+px-([^\/]+)$/,'/'+$m.view.card.columns.width+'px-$1');
                                         }
                                     }
                                     
