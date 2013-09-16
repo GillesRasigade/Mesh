@@ -64,8 +64,9 @@
     padding: 1em;
 }
 
-.entries.cards .card-title {
-    color: black;
+.entries.cards .card-title,
+.entries.cards .card-title a {
+    color: black !important;
     font-size: 1.1em;
 }
 

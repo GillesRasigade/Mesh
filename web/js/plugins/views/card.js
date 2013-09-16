@@ -104,6 +104,10 @@
                             
                             $('.cards .card[data-path="'+p+'"]').html( $card.html() );
                             
+                            var ps = p.replace(/^[^:]+:\/\//,'').replace(/[^\/]+$/,'');
+                            var file = p.replace(/^.*\//,'');
+                            $m.storage.fs.remove(ps,file);
+                            
                         });
                     } else {
                         $m.api.post($.extend( card , { c:'card', a:'create', path: $m.state.path } ),function(json){
@@ -177,7 +181,12 @@
                         $card.append($img);
                     }
                     
-                    if ( title ) $card.append('<div class="card-title">'+title+'</div>')
+                    if ( title ) {
+                        if ( card.references ) {
+                            title = '<a href="'+card.references.replace(/(^,|,.*$)/g,'')+'" target="_blank">' + title + '</a>';
+                        }
+                        $card.append('<div class="card-title">'+title+'</div>');
+                    }
                     if ( body ) $card.append('<div class="card-body">'+body+'</div>')
                     
                     $footer = $('<div class="card-footer"></div>');
