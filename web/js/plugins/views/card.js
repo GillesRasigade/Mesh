@@ -137,6 +137,11 @@
                         $m.api.delete_({ c: 'file', a: 'delete', path: $target.attr('data-path') },function(json){
                             if ( json.status == 'success' ) {
                                 $target.remove();
+                                
+                                var path = $target.attr('data-path');
+                                var ps = path.replace(/^[^:]+:\/\//,'').replace(/[^\/]+$/,'');
+                                var file = path.replace(/^.*\//,'');
+                                $m.storage.fs.remove(ps,file);
                             }
                         });
                     }
