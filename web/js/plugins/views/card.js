@@ -354,6 +354,8 @@
                                     data.references = 'http://fr.wikipedia.org/wiki/'+json.parse.title+','+data.references;
                                     if ( data.media == '' ) {
                                         var $image = $html.find('.thumbimage').first();
+                                        if ( $image.length == 0 ) $image = $html.find('.image img').first();
+                                        
                                         if ( $image.length ) {
                                             data.media = $image.attr('src').replace(/\/[0-9]+px-([^\/]+)$/,'/'+$m.view.card.columns.width+'px-$1');
                                         }
