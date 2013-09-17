@@ -10,6 +10,13 @@ external/js/base64.js
 external/css/bootstrap-combined.no-icons.min.css
 external/css/font-awesome.css
 
+# Unused
+#external/js/codemirror.js
+#external/css/codemirror.css
+
+external/js/wysihtml5.min.js
+external/js/wysihtml5-rules.js
+
 images/favicon.png
 images/favicon-32.png
 images/favicon-64.png

@@ -77,6 +77,13 @@
                 // Other Javascript or stylesheets stuff:
                 'https://apis.google.com/js/plusone.js',
                 //'https://connect.facebook.net/fr_FR/all.js',
+                
+                // Unused
+                //'external/js/codemirror.js',
+                //'external/css/codemirror.css',
+                
+                'external/js/wysihtml5.min.js',
+                'external/js/wysihtml5-rules.js',
             ],
         },
         
@@ -313,7 +320,7 @@
                 var width = 320;
             
                 if ( $(window).width() <= 320 ) width = $(window).width();
-                else if ( $(window).width() <= 480 ) width = $(window).width()/2;
+                else if ( $(window).width() <= 520 ) width = $(window).width()/2;
                 
                 return width;
             },

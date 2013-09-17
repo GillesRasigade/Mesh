@@ -132,6 +132,8 @@
                             }
                         });
                         
+                        $m.view.card.editor.setValue( json.body , true ).focus();
+                        
                         $('a[href="#card-creation"]').trigger('click');
                     });
                     
@@ -343,7 +345,21 @@
                                     '<input type="hidden" name="path" value=""/>'+
                                     '<input type="text" name="title" placeholder="title" class="span12"/>'+
                                     //'<textarea name="abstract" placeholder="abstract" class="span12"></textarea>'+
-                                    '<textarea name="body" placeholder="body" class="span12" rows="5"></textarea>'+
+                                    '<div id="card-creation-body-toolbar" class="btn-group commands" style="margin-bottom: 1px;">'+
+                                      '<span data-wysihtml5-command="bold" class="btn btn-small_ command" href="javascript:;" unselectable="on"><i class="icon-bold"></i>&nbsp;</span>'+
+                                      '<span data-wysihtml5-command="italic" class="btn btn-small_ command" href="javascript:;" unselectable="on"><i class="icon-italic"></i>&nbsp;</span>'+
+                                      
+                                      '<span data-wysihtml5-command="insertUnorderedList" class="btn btn-small_ command" href="javascript:;" unselectable="on"><i class="icon-list-ul"></i>&nbsp;</span>'+
+                                      '<span data-wysihtml5-command="insertOrderedList" class="btn btn-small_ command" href="javascript:;" unselectable="on"><i class="icon-list-ol"></i>&nbsp;</span>'+
+                                      
+                                      '<span data-wysihtml5-command="createLink" class="btn btn-small_ command" href="javascript:;" unselectable="on"><i class="icon-link"></i>&nbsp;</span>'+
+                                      '<span data-wysihtml5-command="insertImage" class="btn btn-small_ command" href="javascript:;" unselectable="on"><i class="icon-picture"></i>&nbsp;</span>'+
+                                      
+                                      '<span data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" class="btn btn-small_ command" href="javascript:;" unselectable="on">H1</span>'+
+                                      '<span data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" class="btn btn-small_ command" href="javascript:;" unselectable="on">H2</span>'+
+                                    '</div>'+
+                                    //'<div data-wysihtml5-dialog="createLink" style="display: none;">        <label>          Link:          <input data-wysihtml5-dialog-field="href" value="http://">        </label>        <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>      </div>      <div data-wysihtml5-dialog="insertImage" style="display: none;">        <label>          Image:          <input data-wysihtml5-dialog-field="src" value="http://">        </label>        <a data-wysihtml5-dialog-action="save">OK</a>&nbsp;<a data-wysihtml5-dialog-action="cancel">Cancel</a>      </div>'+
+                                    '<textarea id="card-creation-body" name="body" placeholder="body" class="span12" rows="25" style="height: 20em;"></textarea>'+
                                     '<hr/>'+
                                     '<input type="text" name="media" placeholder="media (ie: http://..., <svg>..., ...)" class="span12"/>'+
                                     '<input type="text" name="tags" placeholder="tags (ie: french, writer, hugo)" class="span12"/>'+
@@ -361,6 +377,17 @@
                                 '<button class="btn btn-primary" data-dismiss="modal" onClick="$m.view.card.create();">Save changes</button>'+
                             '</div>'+
                         '</div>');
+                        
+                        setTimeout(function(){
+                            $m.view.card.editor = new wysihtml5.Editor('card-creation-body', { // id of textarea element
+                                toolbar:      "card-creation-body-toolbar", // id of toolbar element
+                                parserRules:  wysihtml5ParserRules // defined in parser rules set 
+                            });
+                            
+                            $('body').css('height',(window.screen.height/5*4)+'px');
+                            setTimeout(function(){ $('body').css('height','100%'); }, 250);
+                            
+                        },1000);
                     }
                 },
                 
