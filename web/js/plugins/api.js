@@ -140,30 +140,37 @@
                     if ( $('#menu-dropdown a[href*=logout]').length && $m.state.server && $m.state.servers[$m.state.server] ) {
                         var credentials = $m.state.servers[$m.state.server];
                     
-                        var $popup = $('#server-authentication');
+                        if ( $('#menu-dropdown a[href*=logout]').length && $m.state.server == 'local' ) {
                         
-                        if ( $popup.length == 0 ) {
-                            $('body').append('<div id="server-authentication" class="modal hide fade server-authentication" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
-                                '<div class="modal-header">Server '+$m.state.server+' authentication</div>'+
-                                '<div class="modal-body">'+
-                                    '<form id="server-initialization-form">'+
-                                    '<div class="row-fluid">'+
-                                        '<input type="text" name="login" placeholder="Login" class="span12" readonly="readonly" value="'+credentials.login+'"/>'+
-                                        '<input type="password" name="password" placeholder="Password" class="span12" value=""/>'+
-                                    '</div>'+
-                                    '</form>'+
-                                '</div>'+
-                                '<div class="modal-footer">'+
-                                    '<button class="btn btn-primary" data-dismiss="modal" onClick="$m.api.utils.authenticate();">Submit</button>'+
-                                '</div>'+
-                            '</div>');
+                            window.location = $('#menu-dropdown a[href*=logout]').attr('href');
+                        
                         } else {
-                            $('.model-header',$popup).text( 'Server '+$m.state.server+' authentication' );
-                            $('*[name="login"]',$popup).val(credentials.login);
-                            $('*[name="password"]',$popup).val('');
-                        }
+                    
+                            var $popup = $('#server-authentication');
                         
-                        $('#server-authentication').modal('show');
+                            if ( $popup.length == 0 ) {
+                                $('body').append('<div id="server-authentication" class="modal hide fade server-authentication" tabindex="-1" role="dialog" aria-labelledby="server-initialization" aria-hidden="true">'+
+                                    '<div class="modal-header">Server '+$m.state.server+' authentication</div>'+
+                                    '<div class="modal-body">'+
+                                        '<form id="server-initialization-form">'+
+                                        '<div class="row-fluid">'+
+                                            '<input type="text" name="login" placeholder="Login" class="span12" readonly="readonly" value="'+credentials.login+'"/>'+
+                                            '<input type="password" name="password" placeholder="Password" class="span12" value=""/>'+
+                                        '</div>'+
+                                        '</form>'+
+                                    '</div>'+
+                                    '<div class="modal-footer">'+
+                                        '<button class="btn btn-primary" data-dismiss="modal" onClick="$m.api.utils.authenticate();">Submit</button>'+
+                                    '</div>'+
+                                '</div>');
+                            } else {
+                                $('.model-header',$popup).text( 'Server '+$m.state.server+' authentication' );
+                                $('*[name="login"]',$popup).val(credentials.login);
+                                $('*[name="password"]',$popup).val('');
+                            }
+                            
+                            $('#server-authentication').modal('show');
+                        }
                     }
                 }
             },
