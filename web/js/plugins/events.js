@@ -83,7 +83,7 @@
                         }
                     }];
                     
-                    if ( !type.match(/(drag|drop)/) ) setTimeout(f[0],15);
+                    if ( !type.match(/(drag|drop)/) ) setTimeout(function(){ f[0](true); },15);
                     else f[0](false);
                     
                     return true;

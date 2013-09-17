@@ -96,7 +96,10 @@
                     if (index < length) {
                         $m.utils.upload(files, path, index);
                     } else {
-                        console.log('Reloading...');
+                        console.log(99 , 'Reloading...' , path );
+                        
+                        $m.explorer.refresh(path);
+                        
                         //$('.upload-progress .bar').css('width','100%');
 
                         //if ( $('.upload-progress').closest('.album, .type-folder').length == 0 ) {
@@ -105,7 +108,14 @@
                         }
 
                         $('.upload-progress').fadeOut(400, function() {
+                            
+                            console.log( 109 , path );
+                            
+                            //$('.column.folder[data-path="'+path+'"] > .content  > .type > .column').each(function(i,o){ $(o).empty(); });
+                            
                             $(this).remove();
+                            
+                            
                         });
 
                     }

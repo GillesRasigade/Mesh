@@ -39,6 +39,12 @@
             
             init: function() {
             
+                /*$(window).bind('mousedown',function(event){
+                        
+                }).bind('mousemove',function(event){
+                        
+                });*/
+            
                 $m.events.bind( 'resize' , 'window' , $m.explorer.resize );
                 $m.events.bind( 'orientationchange' , 'window' , $m.explorer.resize );
                 
@@ -272,6 +278,12 @@
                         $target = $target.closest('.album');
                         $target.append('<div style="float: right; width: 100%; margin-top: -0.5em;" class="progress-bar upload-progress"><div class="progress progress-striped" style="height: 0.5em;margin: 0em;border-radius: 0px;"><div class="bar" style="width:0%;"></div></div></div>');
                         $m.utils.upload( event.originalEvent , $target.attr('data-path') );
+                    } else if ( $target.closest('.column.folder.active').length ) {
+                        var path = $target.closest('.column.folder.active').attr('data-path');
+                        //console.log( 283 , path );
+                        $target = $('.album[data-path="'+path+'"]');
+                        $target.append('<div style="float: right; width: 100%; margin-top: -0.5em;" class="progress-bar upload-progress"><div class="progress progress-striped" style="height: 0.5em;margin: 0em;border-radius: 0px;"><div class="bar" style="width:0%;"></div></div></div>');
+                        $m.utils.upload( event.originalEvent , path );
                     }
                     
                     event.stopPropagation();
@@ -489,6 +501,16 @@
                 
                 // Save the new path to the UI 
                 $m.storage.set( 'state.path' , path );
+            },
+            refresh: function ( path ) {
+                $('.column.folder[data-path="'+path+'"] > .content').each(function(i,o){ $(o).empty(); });
+                if ( $('.column.folder[data-path="'+path+'"] .scroll-detector').length == 0 ) {
+                    $('.column.folder[data-path="'+path+'"]').append('<div class="scroll-detector" onClick="$m.explorer.events.scroll();" style="text-align:center; line-height: 1.5em; font-size: 2em; color: #aaa;">'+
+                                '<i class="icon-cloud-download"></i> Loading...<br/>'+
+                                '<span style="font-size: 0.75em; font-style: italic;"></span>'+
+                            '</div>');
+                }
+                setTimeout($m.explorer.events.scroll,50);
             },
             path: function ( path ) {
                 if ( path === undefined ) return $m.state.path;
