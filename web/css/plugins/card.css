@@ -68,6 +68,7 @@
 .entries.cards .card-title a {
     color: black !important;
     font-size: 1.1em;
+    padding-bottom: 0em;
 }
 
 .entries.cards .image .card-title {
@@ -134,4 +135,23 @@
 }
 
 .entries.cards .card-footer .actions > * { position: relative; }
+
+
+
+
+/** Cards specific look and field **/
+.entries.cards .card .card-body {
+    font-size: 0.85em;
+    line-height: 1.5em;
+    
+    max-height: 15em;
+    overflow-y: auto;
+}
+
+.entries.cards .card .card-body h1 {
+    font-size: 1.15em;
+    display: block;
+    border-bottom: 1px solid #aaa;
+    line-height: 1.15em;
+}
 

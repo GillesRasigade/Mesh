@@ -433,7 +433,8 @@
                                     data.title = $('<a href="http://fr.wikipedia.org/wiki/'+json.parse.title+'" target="_blank"/>').text( json.parse.title ).html();
                                     var $p = $html.siblings('p').first();
                                     if ( $p.length ) {
-                                        data.body = $p.html().replace(/href="\//g,'href="http://fr.wikipedia.org/');
+                                        $p.find('.error, br:last-child').remove();
+                                        data.body = $p.html().replace(/href="\//g,'href="http://fr.wikipedia.org/') + data.body;
                                     }
                                 }
                                 
