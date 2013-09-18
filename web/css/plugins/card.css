@@ -144,7 +144,7 @@
     font-size: 0.85em;
     line-height: 1.5em;
     
-    max-height: 15em;
+    max-height: 14em;
     overflow-y: auto;
     overflow-x: hidden;
 }
