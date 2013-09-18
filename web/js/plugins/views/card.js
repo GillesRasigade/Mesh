@@ -428,10 +428,13 @@
                                         }
                                     }
                                     
-                                    console.log( data.media )
+                                    console.log( data.media , $html.siblings('p').first() )
                                     
                                     data.title = $('<a href="http://fr.wikipedia.org/wiki/'+json.parse.title+'" target="_blank"/>').text( json.parse.title ).html();
-                                    data.body = $html.siblings('p').first().html().replace(/href="\//g,'href="http://fr.wikipedia.org/');
+                                    var $p = $html.siblings('p').first();
+                                    if ( $p.length ) {
+                                        data.body = $p.html().replace(/href="\//g,'href="http://fr.wikipedia.org/');
+                                    }
                                 }
                                 
                                 if ( typeof(callback) === 'function' ) callback(data);
