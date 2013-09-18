@@ -34,14 +34,14 @@
     left: 0%;
     opacity: 1;
     
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    -o-transition: all 1s;
-    transition: all 1s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
 }
 
 #explorer > .column.fadein {
-    opacity: 0.5;
+    opacity: 0.75;
 }
 
 #explorer > .column.active {

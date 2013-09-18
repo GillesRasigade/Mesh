@@ -37,7 +37,9 @@ class Api_Get_Pdf extends Api_Get_File {
             Api_Utils::createFolder( $folder );
         }
         
-        $result = Api_Utils::exec("gs -q -dQUIET -dPARANOIDSAFER  -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dFirstPage=1 -dAlignToPixels=0 -dGridFitTT=0 -sDEVICE=jpeg -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r100x100 -sOutputFile=\"".$path."\" \"".$original."\"");
+        //$result = Api_Utils::exec("convert \"".$path."[0]\" \"".$original."\"");
+        //$result = Api_Utils::exec("gs -q -dQUIET -dPARANOIDSAFER  -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dFirstPage=1 -dAlignToPixels=0 -dGridFitTT=0 -sDEVICE=jpeg -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r100x100 -sOutputFile=\"".$path."\" \"".$original."\"");
+        $result = Api_Utils::exec("gs -q -dQUIET -dPARANOIDSAFER  -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dFirstPage=1 -dLastPage=1 -dAlignToPixels=0 -dGridFitTT=0 -sDEVICE=jpeg -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r100x100 -sOutputFile=\"".$path."\" \"".$original."\"");
     }
     
     public function accessAction ( $p = NULL ) {
