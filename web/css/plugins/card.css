@@ -146,6 +146,7 @@
     
     max-height: 15em;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .entries.cards .card .card-body h1 {
@@ -153,5 +154,22 @@
     display: block;
     border-bottom: 1px solid #aaa;
     line-height: 1.15em;
+}
+
+.entries.cards .card .card-body::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+.entries.cards .card .card-body::-webkit-scrollbar-track:hover {
+    background: rgba(0,0,0,0);
+}
+.entries.cards .card .card-body::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+}
+.entries.cards .card .card-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.5);
+}
+.entries.cards .card .card-body::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0,0,0,0.1);
 }
 
