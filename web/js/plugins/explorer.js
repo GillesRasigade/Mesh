@@ -691,6 +691,8 @@
                     if ( undefined !== content.body ) $('.modal-body',$modal).html( content.body );
                     if ( undefined !== content.footer ) $('.modal-footer',$modal).html( content.footer );
                     
+                    //console.log( content , $modal );
+                    
                     $('body').append( $modal );
                     
                     $modal.modal('show').on('hidden', function () {

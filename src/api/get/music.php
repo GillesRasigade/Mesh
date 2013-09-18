@@ -68,6 +68,25 @@ class Api_Get_Music extends Api_Get_File {
 
         return $infos;
     }
+    
+    public function infosAction () {
+        global $config;
+        
+        $p = Api_Utils::readToken();
+        
+        // Read data for music files only :
+        $filename = preg_replace('/^.*\/([^\/]+$)/','$1',$p['path']);
+        
+        //echo Api_Utils::outputJson( array( $path , $filename ) ); die();
+        
+        $infos = self::mp3info( $config['path'] . '/' . preg_replace('/\/[^\/]+$/','',$p['path']) , $filename , array(
+            'track' => $i + 1,
+            'title' => preg_replace( '/.*\/(.+)\.[^\.]+$/' , '$1' , $filename )
+        ));
+        
+        echo Api_Utils::outputJson( $infos );
+        die();
+    }
 
     public function listAction () {
         global $config;

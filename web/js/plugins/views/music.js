@@ -8,8 +8,8 @@
                     status: { title:'', class: 'phone' },
                     title : { title:'Title', class: 'phone' },
                     duration: { title:'Duration', class: 'phone' },
-                    album : { title:'Album', class: 'tablet' },
-                    artist: { title:'Artist', class: 'tablet' },
+                    //album : { title:'Album', class: 'tablet' },
+                    //artist: { title:'Artist', class: 'tablet' },
                     
                     //'year'  : 'Year',
                     //'genre': 'Genre',
@@ -20,6 +20,9 @@
                         var $target = $( event.target );
                         
                         switch ( true ) {
+                            case $target.closest('.music-song .btn-group').length > 0:
+                                return false;
+                        
                             case $target.closest( '.music-song' ).length > 0 : $target = $target.closest( '.music-song' );
                             case $target.hasClass( 'music-song' ) :
                                 var path = $target.attr('data-path');
@@ -59,7 +62,10 @@
                             '<div class="album-background">'+
                                 '<div class="album-artist"></div>'+
                                 '<div class="album-album"></div>'+
-                                '<div class="album-duration"></div>'+
+                                '<div class="album-infos">'+
+                                    '<span class="album-duration"></span>'+
+                                    '<span class="album-genre"></span>'+
+                                '</div>'+
                             '</div>'+
                         '</div>' );
                         
@@ -157,7 +163,21 @@
                                 console.warn( 147 , json );
 
                                 if ( json && json.length ) {
+                                
+                                    var year = '';
+                                    var album = '';
+                                    var artist = '';
+                                    var genre = '';
+                                    
+                                    console.log( 169 , json )
+                                
                                     for ( var i in json ) {
+                                    
+                                        // Update the album year:
+                                        if ( year == '' && json[i].year != '' ) year = json[i].year;
+                                        if ( album == '' && json[i].album != '' ) album = json[i].album;
+                                        if ( artist == '' && json[i].artist != '' ) artist = json[i].artist;
+                                        if ( genre == '' && json[i].genre != '' ) genre = json[i].genre;
                                         
                                         var p = path + '/' + json[i].path;
                                         
@@ -173,7 +193,12 @@
                                             
                                                 $tr.append( '<td class="song-'+d+' '+$m.view.music.data[d].class+'">'+
                                                     ( json[i][d] !== undefined ? json[i][d] : '' ) +
-                                                        //( d !== 'actions' ? '' : '<span class="btn" onClick="javascript:$m.view.music.utils.download(\''+p+'\')"><i class="icon-download"></i></span>' ))+
+                                                        ( d !== 'actions' ? '' :
+                                                            '<div class="btn-group">'+
+                                                                '<span class="btn" onClick="javascript:$m.view.music.utils.download(\''+p+'\')"><i class="icon-download"></i></span>'+
+                                                                '<span class="btn" onClick="javascript:$m.view.music.utils.mp3info(\''+p+'\')"><i class="icon-music"></i></span>'+
+                                                            '</div>'
+                                                        )+
                                                 '</td>' );
                                             }
 
@@ -184,8 +209,8 @@
                                     // Displaying album details:
                                     var $details = $folder.find( '.music-details' );
                                     
-                                    var album = $tbody.find('.song-album').first().text();
-                                    var artist = $tbody.find('.song-artist').first().text();
+                                    //var album = $tbody.find('.song-album').first().text();
+                                    //var artist = $tbody.find('.song-artist').first().text();
                                     var duration = 0;
                                     $('.song-duration',$tbody).each(function(i,o){
                                         var d = $(o).text().split(':').reverse();
@@ -197,8 +222,11 @@
                                         }
                                     });
                                     
-                                    $details.find('.album-artist').text( artist );
-                                    $details.find('.album-album').text( album );
+                                    if ( artist != '' ) $details.find('.album-artist').text( artist );
+                                    if ( album != '' ) $details.find('.album-album').text( album );
+                                    if ( year != '' ) $details.find('.album-album').append( $( '<span> &nbsp;(' + year + ')</span>' ) );
+                                    if ( genre != '' ) $details.find('.album-genre').text( 'Genre: '+ genre );
+                                    
                                     if ( !isNaN( duration ) ) {
                                         var $duration = $details.find('.album-duration').empty();
                                         var dd = [], unit = 3600;
@@ -208,7 +236,7 @@
                                             duration -= r * unit;
                                             unit /= 60;
                                         }
-                                        $duration.html( dd.join(':') );
+                                        $duration.html( 'Duration: ' + dd.join(':') );
                                     }
                                     
                                     if ( $folder.find('.image.entry:first').length ) {
@@ -224,6 +252,57 @@
                 
                 
                 utils: {
+                
+                    mp3info: function ( path ) {
+                    
+                        if ( undefined !== path ) {
+                        
+                            console.log( 'MP3 infos...' , path );
+                            $m.api.get({ c: 'music', a: 'infos', path: path },function( json ) {
+                                console.log( path , json );
+                                
+                                var body = '<form class="form-horizontal"><div class="row-fluid">';
+                                body += '<input type="hidden" name="path" value="'+path+'"/>';
+                                for ( var key in json ) {
+                                    body += '<div class="control-group">';
+                                        body += '<label class="control-label" for="music-info-'+key+'">'+key+'</label>';
+                                        body += '<div class="controls">';
+                                            body += '<input type="text" id="music-info-'+key+'" name="'+key+'" value="'+json[key]+'" class="span12"/>';
+                                        body += '</div>';
+                                    body += '</div>';
+                                }
+                                body += '</div></form>';
+                                
+                                var footer = '<button class="btn" data-dismiss="modal">Close</button>'+
+                                             '<button class="btn" onClick="$m.view.music.utils.mp3info();">Save</button>';
+                                
+                                $m.explorer.helper.modal({
+                                    header: 'MP3 information',
+                                    body: body,
+                                    footer: footer
+                                },'modal-music-infos');
+                                
+                            });
+                            
+                        } else if ( $('#modal-music-infos').length ) {
+                        
+                            var infos = {};
+                            $('#modal-music-infos input[type="text"]').each(function(i,o){
+                                infos[ $(o).attr('name') ] = $(o).val();
+                            });
+                            
+                            console.log( 295 , $('#modal-music-infos input[name="path"]').val() , infos );
+                            $m.api.put($.extend(infos,{
+                                c: 'music', a: 'infos',
+                                path: $('#modal-music-infos input[name="path"]').val()
+                                }),function( json ) {
+                                    console.log( 301 , json );
+                            });
+                            
+                        }
+                    
+                    },
+                
                     download: function ( path ) {
                         
                         console.log( 'download...' , path );

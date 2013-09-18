@@ -55,10 +55,14 @@
     color: #ddd;
 }
 
-.music-details .album-duration {
+.music-details .album-infos {
     font-size: 1em;
     color: #aaa;
     margin-top: 0.5em;
+}
+
+.music-details .album-infos > *:not(:first-child) {
+    margin-left: 1em;
 }
 
 .music.type > .title {
