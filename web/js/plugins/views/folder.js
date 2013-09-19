@@ -166,6 +166,9 @@
                                         var ps = p.replace(/^[^:]+:\/\//,'');
                                     
                                         $m.storage.fs.get(ps,'m.thumb.txt',function( content ){
+                                            
+                                            $div.css('background','#000000');
+                                            
                                             //console.log( content );
                                             if ( content !== '' ) {// Local File System cache management
                                                 $div.find('.album-img').css('background-image','url(\''+content+'\')');
