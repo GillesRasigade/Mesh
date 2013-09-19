@@ -139,6 +139,8 @@ body {
     background: rgba(255,255,255,1);
 }
 
+.modal { border-radius: 0px; }
+
 .lateral-left {
     display: block;
     position: fixed;
@@ -161,6 +163,35 @@ body {
 
 .open > .lateral-left {
     left: -1px;
+}
+
+.lateral-left > li > a {
+    line-height: 2em;
+    
+}
+
+.dropdown-menu.lateral-left > li:not(.no-hover) > a:hover {
+    /*background-image: -ms-linear-gradient(top, #fff 0%, #eee 100%);
+    background-image: -moz-linear-gradient(top, #fff 0%, #eee 100%);
+    background-image: -o-linear-gradient(top, #fff 0%, #eee 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #eee));
+    background: -webkit-linear-gradient(top, #888 0%, #555 70%);
+    background-image: linear-d4d8e3gradient(to bottom, #fff 0%, #eee 100%);*/
+    
+    background: -webkit-linear-gradient(top, #666 20%, #aaa 100%);
+    
+    
+    background: rgba(112,112,112,1);
+}
+
+.dropdown-menu.lateral-left > li.no-hover > a:hover {
+    background: none;
+}
+
+.dropdown-menu.lateral-left > li:hover > a,
+.dropdown-menu.lateral-left > li:hover > a:hover
+.dropdown-menu.lateral-left > li:hover > a:focus {
+    color: white;
 }
 
 #filter-panel {

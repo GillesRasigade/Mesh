@@ -17,6 +17,22 @@
  * limitations under the License.
  * ========================================================== */
 
+.music.type .table thead tr > * {
+    /*background: #555;
+    color: white;*/
+    border-top: 1px solid #ddd !important;
+    border-bottom: 1px solid #bbb;
+}
+
+.music.type .table .song-status { width: 2em; text-align: center; }
+.music.type .table .song-status .icon-play { position: absolute; left: 1.5em; }
+
+.music.type .table .song-actions { width: 5em; }
+.music.type .table .song-duration { width: 5em; text-align: center; }
+.music.type .table .song-track { width: 2em; text-align: center; }
+
+
+
 .music-details {
     margin-top: -2em;
     /*z-index: -1;
@@ -103,4 +119,8 @@
 .music-song.active td {
     background-color: #3e80e0 !important;
     color: white;
+}
+
+@media only screen and (max-width : 480px) {
+    .music.type .table .song-status .icon-play { position: absolute; left: 0.5em; }
 }

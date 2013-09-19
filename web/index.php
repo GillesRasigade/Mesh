@@ -158,7 +158,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                         
                         <li class="divider"></li>
                         
-                        <li><a href="javascript:void(0);">
+                        <li class="no-hover"><a href="javascript:void(0);">
                             <div class="btn-group" style="width: 100%; text-align: center;">
                                 <span class="btn" onClick="$m.storage.set( 'state.scale' , $m.state.scale * 0.75 ); $m.explorer.resize(); return false;">&nbsp;-&nbsp;</span>
                                 <span class="btn" onClick="$m.storage.set( 'state.scale' , $m.state.scale / 0.75 ); $m.explorer.resize(); return false;">&nbsp;+&nbsp;</span>
@@ -198,8 +198,8 @@ margin-right: -1em;">
                 </div>
                 
                 
-                <div class="mini-scroll" style="max-width: 65%; float: left; overflow-x: auto;">
-                    <ul id="explorer-tree-nav" class="breadcrumb" style="overflow: hidden; white-space: nowrap;"></ul>
+                <div class="mini-scroll" style="max-width: 65%; float: left; overflow-x: auto; overflow-y: hidden; height: 100%;">
+                    <ul id="explorer-tree-nav" class="breadcrumb" style="overflow: hidden; white-space: nowrap;height: 100%;"></ul>
                 </div>
             </div>
         </div>

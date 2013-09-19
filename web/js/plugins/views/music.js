@@ -4,8 +4,8 @@
         
             music: {
                 data: {
-                    //track : { title:'#', class: 'tablet' },
                     status: { title:'', class: 'phone' },
+                    track : { title:'#', class: 'tablet' },
                     title : { title:'Title', class: 'phone' },
                     duration: { title:'<i class="icon-time">&nbsp;</i>', class: 'phone' },
                     //album : { title:'Album', class: 'tablet' },
@@ -240,7 +240,7 @@
                                     }
                                     
                                     if ( $folder.find('.image.entry:first').length ) {
-                                        $details.find('.album-cover').andSelf().css( 'background-image' , 'url(\''+$folder.find('.image.entry:first img').attr('src')+'\')' )
+                                        $details.find('.album-cover').andSelf().css( 'background-image' , 'url(\''+$folder.find('.image.entry:first img').hide().attr('src')+'\')' )
                                     }
                                 }
                             });
@@ -507,7 +507,7 @@
                                 
                                     $('.music-song[data-path="'+path+'"]').addClass('active').siblings('.active').removeClass('active');
                                     
-                                    $('.music-song[data-path="'+path+'"] .song-status').html('<i class="icon-play" style="position: absolute; left: 0.5em;"></i>');
+                                    $('.music-song[data-path="'+path+'"] .song-status').html('<i class="icon-play"></i>');
                                 
                                     $m.view.music.player.$elt.removeClass('closed');
                                     
