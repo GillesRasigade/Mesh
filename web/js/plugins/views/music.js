@@ -225,7 +225,7 @@
                                     if ( artist != '' ) $details.find('.album-artist').text( artist );
                                     if ( album != '' ) $details.find('.album-album').text( album );
                                     if ( year != '' ) $details.find('.album-album').append( $( '<span> &nbsp;(' + year + ')</span>' ) );
-                                    if ( genre != '' ) $details.find('.album-genre').text( 'Genre: '+ genre );
+                                    if ( genre != '' ) $details.find('.album-genre').text( genre );
                                     
                                     if ( !isNaN( duration ) ) {
                                         var $duration = $details.find('.album-duration').empty();
