@@ -90,6 +90,10 @@
     -moz-transition: background-color 0.5s;
     -o-transition: background-color 0.5s;
     transition: background-color 0.5s;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .music-song:hover td {
