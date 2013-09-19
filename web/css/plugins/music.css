@@ -124,4 +124,5 @@
 
 @media only screen and (max-width : 480px) {
     .music.type .table .song-status .icon-play { position: absolute; left: 0.5em; }
+    .music.type .table .song-title { max-width: 10em; }
 }
