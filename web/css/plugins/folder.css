@@ -36,6 +36,14 @@
     transition: color 0.3s;
 }
 
+.type.folders .album:hover .album-img {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+    filter: alpha(opacity=75);
+    -moz-opacity: 0.75;
+    -khtml-opacity: 0.75;
+    opacity: 0.75;
+}
+
 .type.folders .album:hover .actions *,
 .type.folders .album:hover .details {
     color: #777 !important;
