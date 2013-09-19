@@ -7,7 +7,7 @@
                     //track : { title:'#', class: 'tablet' },
                     status: { title:'', class: 'phone' },
                     title : { title:'Title', class: 'phone' },
-                    duration: { title:'Duration', class: 'phone' },
+                    duration: { title:'<i class="icon-time">&nbsp;</i>', class: 'phone' },
                     //album : { title:'Album', class: 'tablet' },
                     //artist: { title:'Artist', class: 'tablet' },
                     
@@ -236,7 +236,7 @@
                                             duration -= r * unit;
                                             unit /= 60;
                                         }
-                                        $duration.html( 'Duration: ' + dd.join(':') );
+                                        $duration.html( '<i class="icon-time">&nbsp;</i> ' + dd.join(':') );
                                     }
                                     
                                     if ( $folder.find('.image.entry:first').length ) {
