@@ -172,7 +172,8 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                             <div class="g-page" data-layout="portrait" data-width="240" data-href="https://plus.google.com/b/108102348820509719254/108102348820509719254/posts"></div>
                         </li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh" target="_blank">Fork us on Github!</a></li>
-                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha" ><?php echo $git; ?></a></li>
+                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh/issues/new" target="_blank">Found a bug ?</a></li>
+                        <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha" ><?php echo substr($git,0,10); ?></a></li>
                     </ul>
                 </div>
                 

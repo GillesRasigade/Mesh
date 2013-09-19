@@ -20,8 +20,9 @@
 .music.type .table thead tr > * {
     /*background: #555;
     color: white;*/
-    border-top: 1px solid #ddd !important;
+    border-top: 1px solid #ccc !important;
     border-bottom: 1px solid #bbb;
+    background: rgb(221, 221, 221);
 }
 
 .music.type .table .song-status { width: 2em; text-align: center; }
