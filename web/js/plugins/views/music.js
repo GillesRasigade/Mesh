@@ -196,7 +196,7 @@
                                                         ( d !== 'actions' ? '' :
                                                             '<div class="btn-group">'+
                                                                 '<span class="btn" onClick="javascript:$m.view.music.utils.download(\''+p+'\')"><i class="icon-download-alt"></i></span>'+
-                                                                '<span class="btn" onClick="javascript:$m.view.music.utils.mp3info(\''+p+'\')"><i class="icon-info"></i></span>'+
+                                                                '<span class="btn" onClick="javascript:$m.view.music.utils.mp3info(\''+p+'\')"><i class="icon-info-sign"></i></span>'+
                                                             '</div>'
                                                         )+
                                                 '</td>' );
