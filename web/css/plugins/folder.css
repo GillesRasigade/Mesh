@@ -37,11 +37,11 @@
 }
 
 .type.folders .album:hover .album-img {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-    filter: alpha(opacity=75);
-    -moz-opacity: 0.75;
-    -khtml-opacity: 0.75;
-    opacity: 0.75;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
+    filter: alpha(opacity=85);
+    -moz-opacity: 0.85;
+    -khtml-opacity: 0.85;
+    opacity: 0.85;
 }
 
 .type.folders .album:hover .actions *,
