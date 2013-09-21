@@ -24,16 +24,17 @@
         // List of states for the UI :
         state: {
             debug: true,
-            focused: true,      // Window focus (used for desktop notifications)
-            plugins: [],        // Loaded modules
-            recents: [],        // Recents folders
+            focused: true,          // Window focus (used for desktop notifications)
+            plugins: [],            // Loaded modules
+            recents: [],            // Recents folders
             server: '',
-            servers: {},        // Loaded servers
+            servers: {},            // Loaded servers
 //            path: '/Images/Photos/2013/2013-03-02 Photos d\'essai au reflex'
             path: '',
-            scale: 1,           // Main display scale
+            scale: 1,               // Main display scale
             api: 'api.php',
-            thumbs: {},         // Album thumbnails
+            thumbs: {},             // Album thumbnails
+            permissions: {}    // Level permission
         },
         
         
@@ -206,7 +207,7 @@
                             
                         }
                         
-                        // Don't know why this line is required...
+                        // Don't know why this line is required to work...
                         $m.api.get({c:'app',a:'init'},function(json){});
                         setTimeout(f[i],250);
                         
@@ -223,6 +224,11 @@
                             if ( json.user.admin ) {
                                 $('#menu-dropdown .dropdown-menu .divider.a').before('<li class="divider"></li>'+
                                 '<li><a href="javascript:$m.app.panel();" id="view-admin-panel"><i class="icon-wrench"></i> Configuration</a></li>');
+                            }
+                            
+                            // Update the user permissions:
+                            if ( json.user && json.user.permissions ) {
+                                $m.state.permissions = json.user.permissions;
                             }
                             
                             // OpenId authentication:
@@ -251,6 +257,17 @@
                             f[++i]();
                         });
                     }
+                },
+                function () {
+                    // Initialize all loaded views:
+                    for ( var v in $m.view ) {
+                        if ( typeof($m.view[v].init) == 'function' ) {
+                            $m.view[v].init();
+                        }
+                    }
+                    
+                    // Go to next step
+                    f[++i]();
                 },
                 // Finalization :
                 function () {

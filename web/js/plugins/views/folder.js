@@ -2,8 +2,17 @@
     window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
         view: {
             folder: {
+                initialized: false,
                 init: function () {
-                    $('#menu-dropdown .dropdown-menu .divider.last').before( '<li><a href="javascript:$m.explorer.events.createFolder(event);"><i class=" icon-folder-open"></i> Create a folder</a></li>' )
+                
+                    if ( !$m.view.card.initialized ) {
+                
+                        if ( $m.state.permissions.post ) {
+                            $('#menu-dropdown .dropdown-menu .divider.last').before( '<li><a href="javascript:$m.explorer.events.createFolder(event);"><i class=" icon-folder-open"></i> Create a folder</a></li>' )
+                        }
+                        
+                        $m.view.folder.initialized = true;
+                    }
                 },
                 columns: {
                     width: 320, number: 3
@@ -87,6 +96,7 @@
                 load: function ( path , json ) {
                 
                     //console.log( 86 , json );
+                    if ( !$m.view.folder.initialized ) $m.view.folder.init();
                 
                     
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
@@ -165,10 +175,10 @@
                                         '</a>');
                                     
                                     $div.find('.dropdown-menu')
-                                        .prepend( '<li><a style="text-align: left;" href="#" onClick="$m.view.folder.share(\''+p+'\',\''+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'\');" class="btn btn-link folder-share"><i class="icon-share"></i> Share</a></li>' )
+                                        .prepend( $m.shared ? '' : '<li><a style="text-align: left;" href="#" onClick="$m.view.folder.share(\''+p+'\',\''+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'\');" class="btn btn-link folder-share"><i class="icon-share"></i> Share</a></li>' )
                                         .prepend( '<li><a style="text-align: left;" href="#" title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i> Download</a></li>' )
-                                        .prepend( '<li><a style="text-align: left;" href="#" title="Rename album" class="btn btn-link entry-rename"><i class="icon-edit"></i> Rename</a></li>' )
-                                        .prepend( '<li><a style="text-align: left;" href="#" title="Remove album" class="btn btn-link delete-folder"><i class="icon-remove"></i> Remove</a></li>' );
+                                        .prepend( !$m.state.permissions.put ? '' : '<li><a style="text-align: left;" href="#" title="Rename album" class="btn btn-link entry-rename"><i class="icon-edit"></i> Rename</a></li>' )
+                                        .prepend( !$m.state.permissions.delete ? '' : '<li><a style="text-align: left;" href="#" title="Remove album" class="btn btn-link delete-folder"><i class="icon-remove"></i> Remove</a></li>' );
 
                                     $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
                                     
@@ -303,5 +313,6 @@
     });
     
     
-    $m.view.folder.init();
+    //$m.view.folder.init();
+    
 })(jQuery);

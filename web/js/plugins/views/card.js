@@ -2,11 +2,18 @@
     window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
         view: {
             card: {
+                initialized: false,
                 init: function () {
                     
-                    $('#menu-dropdown .dropdown-menu .divider.last').before( '<li><a href="#card-creation" role="button" data-toggle="modal"><i class="icon-pencil"></i> Create a card</a></li>' )
-                    
-                    $m.view.card.form.init();
+                    if ( !$m.view.card.initialized ) {
+                        if ( $m.state.permissions.post ) {
+                            $('#menu-dropdown .dropdown-menu .divider.last').before( '<li><a href="#card-creation" role="button" data-toggle="modal"><i class="icon-pencil"></i> Create a card</a></li>' )
+                        }
+                        
+                        $m.view.card.form.init();
+                        
+                        $m.view.card.initialized = true;
+                    }
                 },
                 
                 config: {
@@ -238,6 +245,8 @@
                     return $card;
                 },
                 load: function ( path , json ) {
+                
+                    if ( !$m.view.card.initialized ) $m.view.card.init();
                     
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
@@ -506,6 +515,6 @@
         }
     });
     
-    $m.view.card.init();
+    //$m.view.card.init();
     
 })(jQuery);

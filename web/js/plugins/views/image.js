@@ -186,15 +186,15 @@
                                                     '<div class="btn btn-link delete-folder"><i class="icon-remove"></i></div>'+
                                                     '</div>') );*/
                                                 $div.find('.dropdown-menu')
-                                                    .prepend( '<li><a style="text-align: left;" href="#" onClick="$m.view.folder.share(\''+p+'\',\''+sharedLink+'\');" class="btn btn-link image-share"><i class="icon-share"></i> Share</a></li>' )
+                                                    .prepend( $m.shared ? '' : '<li><a style="text-align: left;" href="#" onClick="$m.view.folder.share(\''+p+'\',\''+sharedLink+'\');" class="btn btn-link image-share"><i class="icon-share"></i> Share</a></li>' )
                                                     .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link file-download"><i class="icon-download"></i> Download</a></li>' )
-                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link image-cover"><i class="icon-picture"></i> Set as album cover</a></li>' )
+                                                    .prepend( !$m.state.permissions.put ? '' : '<li><a style="text-align: left;" href="#" class="btn btn-link image-cover"><i class="icon-picture"></i> Set as album cover</a></li>' )
                                                     
-                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link image-rotate" data-value="-90"><i class="icon-rotate-left"></i> Rotate left</a></li>' )
-                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link image-rotate" data-value="90"><i class="icon-rotate-left"></i> Rotate right</a></li>' )
+                                                    .prepend( !$m.state.permissions.put ? '' : '<li><a style="text-align: left;" href="#" class="btn btn-link image-rotate" data-value="-90"><i class="icon-rotate-left"></i> Rotate left</a></li>' )
+                                                    .prepend( !$m.state.permissions.put ? '' : '<li><a style="text-align: left;" href="#" class="btn btn-link image-rotate" data-value="90"><i class="icon-rotate-left"></i> Rotate right</a></li>' )
                                                     
-                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link entry-rename"><i class="icon-edit"></i> Rename</a></li>' )
-                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link delete-folder"><i class="icon-remove"></i> Remove</a></li>' )
+                                                    .prepend( !$m.state.permissions.put ? '' : '<li><a style="text-align: left;" href="#" class="btn btn-link entry-rename"><i class="icon-edit"></i> Rename</a></li>' )
+                                                    .prepend( !$m.state.permissions.delete ? '' : '<li><a style="text-align: left;" href="#" class="btn btn-link delete-folder"><i class="icon-remove"></i> Remove</a></li>' )
 
                                         image.onload = function () {
 

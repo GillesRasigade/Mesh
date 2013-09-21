@@ -33,6 +33,10 @@ class Api_Get_App {
         $json['user']['login'] = $config['user']['login'];
         $json['user']['admin'] = ( isset($config['user']) && isset($config['user']['admin']) && $config['user']['admin'] );
         
+        // Methods and  permissions:
+        $json['user']['permissions'] = array_flip( json_decode( $config['user']['methods'] ));
+        $json['user']['permissions'] = array_fill_keys( array_keys( $json['user']['permissions'] ) , 1 );
+        
         if ( isset($_SESSION['openId']) && $_SESSION['openId'] === TRUE ) {
             $json['openId'] = array(
                 'login' => $_SESSION['login'],
