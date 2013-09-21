@@ -26,7 +26,6 @@
     padding-bottom: 0em;
 }
 
-.type.folders .album .actions *,
 .type.folders .album .details {
     color: #ccc !important;
     
@@ -44,7 +43,6 @@
     opacity: 0.85;
 }
 
-.type.folders .album:hover .actions *,
 .type.folders .album:hover .details {
     color: #777 !important;
 }

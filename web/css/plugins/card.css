@@ -61,7 +61,13 @@
 .entries.cards .card-body,
 .entries.cards .card-references,
 .entries.cards .card-footer {
-    padding: 1em;
+    padding: 1em 1em 1em 1em;
+}
+
+.entries.cards .card-footer {
+    padding-top: 0em;
+    font-size: 0.8em;
+    line-height: 2em;
 }
 
 .entries.cards .card-title,
@@ -104,8 +110,22 @@
 
 
 
-.entries.cards .references {
+.entry.card .references {
     list-style: square;
+    height: 0px;
+    overflow: hidden;
+    
+    margin-top: 0em;
+    margin-bottom: 0em;
+    
+    -webkit-transition: height 0.3s ease 0.5s;
+    -moz-transition: height 0.3s ease 0.5s;
+    -o-transition: height 0.3s ease 0.5s;
+    transition: height 0.3s ease 0.5s;
+}
+
+.entry.card:hover .references {
+    height: 2em;
 }
 
 .entries.cards .reference a {
@@ -118,12 +138,24 @@
 }
 
 .entries.cards .card-footer {
-    font-size: 0.9em;
+    padding-right: 0em;
     color: #666;
 }
 
 .entries.cards .card-footer .tags {
     margin-left: 0.5em;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    width: 75%;
+    display: inline-block;
+}
+
+.entries.cards .card-footer .tags * {
+    font-size: 0.9em;
+    color: #888;
 }
 
 .entries.cards .card-footer .actions {
@@ -143,6 +175,7 @@
 .entries.cards .card .card-body {
     font-size: 0.85em;
     line-height: 1.5em;
+    padding-bottom: 0em;
     
     max-height: 14em;
     overflow-y: auto;

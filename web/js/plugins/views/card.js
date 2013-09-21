@@ -201,7 +201,7 @@
                     if ( body ) $card.append('<div class="card-body">'+body+'</div>')
                     
                     $footer = $('<div class="card-footer"></div>');
-                    $footer.append('<a title="updated at : '+card.updatedAt+'" class="details icon-question-sign"></a>');
+                    //$footer.append('<a title="updated at : '+card.updatedAt+'" class="details icon-question-sign"></a>');
                     
                     // Addition of tags :
                     if ( card.tags ) {
@@ -211,12 +211,26 @@
                             t.push( '<a href="#">' + tags[tag].trim() + '<a>' );
                         }
                         
-                        $footer.append( '<span class="tags">'+t.join(', ')+'</span>' );
+                        //$footer.append( '<span class="tags">'+t.join(', ')+'</span>' );
                     }
-                    $footer.append('<div class="actions">'+
+                    
+                    $footer.append( '<span class="tags">'+( card.tags ? t.join(', ') : '&nbsp;' )+'</span>' );
+                    
+                    /*$footer.append('<div class="actions">'+
                         '<a href="#" onClick="$m.view.card.update(event);"><i class="icon-edit"></i></a> &nbsp; '+
                         '<a href="#" onClick="$m.view.card.remove(event);"><i class="icon-trash"></i></a>'+
+                    '</div>');*/
+                    $footer.append('<div class="actions">'+
+                        '<div class="btn-group dropup">'+
+                            '<button class="btn btn-mini btn-link dropdown-toggle" data-toggle="dropdown" style="padding: 0.5em 1em;">...</button>'+
+                            '<ul class="dropdown-menu pull-right"></ul>'+
+                        '</div>'+
                     '</div>');
+                    
+                    $footer.find('.dropdown-menu')
+                        .prepend( !$m.state.permissions.put ? '' : '<li><a href="#" onClick="$m.view.card.update(event);"><i class="icon-edit"></i> Edit</a></li>' )
+                        .prepend( !$m.state.permissions.delete ? '' : '<li><a href="#" onClick="$m.view.card.remove(event);"><i class="icon-trash"></i> Remove</a></li>' )
+                        .prepend( '<li><a href="#" style="font-size: 0.8em; color: #666; background: white;">Last update: '+card.updatedAt+'</a></li>' )
                     
                     // Addition of the reference :
                     if ( card.references ) {
@@ -443,7 +457,9 @@
                                     var $p = $html.siblings('p').first();
                                     if ( $p.length ) {
                                         $p.find('.error, br:last-child').remove();
-                                        data.body = $p.html().replace(/href="\//g,'href="http://fr.wikipedia.org/') + data.body;
+                                        data.body = $p.html().replace(/href="\//g,'href="http://fr.wikipedia.org/') +
+                                            '<div style="text-align: right; font-size: 0.8em; color: #888; font-style: italic;">wikipedia.org</div>' +
+                                            ( data.body != '' ? '' + data.body : '' );
                                     }
                                 }
                                 
