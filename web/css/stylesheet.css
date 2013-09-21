@@ -1124,4 +1124,5 @@ body {
     .album { margin-top: 0.25em; background: white; }
     .album:first-child { margin-top: 3.25em; }
     .album-img { float: left; height: 4em !important; width: 4em; }
+    .album-title.details { padding-bottom: 1.4em; }
 }
