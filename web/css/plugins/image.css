@@ -18,17 +18,27 @@
  * ========================================================== */
 
 .image:not(.card) .actions {
-    position: relative; top: -2.3em; height: 2em;
+    /*
+    
     text-align: right;
     background: rgba(255,255,255,0.75);
     margin: 0px -1px 3px 1px;
     margin-bottom: -2em;
+    */
     
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: alpha(opacity=0);
-    -moz-opacity: 0;
-    -khtml-opacity: 0;
-    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=15)";
+    filter: alpha(opacity=15);
+    -moz-opacity: 0.15;
+    -khtml-opacity: 0.15;
+    opacity: 0.15;
+    
+    background: white;
+    position: relative; top: -2.3em; height: 2em;
+    margin: 0px -2px 3px 1px;
+    margin-bottom: -2em;
+    float: right;
+    border-top-left-radius: 3em;
+    border: 1px solid #ddd;
     
     -webkit-transition: opacity 0.5s;
     -moz-transition: opacity 0.5s;

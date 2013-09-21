@@ -142,6 +142,38 @@
 
                 index++; // Append the file
             },
+            
+            rename: function ( path ) {
+                var filename = path.replace(/^.*\/([^\/]+$)/,'$1',path);
+                var name = prompt('Rename in:',filename);
+                if ( filename !== name ) {
+                    console.log(path,filename,name);
+                    $m.api.put({ c: 'file', a: 'rename', path: path, name: name },function(json){
+                        if ( json.confirm && confirm('Another file exists with this name, overwrite it ?')) {
+                            // Not yet implemented...
+                            $m.api.put({ c: 'file', a: 'rename', path: path, name: name, force:true },function(json){
+                                if ( json.success ) {} else {}
+                            });
+                        } else if ( json.success ) {
+                            // 
+                            var ps = path.replace(/^[^:]+:\/\//,'').replace(/[^\/]+$/,'');
+                            var file = path.replace(/^.*\//,'');
+                            $m.storage.fs.remove( ps , file );
+                            
+                            $('*[data-path="'+path+'"]').attr('title',name).find('.entry-name').text(name).attr('title',name);
+                            $('#explorer-tree-nav a[data-path="'+path+'"]').text(name);
+                            
+                            $('*[data-path^="'+path+'"]').each(function(i,o){
+                                var $o = $(o);
+                                var p = $o.attr('data-path');
+                                $o.attr('data-path',p.replace(path,path.replace(filename,name)));
+                            });
+                            
+                        } else {
+                        }
+                    });
+                }
+            }
         }
     });   
 })(jQuery);

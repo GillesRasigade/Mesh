@@ -52,5 +52,47 @@ class Api_Put_File {
         ));
         die();
     }
+    
+    public function renameAction() {
+        global $config;
+        
+        $p = Api_Utils::readToken();
+        $status = false;
+        
+        if ( array_key_exists('path',$p) ) {
+        
+            $p['path'] = preg_replace( '/\/$/' , '' , str_replace( '//' , '/' , $p['path'] ) );
+            $directory = preg_replace( '/\/[^\/]+$/' , '' , $p['path'] );
+            $filename = preg_replace('/^.*\/([^\/]+$)/','$1',$p['path']);
+            
+            /*echo Api_Utils::outputJson(array(
+                'path' => $p['path'],
+                'directory' => $directory,
+                'filename' => $filename
+            )); die();*/
+            
+            chdir( $config['path'] . '/' . $directory );
+            if ( rename( $filename , $p['name'] ) ) {
+                chdir( $config['data'] . '/' . $directory );
+                if ( is_dir($filename) ) {
+                    if ( rename( $filename , $p['name'] ) ) {
+                        $status = TRUE;
+                    }
+                } else {
+                    $result = Api_Utils::exec( 'rm *-' . $filename . ';' );
+                    $status = TRUE;
+                }
+            }
+            
+            
+        }
+        
+        $status = $status ? 'success' : 'error' ;
+        
+        echo Api_Utils::outputJson(array(
+            $status => $status
+        ));
+        die();
+    }
 
 }

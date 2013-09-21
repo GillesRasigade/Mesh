@@ -148,16 +148,27 @@
                                     var $div = $('<a data-path="'+p+'" href="javascript:void(0)" class="album entry">'+
                                             '<i class="icon-spinner icon-spin icon-large" style="inline-block;"></i>'+
                                             '<span class="album-img img-polaroid" style="height: '+($m.view.folder.columns.width*9/16)+'px"></span>'+
-                                            '<span class="actions">'+
+                                            '<span class="actions btn-group dropup">'+
+                                                '<button class="btn btn-mini btn-link dropdown-toggle" data-toggle="dropdown" style="padding: 0.5em 1em;">...</button>'+
+                                                '<ul class="dropdown-menu pull-right"></ul>'+
                                                 //'<a href="'+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'" target="_blank" class="btn btn-link folder-share"><i class="icon-share"></i></a>'+
                                                 //'<a class="icon-share">&nbsp;</a>'+
+                                                /*
                                                 '<div onClick="$m.view.folder.share(\''+p+'\',\''+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'\');" class="btn btn-link folder-share"><i class="icon-share"></i></div>'+
                                                 '<div title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i></div>'+
+                                                '<div class="btn btn-link entry-rename"><i class="icon-edit"></i></div>'+
                                                 '<i class="icon-remove delete-folder"></i>'+
+                                                */
                                             '</span>'+
-                                            '<span title="'+json[i]+'" class="album-title">'+title.replace(/.*\//,'')+'</span>'+
+                                            '<span title="'+json[i]+'" class="album-title entry-name">'+title.replace(/.*\//,'')+'</span>'+
                                             '<span class="album-title details">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
                                         '</a>');
+                                    
+                                    $div.find('.dropdown-menu')
+                                        .prepend( '<li><a style="text-align: left;" href="#" onClick="$m.view.folder.share(\''+p+'\',\''+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'\');" class="btn btn-link folder-share"><i class="icon-share"></i> Share</a></li>' )
+                                        .prepend( '<li><a style="text-align: left;" href="#" title="Download album" class="btn btn-link folder-download" style="display: none;"><i class="icon-download"></i> Download</a></li>' )
+                                        .prepend( '<li><a style="text-align: left;" href="#" title="Rename album" class="btn btn-link entry-rename"><i class="icon-edit"></i> Rename</a></li>' )
+                                        .prepend( '<li><a style="text-align: left;" href="#" title="Remove album" class="btn btn-link delete-folder"><i class="icon-remove"></i> Remove</a></li>' );
 
                                     $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
                                     

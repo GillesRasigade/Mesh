@@ -181,6 +181,7 @@
                     var $target = $( event.target );
                     
                     switch ( true ) {
+                        case $target.hasClass( 'dropdown-toggle' ) || $target.closest( '.dropdown-toggle' ).length > 0 :
                         case $target.hasClass( 'folder-share' ) || $target.closest( '.folder-share' ).length > 0 :
                         case $target.hasClass( 'image-share' ) || $target.closest( '.image-share' ).length > 0 :
                             return false;
@@ -211,7 +212,12 @@
                             window.open($m.api.utils.url('file','download',{path: path}), '_blank');
                             return false;
                             break;
-                            
+                        
+                        case $target.hasClass( 'entry-rename' ) || $target.closest( '.entry-rename' ).length > 0 :
+                            var path = $target.closest('.entry').attr('data-path');
+                            $m.utils.rename( path );
+                            break;
+                        
                         case $target.hasClass( 'image-cover' ) || $target.closest( '.image-cover' ).length > 0 :
                             var path = $target.closest('.image').attr('data-path');
                             $m.view.image.cover( path );

@@ -165,7 +165,13 @@
 
                                         $folder.find('.images > .column:nth-child('+column+') > .column-content').append(
                                             $div.append( $img )
-                                                .append( '<div class="actions">'+
+                                                .append('<div class="actions">'+
+                                                            '<div class="btn-group dropup">'+
+                                                                '<button class="btn btn-mini btn-link dropdown-toggle" data-toggle="dropdown" style="padding: 0.5em 1em;">...</button>'+
+                                                                '<ul class="dropdown-menu pull-right"></ul>'+
+                                                            '</div>'+
+                                                        '</div>') );
+                                                /*.append( '<div class="actions">'+
                                                 
                                                     '<div onClick="$m.view.folder.share(\''+p+'\',\''+sharedLink+'\');" class="btn btn-link image-share"><i class="icon-share"></i></div>'+
                                                 
@@ -175,9 +181,20 @@
                                                     '<div class="btn btn-link file-download"><i class="icon-download"></i></div>'+
 
                                                     '<div class="btn btn-link image-cover"><i class="icon-picture"></i></div>'+
+                                                    '<div class="btn btn-link entry-rename"><i class="icon-edit"></i></div>'+
 
                                                     '<div class="btn btn-link delete-folder"><i class="icon-remove"></i></div>'+
-                                                    '</div>') );
+                                                    '</div>') );*/
+                                                $div.find('.dropdown-menu')
+                                                    .prepend( '<li><a style="text-align: left;" href="#" onClick="$m.view.folder.share(\''+p+'\',\''+sharedLink+'\');" class="btn btn-link image-share"><i class="icon-share"></i> Share</a></li>' )
+                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link file-download"><i class="icon-download"></i> Download</a></li>' )
+                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link image-cover"><i class="icon-picture"></i> Set as album cover</a></li>' )
+                                                    
+                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link image-rotate" data-value="-90"><i class="icon-rotate-left"></i> Rotate left</a></li>' )
+                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link image-rotate" data-value="90"><i class="icon-rotate-left"></i> Rotate right</a></li>' )
+                                                    
+                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link entry-rename"><i class="icon-edit"></i> Rename</a></li>' )
+                                                    .prepend( '<li><a style="text-align: left;" href="#" class="btn btn-link delete-folder"><i class="icon-remove"></i> Remove</a></li>' )
 
                                         image.onload = function () {
 

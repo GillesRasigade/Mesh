@@ -133,12 +133,22 @@
                             //console.log( dir );
                             
                             setTimeout(function(){
-                                dir.getFile( filename, {create: true}, function(fileEntry) {
+                                if ( filename ) {
                                     
-                                    fileEntry.remove(function() {
+                                    dir.remove(function() {
                                         if ( typeof(callback) == 'function' ) callback();
                                     }, $m.storage.fs.errorHandler);
-                                });
+                                
+                                } else {
+                            
+                                    dir.getFile( filename, {create: true}, function(fileEntry) {
+                                        
+                                        fileEntry.remove(function() {
+                                            if ( typeof(callback) == 'function' ) callback();
+                                        }, $m.storage.fs.errorHandler);
+                                    });
+                                    
+                                }
                             },25);
                         });
                     } else if ( typeof(callback) == 'function' ) callback();
