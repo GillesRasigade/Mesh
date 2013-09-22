@@ -82,7 +82,12 @@
                 // Unused
                 //'external/js/codemirror.js',
                 //'external/css/codemirror.css',
+
+                // Swipe event:
+                //'external/js/jquery.event.move.js',
+                //'external/js/jquery.event.swipe.js',
                 
+                // Rich text editor:
                 'external/js/wysihtml5.min.js',
                 'external/js/wysihtml5-rules.js',
             ],

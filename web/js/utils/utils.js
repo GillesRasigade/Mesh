@@ -57,6 +57,3 @@ function createGrid(rows, columns) {
     }
     return grid;
 }
-
-
-

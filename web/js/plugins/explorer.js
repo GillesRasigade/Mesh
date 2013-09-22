@@ -44,6 +44,60 @@
                 }).bind('mousemove',function(event){
                         
                 });*/
+                
+                // Swipe navigation for explorer:
+                $(window).bind('touchstart mousedown',function(event){
+                    if ( event.originalEvent.touches && event.originalEvent.touches.length > 0 ) {
+                        event.pageX = event.originalEvent.touches[0].pageX;
+                        event.pageY = event.originalEvent.touches[0].pageY;
+                    }
+                
+                    $m.state.touch = {
+                        startX: parseFloat(event.pageX),
+                        startY: parseFloat(event.pageY)
+                    }
+                    
+                })
+                .bind('touchmove mousemove',function(event){
+                    console.log('touchmove...');
+                
+                    if ( $m.state.touch ) {
+                        
+                        if ( event.originalEvent.touches && event.originalEvent.touches.length > 0 ) {
+                            event.pageX = event.originalEvent.touches[0].pageX;
+                            event.pageY = event.originalEvent.touches[0].pageY;
+                        }
+                        
+                        $m.state.touch.diffX = parseFloat(event.pageX) - $m.state.touch.startX;
+                        $m.state.touch.diffY = parseFloat(event.pageY) - $m.state.touch.startY;
+                        
+                        console.log( $m.state.touch.diffX );
+                        
+                        if ( Math.abs($m.state.touch.diffX) > 100 ) {
+                            if ( Math.abs($m.state.touch.diffY) < 100 ) {
+                                if ( $m.state.touch.diffX > 100 ) {
+                                    $prev = $('#explorer-tree-nav .active').prev();
+                                    if ( $prev.length ) $prev.find('a').click();
+                                    delete $m.state.touch
+                                } if ( $m.state.touch.diffX < -100 ) {
+                                    $next = $('#explorer-tree-nav .active').next();
+                                    if ( $next.length ) $next.find('a').click();
+                                    delete $m.state.touch
+                                }
+                            }
+                            event.preventDefault();
+                            return false;
+                        }
+                        
+                        if ( Math.abs($m.state.touch.diffX) > 10 )
+                            event.preventDefault();
+                    }
+                })
+                .bind('touchend mouseup',function(event){
+                    delete $m.state.touch;
+                });
+                
+                
             
                 $m.events.bind( 'resize' , 'window' , $m.explorer.resize );
                 $m.events.bind( 'orientationchange' , 'window' , $m.explorer.resize );
@@ -479,7 +533,7 @@
                         } else if ( false ) {
                             $folder.addClass('active').siblings('.active').removeClass( 'active' );
                             $('a[data-path="'+path+'"]',$m.explorer.elt).removeClass('loading');
-                        } else if ( false ) {
+                        } else if ( true ) {
                             var direction = $folder.prevAll('.active').length ? true : false ;
 
                             var outgoing = ( direction ? 'in' : 'out' ) + 'going';

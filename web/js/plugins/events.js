@@ -73,7 +73,7 @@
                             
         //                    console.log( 'events', type, target, $m.events.binded[type][target] );
                             $.each( $m.events.binded[type][target] , function ( i , callback ) {
-                                console.log( 'events' , type , target , i , $m.events.binded[type][target].length );
+                                console.log( type , 'events' , target , i , $m.events.binded[type][target].length );
                                 return callback( event );
                             });
                             
@@ -90,5 +90,39 @@
                 }
             },
         },
-    });   
+    });
+    
+    
+    // Swipe triggering:
+    /*
+    $(window).bind('touchstart mousedown',function(event){
+        if ( event.originalEvent.touches && event.originalEvent.touches.length > 0 ) {
+            event.pageX = event.originalEvent.touches[0].pageX;
+            event.pageY = event.originalEvent.touches[0].pageY;
+        }
+    
+        $m.state.touch = {
+            startX: parseFloat(event.pageX),
+            startY: parseFloat(event.pageY)
+        }
+    })
+    .bind('touchmove touchcancel',function(event){
+    
+        if ( event.originalEvent.touches && event.originalEvent.touches.length > 0 ) {
+            event.pageX = event.originalEvent.touches[0].pageX;
+            event.pageY = event.originalEvent.touches[0].pageY;
+        }
+        
+        $m.state.touch.diffX = parseFloat(event.pageX) - $m.state.touch.startX;
+        $m.state.touch.diffY = parseFloat(event.pageY) - $m.state.touch.startY;
+    
+        event.preventDefault();
+    })
+    .bind('touchend mouseup',function(event){
+        if ( undefined === $m.state.touch.diffX ) {
+            $m.state.touch.diffX = parseFloat(event.pageX) - $m.state.touch.startX;
+            $m.state.touch.diffY = parseFloat(event.pageY) - $m.state.touch.startY;
+        }
+    });
+    */
 })(jQuery);

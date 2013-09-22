@@ -62,7 +62,7 @@ if( isset($_GET['openid'])) {
         }
     }
     
-    if ( !$logged ) header('Location: login.php');
+    if ( !$logged ) header('Location: login.php?logout');
 }
 
 if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['timestamp'])/1000) >= 3600 ) {
