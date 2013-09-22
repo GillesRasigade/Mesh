@@ -59,42 +59,76 @@
                     
                 })
                 .bind('touchmove mousemove',function(event){
-                    console.log('touchmove...');
                 
                     if ( $m.state.touch ) {
                         
                         if ( event.originalEvent.touches && event.originalEvent.touches.length > 0 ) {
                             event.pageX = event.originalEvent.touches[0].pageX;
                             event.pageY = event.originalEvent.touches[0].pageY;
+                            
+                            $m.state.touch.diffX = parseFloat(event.pageX) - $m.state.touch.startX;
+                            $m.state.touch.diffY = parseFloat(event.pageY) - $m.state.touch.startY;
                         }
                         
-                        $m.state.touch.diffX = parseFloat(event.pageX) - $m.state.touch.startX;
-                        $m.state.touch.diffY = parseFloat(event.pageY) - $m.state.touch.startY;
+                        if ( false && Math.abs($m.state.touch.diffX) > 150 ) {
                         
-                        console.log( $m.state.touch.diffX );
+                            //$('body').css('cursor','ew-resize');
                         
-                        if ( Math.abs($m.state.touch.diffX) > 100 ) {
                             if ( Math.abs($m.state.touch.diffY) < 100 ) {
-                                if ( $m.state.touch.diffX > 100 ) {
+                                if ( $m.state.touch.diffX > 150 ) {
                                     $prev = $('#explorer-tree-nav .active').prev();
-                                    if ( $prev.length ) $prev.find('a').click();
-                                    delete $m.state.touch
-                                } if ( $m.state.touch.diffX < -100 ) {
+                                    if ( $prev.length ) {
+                                        $prev.find('a').click();
+                                        $m.state.touch.startX = parseFloat(event.pageX)+150;
+                                    }// else delete $m.state.touch
+                                    
+                                } if ( $m.state.touch.diffX < -150 ) {
                                     $next = $('#explorer-tree-nav .active').next();
-                                    if ( $next.length ) $next.find('a').click();
-                                    delete $m.state.touch
+                                    if ( $next.length ) {
+                                        $next.find('a').click();
+                                        $m.state.touch.startX = parseFloat(event.pageX)-150;
+                                    }// else delete $m.state.touch
                                 }
                             }
-                            event.preventDefault();
-                            return false;
                         }
                         
-                        if ( Math.abs($m.state.touch.diffX) > 10 )
-                            event.preventDefault();
+                        if ( Math.abs($m.state.touch.diffX) > 10 ) event.preventDefault();
+                        //else delete $m.state.touch;
                     }
                 })
                 .bind('touchend mouseup',function(event){
+                    
+                    if ( !event.originalEvent.touches ) {
+                        $m.state.touch.diffX = parseFloat(event.pageX) - $m.state.touch.startX;
+                        $m.state.touch.diffY = parseFloat(event.pageY) - $m.state.touch.startY;
+                    }
+                    
+                    if ( Math.abs($m.state.touch.diffX) > 150 ) {
+                    
+                        //$('body').css('cursor','ew-resize');
+                    
+                        if ( Math.abs($m.state.touch.diffY) < 100 ) {
+                            if ( $m.state.touch.diffX > 150 ) {
+                                $prev = $('#explorer-tree-nav .active').prev();
+                                if ( $prev.length ) {
+                                    $prev.find('a').click();
+                                    $m.state.touch.startX = parseFloat(event.pageX)+150;
+                                }// else delete $m.state.touch
+                                
+                            } if ( $m.state.touch.diffX < -150 ) {
+                                $next = $('#explorer-tree-nav .active').next();
+                                if ( $next.length ) {
+                                    $next.find('a').click();
+                                    $m.state.touch.startX = parseFloat(event.pageX)-150;
+                                }// else delete $m.state.touch
+                            }
+                        }
+                        event.preventDefault();
+                        return false;
+                    }
+                    
                     delete $m.state.touch;
+                    //$('body').css('cursor','');
                 });
                 
                 
