@@ -20,6 +20,7 @@
 (function($){
     window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
         storage: {
+            ns: '$m',// Storage application namespace:
         
             // Definition of the local sandboxed File System (fs) methods:
             fs: {
@@ -195,7 +196,7 @@
                     if ( ns.length > 1 ) $m[ns[0]][ns[1]] = value;
 
                     // Replacement of the parameter key to prefix it with the project namespace :
-                    key = '$m.' + key;
+                    key = $m.storage.ns + '.' + key;
 
                     // JSON value stringify :
                     value = JSON.stringify( value );
@@ -210,7 +211,7 @@
             get: function ( key ) {
             
                 // Replacement of the parameter key to prefix it with the project namespace :
-                key = '$m.' + key;
+                key = $m.storage.ns + '.' + key;
                 
                 // Value initialization :
                 var value = '';
@@ -237,6 +238,10 @@
             
             // Remove key from local storage :
             remove: function ( key ) {
+            
+                // Replacement of the parameter key to prefix it with the project namespace :
+                key = $m.storage.ns + '.' + key;
+            
                 if ( window.localStorage ) {
                     window.localStorage.removeItem( key );
                 } else if ( document.cookie.match( new RegExp( '(?:^|;)'+key+'=' ) ) !== undefined ) {

@@ -148,9 +148,15 @@ if(isset($_GET['openid'])) {
         <?php if ( empty($_SESSION['timestamp']) ): ?>
         <script type="text/javascript">
             $(document).ready(function(){
-            
+                
                 setTimeout(function(){
                     $('form').fadeIn().bind('submit',function(event){
+                    
+                        // Reset previous values:
+                        $m.storage.remove( 'hash' );
+                        $m.storage.remove( 'share' );
+                        $m.storage.remove( 'timestamp' );
+                        $m.storage.remove( 'state.path' );
 
                         //$m.config.reset();// Problem here.
 

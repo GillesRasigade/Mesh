@@ -20,6 +20,8 @@
 (function($){
     window.$m = $.extend( true , window.$m !== undefined ? window.$m : {} , {
         utils: {
+            debug: false,
+            log: function ( message ) { if ( $m.utils && $m.utils.debug ) console.log( message ); },
             notify: function ( data ) {
                 if ( data === undefined ) return true;
                 
@@ -141,6 +143,25 @@
                 xhr.send(fd);
 
                 index++; // Append the file
+            },
+            loadExternalResource: function ( src , callback ) {
+            
+                switch ( true ) {
+                    
+                    // CSS file loading :
+                    case src.match( /\.css$/ ) !== null:
+                        $('<link rel="stylesheet" type="text/css" href="'+src+'" />').appendTo("head");
+                        if ( typeof(callback) == 'function' ) callback();
+                        break;
+                    
+                    // Javascript file loading :
+                    case src.match( /\.js$/ ) !== null:
+                        $.getScript( src , function () {
+                            if ( typeof(callback) == 'function' ) callback();
+                        });
+                        break;
+                        
+                }
             },
             
             rename: function ( path ) {
