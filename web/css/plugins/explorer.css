@@ -30,7 +30,7 @@
     height: 100%;
     overflow: auto;
     display: none;
-    position: relative;
+    position: absolute;
     left: 0%;
     opacity: 1;
     
