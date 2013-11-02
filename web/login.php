@@ -103,7 +103,7 @@ if(isset($_GET['openid'])) {
 
 ?>
 <!DOCTYPE html>
-<html lang="en" manifest="_cache.manifest">
+<html lang="en" manifest="cache.manifest">
     <head>
         <title>Media explorer</title>
         
