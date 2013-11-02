@@ -58,7 +58,7 @@
                     }
                     
                 })
-                .bind( 'scroll' , $m.explorer.events.scroll )
+                //.bind( 'scroll' , $m.explorer.events.scroll )
                 .bind('touchmove mousemove',function(event){
                 
                     if ( $m.state.touch ) {
@@ -760,7 +760,7 @@
                         }
                     }
                     
-                    //$m.events.bind( 'scroll' , '#'+path.replace(/[^0-9a-z]/gi,'-') , $m.explorer.events.scroll );
+                    $m.events.bind( 'scroll' , '#'+path.replace(/[^0-9a-z]/gi,'-') , $m.explorer.events.scroll );
                     
                 }
             },

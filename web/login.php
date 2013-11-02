@@ -64,7 +64,7 @@ if(isset($_GET['openid'])) {
     
 } else {
 
-    if ( isset($_GET['logout']) ) {
+    if ( true || isset($_GET['logout']) ) {
         session_destroy();
         session_start();
     }
