@@ -70,8 +70,8 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
 }
 
 ?>
-<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">
-<html lang="en" manifest="cache.manifest">
+<!DOCTYPE html>
+<html lang="en" manifest="_cache.manifest">
     <head>
         <title>Media explorer</title>
         
@@ -143,7 +143,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                     </div>
                 </div>
                 
-                <div id="menu-dropdown" style="float: left; margin-top: 0.6em; margin-left: -1.65em;" class="dropdown">
+                <div id="menu-dropdown" style="float: left; margin-top: 1.1em; margin-left: -1.65em;" class="dropdown">
                     <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="icon-reorder" style="width: 8px;overflow: hidden;display: inline-block; position: relative; top: -0.25em;"></i>
                         <img src="images/favicon-128.png" style="width: 1.75em;margin-top: -0.5em;margin-left: -0.2em;"/>
@@ -177,7 +177,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                     </ul>
                 </div>
                 
-                <div id="servers-dropdown" style="float: left; margin-top: 0.4em;" class="dropdown">
+                <div id="servers-dropdown" style="float: left; margin-top: 0.9em;" class="dropdown">
                     <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#" style="max-width: 2.5em;
 overflow: hidden;
 position: relative;

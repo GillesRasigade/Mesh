@@ -26,8 +26,9 @@
 }
 
 .music.type .table .song-status { width: 2em; text-align: center; }
+/*
 .music.type .table .song-status .icon-play { position: absolute; left: 1.5em; }
-
+*/
 .music.type .table .song-actions { width: 5em; }
 .music.type .table .song-duration { width: 5em; text-align: center; }
 .music.type .table .song-track { width: 2em; text-align: center; }
@@ -111,6 +112,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    line-height: 2em;
 }
 
 .music-song:hover td {

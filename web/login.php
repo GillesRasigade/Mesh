@@ -102,8 +102,8 @@ if(isset($_GET['openid'])) {
 }
 
 ?>
-<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">
-<html lang="en" manifest="cache.manifest">
+<!DOCTYPE html>
+<html lang="en" manifest="_cache.manifest">
     <head>
         <title>Media explorer</title>
         
