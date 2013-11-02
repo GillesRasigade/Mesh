@@ -241,6 +241,8 @@
             
                 // Replacement of the parameter key to prefix it with the project namespace :
                 key = $m.storage.ns + '.' + key;
+                
+                console.log( 'Storage, remove: ' + key );
             
                 if ( window.localStorage ) {
                     window.localStorage.removeItem( key );
