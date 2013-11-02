@@ -58,6 +58,7 @@
                     }
                     
                 })
+                .bind( 'scroll' , $m.explorer.events.scroll )
                 .bind('touchmove mousemove',function(event){
                 
                     if ( $m.state.touch ) {
@@ -759,7 +760,7 @@
                         }
                     }
                     
-                    $m.events.bind( 'scroll' , '#'+path.replace(/[^0-9a-z]/gi,'-') , $m.explorer.events.scroll );
+                    //$m.events.bind( 'scroll' , '#'+path.replace(/[^0-9a-z]/gi,'-') , $m.explorer.events.scroll );
                     
                 }
             },
@@ -804,13 +805,15 @@
 //                    $('.folder.active .entry.image:offscreen').css('visibility','hidden');
 //                    $('.folder.active .entry.image:not(:offscreen)').css('visibility','visible');
                     
+                    console.log(807,$m.state.loading);
+                    
                     if ( $m.state.loading != true ) {
                         
                         $('.folder.active .scroll-detector',$m.explorer.elt).each(function(i,o){
                             o = $(o);
                             var position = o.position();
 
-                            if ( position.top < window.screen.height * 2 ) {
+                            if ( position.top - $('body').scrollTop() < window.screen.height * 1.5 ) {
                                 
                                 $m.state.loading = true;
                                 
@@ -823,7 +826,11 @@
 
                                 if ( $('#search').val() ) request['search'] = $('#search').val();
 
+                                console.log( 828 , request );
+
                                 $m.api.get(request,function(json){
+                                
+                                    console.log( json );
                                     
                                     // Filter inputs already loaded :
                                     for ( var type in json ) {
