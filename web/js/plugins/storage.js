@@ -26,18 +26,20 @@
             fs: {
                 // REF: http://www.html5rocks.com/en/tutorials/file/filesystem/?redirect_from_locale=fr
                 init: function () {
-                    // Note: The file system has been prefixed as of Google Chrome 12:
-                    window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-                    
-                    if ( window.requestFileSystem ) {
-                        if ( window.webkitStorageInfo ) {
-                            window.webkitStorageInfo.requestQuota(PERSISTENT, 100*1024*1024, function(grantedBytes) {
-                                window.requestFileSystem(window.PERSISTENT, grantedBytes, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
-                            }, function(e) {
-                                console.log('Error', e);
-                            });
-                        } else {
-                            window.requestFileSystem(window.TEMPORARY, 100*1024*1024 /*100MB*/, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
+                    if ( !window.location.href.match(/link=/) ) {
+                        // Note: The file system has been prefixed as of Google Chrome 12:
+                        window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+                        
+                        if ( window.requestFileSystem ) {
+                            if ( window.webkitStorageInfo ) {
+                                window.webkitStorageInfo.requestQuota(PERSISTENT, 100*1024*1024, function(grantedBytes) {
+                                    window.requestFileSystem(window.PERSISTENT, grantedBytes, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
+                                }, function(e) {
+                                    console.log('Error', e);
+                                });
+                            } else {
+                                window.requestFileSystem(window.TEMPORARY, 100*1024*1024 /*100MB*/, $m.storage.fs.requestSuccess, $m.storage.fs.errorHandler);
+                            }
                         }
                     }
                 },
