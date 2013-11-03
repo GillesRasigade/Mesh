@@ -47,13 +47,13 @@
                         $folder.find('.cards').remove();
                         
                         var partId = $folder.closest('.folder').attr('id')+'__card';
-                        var $folders = $('<div class="cards type entries" id="'+partId+'></div>').hide();
+                        var $folders = $('<div class="cards type entries" id="'+partId+'"></div>').hide();
                         
                         $m.view.card.setColumns($folder,$folders);
                         
                         $folder.prev().append('<a href="#'+partId+'" class="quick-card" style="display: none;">Cards</a>');
                         
-                        $folder.append( $folders );
+                        $folder.append( $folders.clone() );
                     }
                 },
                 
