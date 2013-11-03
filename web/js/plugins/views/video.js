@@ -53,7 +53,7 @@
                         $folder.find('.videos').remove();
                         
                         var partId = $folder.closest('.folder').attr('id')+'__video';
-                        var $folders = $('<div class="videos type entries" id="'+partId+'"></div>');
+                        var $folders = $('<div class="videos type entries" id="'+partId+'"></div>').hide();
                         
                         $m.view.video.setColumns($folder,$folders);
                         
@@ -109,6 +109,8 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.find( '.videos' ).length === 0 ) $m.view.video.initialize( path );
+                    
+                    $folder.find( '.videos' ).show();
                     
                     var i = 0;
                     var f = [

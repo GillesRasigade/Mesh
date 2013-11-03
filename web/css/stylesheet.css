@@ -1070,8 +1070,7 @@ body {
     /*#user-panel { display: none; }*/
     
     #explorer-tree-nav {
-        margin-left: -1em;
-        margin-top: -0.45em;
+        margin-top: 0em;
         margin-right: -100%;
     }
     

@@ -41,7 +41,7 @@
                         $folder.find('.music').remove();
                         
                         var partId = $folder.closest('.folder').attr('id')+'__music';
-                        var $folders = $('<div class="music type" id="'+partId+'" style="display: none;"></div>');
+                        var $folders = $('<div class="music type" id="'+partId+'"></div>').hide();
                         
                         var $table = $('<table class="table table-striped" style="margin-top: -0.3em;"></table>');
                         var $thead = $('<thead></thead>');
@@ -88,7 +88,8 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.find( '.type.music' ).length === 0 ) $m.view.music.initialize( path );
-                    else $folder.find( '.type.music' ).show();
+                    
+                    $folder.find( '.type.music' ).show();
                     
                     var $tbody = $folder.find( '.music table tbody' );//$('<table class="table table-striped"></table>');
                     

@@ -47,7 +47,7 @@
                         $folder.find('.cards').remove();
                         
                         var partId = $folder.closest('.folder').attr('id')+'__card';
-                        var $folders = $('<div class="cards type entries" id="'+partId+'"></div>');
+                        var $folders = $('<div class="cards type entries" id="'+partId+'></div>').hide();
                         
                         $m.view.card.setColumns($folder,$folders);
                         
@@ -265,6 +265,8 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.find( '.cards' ).length === 0 ) $m.view.card.initialize( path );
+                    
+                    $folder.find( '.cards' ).show();
                     
                     var i = 0;
                     var f = [

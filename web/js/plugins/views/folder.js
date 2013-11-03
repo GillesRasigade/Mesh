@@ -42,7 +42,7 @@
                         $folder.find('.folders').remove();
                         
                         var partId = $folder.closest('.folder').attr('id')+'__folder';
-                        var $folders = $('<div class="folders type" id="'+partId+'"></div>');
+                        var $folders = $('<div class="folders type" id="'+partId+'"></div>').hide();
                         
                         $m.view.folder.setColumns($folder,$folders);
                         
@@ -102,6 +102,8 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.find( '.folders' ).length === 0 ) $m.view.folder.initialize( path );
+                    
+                    $folder.find( '.folders' ).show();
                     
                     var i = 0;
                     var f = [

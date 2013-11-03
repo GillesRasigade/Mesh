@@ -52,7 +52,7 @@
                         $folder.find('.pdfs').remove();
                         
                         var partId = $folder.closest('.folder').attr('id')+'__pdf';
-                        var $folders = $('<div class="pdfs type" id="'+partId+'"></div>');
+                        var $folders = $('<div class="pdfs type" id="'+partId+'"></div>').hide();
                         
                         $m.view.pdf.setColumns($folder,$folders);
                         
@@ -108,6 +108,8 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.find( '.pdfs' ).length === 0 ) $m.view.pdf.initialize( path );
+                    
+                    $folder.find( '.pdfs' ).show();
                     
                     var i = 0;
                     var f = [

@@ -54,7 +54,7 @@
                         $folder.find('.images').remove();
                         
                         var partId = $folder.closest('.folder').attr('id')+'__image';
-                        var $folders = $('<div class="images type" id="'+partId+'"></div>');
+                        var $folders = $('<div class="images type" id="'+partId+'"></div>').hide();
                         
                         $m.view.image.setColumns($folder,$folders);
                         
@@ -111,6 +111,9 @@
                     var $folder = $( '.folder[data-path="'+path+'"] .content' );
                     
                     if ( $folder.find( '.images' ).length === 0 ) $m.view.image.initialize( path );
+                    
+                    
+                    $folder.find( '.images' ).show();
                     
                     var i = 0;
                     var f = [
