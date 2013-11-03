@@ -540,8 +540,12 @@ body {
     opacity: 1;
 }
 
+.column .image {
+    margin: 0.5em 0em 0em 0em;
+}
+
 .column img {
-    margin: 0.25em 0em;
+    margin: 0em 0em;
     width: 100%;
     max-width: 100%;
     height: auto;
