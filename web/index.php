@@ -153,7 +153,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
 
                         <li class="divider last"></li>
 
-                        <!--li><a href="javascript:void(0);" id="view-recents"><i class="icon-time"></i> Recents</a></li-->
+                        <li><a href="javascript:void(0);" id="view-recents"><i class="icon-time"></i> Recents</a></li>
                         <li><a href="login.php?logout"><i class="icon-signout"></i> logout &nbsp; <i class="icon-user"></i></a></li>
                         
                         <li class="divider"></li>
