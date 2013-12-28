@@ -202,11 +202,20 @@
 
                                         image.onload = function () {
 
-                                            $img.fadeIn();
-                                            setTimeout(function(){ i++; f[0](); },25);
+                                            //$img.fadeIn();
+                                            $img.show();
+                                            //setTimeout(function(){ i++; f[0](); },25);
                                         }
 
-                                        image.src = $m.view.image.src(p,'thumb');
+                                        i++; f[0]();
+                                        
+                                        setTimeout(function(){
+                                            
+                                            image.src = $m.view.image.src(p,'thumb');
+                                            
+                                        },50);
+
+                                        
                                     })(p,c);
                                 } else {
                                     i++; f[0]();
