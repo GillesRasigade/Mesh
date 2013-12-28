@@ -125,6 +125,7 @@
 #explorer .music.type {
     margin-left: -1em;
     margin-right: -1em;
+    margin-top: 2em;
 }
 
 #explorer .music.type table th:first-child,
