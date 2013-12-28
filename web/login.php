@@ -150,7 +150,7 @@ if(isset($_GET['openid'])) {
             $(document).ready(function(){
             
                 // Remove all from localStorage:
-                if ( window.localStorage ) localStorage.clear();
+                //if ( window.localStorage ) localStorage.clear();
                 
                 setTimeout(function(){
                     $('form').fadeIn().bind('submit',function(event){
