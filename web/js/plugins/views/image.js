@@ -204,16 +204,12 @@
 
                                             //$img.fadeIn();
                                             $img.show();
-                                            //setTimeout(function(){ i++; f[0](); },25);
+                                            setTimeout(function(){ i++; f[0](); },25);
                                         }
-
-                                        i++; f[0]();
                                         
                                         setTimeout(function(){
-                                            
                                             image.src = $m.view.image.src(p,'thumb');
-                                            
-                                        },50);
+                                        },25);
 
                                         
                                     })(p,c);
