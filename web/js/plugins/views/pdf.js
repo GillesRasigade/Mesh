@@ -10,7 +10,8 @@
             
                 src: function ( path , mode ) {
                     return $m.api.utils.url('pdf','access',{
-                        path: path, mode: mode !== undefined ? mode : 'full'
+                        path: path, mode: mode !== undefined ? mode : 'full',
+                        shared: true
                     });
                 },
             
