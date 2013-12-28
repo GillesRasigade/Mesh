@@ -202,7 +202,7 @@
 
                                         image.onload = function () {
 
-                                            $img.fadeIn(100);
+                                            $img.fadeIn(200);
                                             //$img.show();
                                             setTimeout(function(){ i++; f[0](); },25);
                                         }
