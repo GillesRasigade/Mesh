@@ -71,7 +71,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
 
 ?>
 <!DOCTYPE html>
-<html lang="en" manifest="cache.manifest">
+<html lang="en" manifest="_cache.manifest">
     <head>
         <title>Media explorer</title>
         
