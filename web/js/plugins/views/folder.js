@@ -177,7 +177,7 @@
                                         '</a>');
                                     
                                     $div.find('.dropdown-menu')
-                                        .prepend( $m.shared ? '' : '<li><a href="#" onClick="$m.view.folder.share(\''+p.replace(/'/g,"\'")+'\',\''+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'\');" class="folder-share"><i class="icon-share"></i> Share</a></li>' )
+                                        .prepend( $m.shared ? '' : '<li><a href="#" onClick="$m.view.folder.share(\''+p.replace(/'/g,"\\\'")+'\',\''+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'\');" class="folder-share"><i class="icon-share"></i> Share</a></li>' )
                                         .prepend( '<li><a href="#" title="Download album" class="folder-download" style="display: none;"><i class="icon-download"></i> Download</a></li>' )
                                         .prepend( !$m.state.permissions.put ? '' : '<li><a href="#" title="Rename album" class="entry-rename"><i class="icon-edit"></i> Rename</a></li>' )
                                         .prepend( !$m.state.permissions.delete ? '' : '<li><a href="#" title="Remove album" class="delete-folder"><i class="icon-remove"></i> Remove</a></li>' );
