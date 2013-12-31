@@ -8,7 +8,7 @@
                     return $m.api.utils.url('image','access',{
                         path: path, mode: mode !== undefined ? mode : 'full',
                         base64: base64 !== undefined ? base64 : false,
-                        shared: true
+                        shared: !$m.shared
                     });
                 },
                 
