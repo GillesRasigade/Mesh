@@ -283,10 +283,8 @@
                         var folder = path.replace(/^.*\//,'');
                     
                         if ( !url.match(/^https?:\/\//) ) {
-                            url = url.replace( /^.*\?/ , window.location.href.replace(/\?.*$/,'') + '?' );
+                            url = url.replace( /^.*\?/ , window.location.href.replace(/#.*$/,''.replace(/\?.*$/,'') + '?' );
                         }
-                        
-                        url = url.replace(/#.*$/,'');
                         
                         // Update meta data information:
                         $('meta[property="og:title"]').attr('content',folder + ' on Mesh');
