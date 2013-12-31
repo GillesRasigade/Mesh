@@ -11,7 +11,7 @@
                 src: function ( path , mode ) {
                     return $m.api.utils.url( mode == 'thumb' ? 'video' : 'file' , mode == 'thumb' ? 'access' : 'access' , {
                         path: path, mode: mode !== undefined ? mode : 'full',
-                        shared: true
+                        shared: !$m.shared
                     });
                 }, 
             
