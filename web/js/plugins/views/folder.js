@@ -283,7 +283,7 @@
                         var folder = path.replace(/^.*\//,'');
                     
                         if ( !url.match(/^https?:\/\//) ) {
-                            url = url.replace( /^.*\?/ , window.location.href.replace(/#.*$/,''.replace(/\?.*$/,'') + '?' );
+                            url = url.replace( /^.*\?/ , window.location.href.replace(/#.*$/,'').replace(/\?.*$/,'') + '?' );
                         }
                         
                         // Update meta data information:
