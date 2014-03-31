@@ -135,7 +135,7 @@
                                     
                                     (function(p,c){
                                         var image = new Image();
-                                        var $div = $('<div class="image entry" data-path="'+p+'" title="'+p.replace(/.*\//,'')+'" data-toggle="tooltip"></div>');
+                                        var $div = $('<div class="image entry" data-path="'+p+'" data-toggle="tooltip"></div>');
 
                                         var $img = $('<img draggable="true" data-preview="'+$m.view.image.src(p,'preview')+'" src="'+$m.view.image.src(p,'thumb')+'" style="width: 100%; display: none;"/>');
 
