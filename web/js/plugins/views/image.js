@@ -202,14 +202,14 @@
 
                                         image.onload = function () {
 
-                                            //$img.fadeIn(200);
-                                            $img.show();
+                                            $img.fadeIn(100);
+                                            //$img.show();
                                             setTimeout(function(){ i++; f[0](); },5);
                                         }
                                         
                                         setTimeout(function(){
                                             image.src = $m.view.image.src(p,'thumb');
-                                        },50);
+                                        },5);
 
                                         
                                     })(p,c);
