@@ -501,7 +501,7 @@ body {
 }
 
 .column .column-content {
-    margin: 0em 0.25em;
+    margin: 0em 0.1em;
 }
 
 #explorer-image-folder .column-content,
@@ -541,7 +541,7 @@ body {
 }
 
 .column .image {
-    margin: 0.5em 0em 0em 0em;
+    margin: 0.2em 0em 0em 0em;
 }
 
 .column img {
@@ -549,7 +549,7 @@ body {
     width: 100%;
     max-width: 100%;
     height: auto;
-    border: 1px solid #ddd;
+    /*border: 1px solid #ddd;*/
 }
 
 .column img.pending {

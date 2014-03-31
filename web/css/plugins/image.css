@@ -26,19 +26,19 @@
     margin-bottom: -2em;
     */
     
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=15)";
-    filter: alpha(opacity=15);
-    -moz-opacity: 0.15;
-    -khtml-opacity: 0.15;
-    opacity: 0.15;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    -khtml-opacity: 0;
+    opacity: 0;
     
     background: white;
-    position: relative; top: -2.3em; height: 2em;
+    position: relative; top: -2em; height: 2em;
     margin: 0px -2px 3px 1px;
     margin-bottom: -2em;
     float: right;
     border-top-left-radius: 3em;
-    border: 1px solid #ddd;
+    border: none;
     
     -webkit-transition: opacity 0.5s;
     -moz-transition: opacity 0.5s;
