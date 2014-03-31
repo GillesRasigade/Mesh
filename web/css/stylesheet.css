@@ -565,8 +565,8 @@ body {
     background-image: url('../images/default-album.gif');
     text-decoration: none !important;
     
-    border: 1px solid #ddd;
-    border-bottom-color: #bbb;
+    border: 1px solid #eee;
+    border-bottom-color: #ccc;
     background-size: cover;
 /*    border-bottom-width: 2px;*/
     
@@ -581,7 +581,7 @@ body {
     border-top-right-radius: 0px;
     border-top-left-radius: 0px;
     
-    margin-top: 0.2em;
+    margin: 1em 2px 2px 2px;
 }
 
 .album .album-title {
@@ -683,6 +683,10 @@ body {
     /*border-width: 0px 0px 1px 0px;*/
     /*border: 1px solid rgba(0,0,0,0.15);*/
     border-width: 0px;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
     
     -webkit-transition: opacity 0.3s;
     -moz-transition: opacity 0.3s;
