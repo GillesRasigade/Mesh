@@ -173,7 +173,7 @@
                                                 */
                                             '</span>'+
                                             '<span title="'+json[i]+'" class="album-title entry-name">'+title.replace(/.*\//,'')+'</span>'+
-                                            '<span class="album-title details">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
+                                            '<span class="album-title details" data-title="&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
                                         '</a>');
                                     
                                     $div.find('.dropdown-menu')
@@ -304,7 +304,9 @@
                     var ps = path.replace(/^[^:]+:\/\//,'');
 
                     var display = function ( details ) {
-                        var $details = $('[data-path="'+path+'"] .album-title.details').html('&nbsp;');
+                        var $details = $('[data-path="'+path+'"] .album-title.details');
+
+                        $details.html( $details.attr('data-title') );
 
                         for ( var t in details.counts ) {
                             if ( details.counts[t] > 0 && !t.match(/(hidden)/)) {
