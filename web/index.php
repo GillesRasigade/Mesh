@@ -153,6 +153,10 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
 
                         <li class="divider last"></li>
 
+                        <li><a href="javascript:void(0);" id="menu-google-cast" style="display: none;" onClick="$m.cast.requestSession();">
+                            <button class="btn btn-link" style="width: 0px; padding: 4px;"><i class="icon-google-cast idle">&nbsp;</i></button> Google cast
+                        </a></li>
+
                         <li><a href="javascript:void(0);" id="view-recents"><i class="icon-time"></i> Recents</a></li>
                         <li><a href="login.php?logout"><i class="icon-signout"></i> logout &nbsp; <i class="icon-user"></i></a></li>
                         
@@ -168,7 +172,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                         <li class="divider a"></li>
                         
                         <!--li class="application-details"><a href="https://plus.google.com/b/108102348820509719254/108102348820509719254/posts" target="_blank" style="text-align: center;"><img src="images/logo.png" style="height: 3em; margin: 1em auto;"/></a></li-->
-                        <li class="application-details" style="margin-top: -0.8em;">
+                        <li class="application-details" style="margin-top: -0.8em; padding: 0em;">
                             <div class="g-page" data-layout="portrait" data-width="240" data-href="https://plus.google.com/b/108102348820509719254/108102348820509719254/posts"></div>
                         </li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh" target="_blank">Fork us on Github!</a></li>

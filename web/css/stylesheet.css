@@ -161,6 +161,10 @@ body {
     transition: left 0.3s;
 }
 
+.lateral-left > li {
+    padding-left: 1em;
+}
+
 .open > .lateral-left {
     left: -1px;
 }

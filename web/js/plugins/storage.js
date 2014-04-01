@@ -26,7 +26,7 @@
             fs: {
                 // REF: http://www.html5rocks.com/en/tutorials/file/filesystem/?redirect_from_locale=fr
                 init: function () {
-                    if ( !window.location.href.match(/link=/) ) {
+                    if ( false && !window.location.href.match(/link=/) ) {
                         // Note: The file system has been prefixed as of Google Chrome 12:
                         window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
                         

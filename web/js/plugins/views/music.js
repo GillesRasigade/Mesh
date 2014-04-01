@@ -196,7 +196,8 @@
                                                     ( json[i][d] !== undefined ? json[i][d] : '' ) +
                                                         ( d !== 'actions' ? '' :
                                                             '<div class="btn-group">'+
-                                                                '<span class="btn" onClick="javascript:$m.view.music.utils.download(\''+p+'\')"><i class="icon-download-alt"></i></span>'+
+                                                                //'<span class="btn" onClick="javascript:$m.view.music.utils.download(\''+p+'\')"><i class="icon-download-alt"></i></span>'+
+                                                                //'<span class="btn" onClick="javascript:$m.view.music.cast(\''+p+'\')"><i class="icon-google-cast idle"></span>'+
                                                                 '<span class="btn" onClick="javascript:$m.view.music.utils.mp3info(\''+p+'\')"><i class="icon-info-sign"></i></span>'+
                                                             '</div>'
                                                         )+
@@ -250,7 +251,12 @@
                 },
                 
                 
-                
+                cast: function( path ) {
+
+                    // Request a Google Cast session:
+                    $m.cast.requestSession();
+
+                },
                 
                 utils: {
                 
@@ -466,8 +472,16 @@
                             //$('#audio-player > object').get(0).SetVariable("method:setUrl", src);
                             //document.getElementById('audio-player-flash').SetVariable("method:setUrl", src);
 
-                            $('#music-player > source').attr('src',src)
-                                .parent().attr('src',src);
+                            if ( $m.cast && $m.cast.isConnected() ) {
+
+                                $m.cast.loadMedia( src , 'movie/mp4' )
+
+                            } else {
+
+                                $('#music-player > source').attr('src',src)
+                                    .parent().attr('src',src);
+
+                            }
 
                             var thumb = $m.api.utils.url('image','access',{ path: path.replace(/\/[^\/]+$/,''), mode: 'micro' });
                             $('#mini-player .thumb').html('<img onClick="$(this).click();" data-path="'+path.replace(/\/[^\/]+$/,'')+'" src="'+thumb+'"/>');

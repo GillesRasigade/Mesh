@@ -117,11 +117,33 @@ class Api_Get_Video extends Api_Get_File {
                         header("Content-type: image/jpeg");
                         break;
                     default:
-                        header('Content-type: audio/mpeg');
+
+                        chdir( '../../web' );
+
+                        // TODO : Improve this...
+                        $temporaryFolder = $config['tmp'];
+                        if ( !is_dir( $temporaryFolder ) ) mkdir( $temporaryFolder );
+                        chdir( $temporaryFolder );
+
+                        //Api_Utils::exec( 'find ./* -mtime +1 -exec rm {} \;' );
+                        Api_Utils::exec( 'find ./* -mmin +60 -exec rm {} \;' );// Remove all temporary files older than an hour.
+
+                        $tmpFile = uniqid() . uniqid() . preg_replace( '/^.*([^\.]+)$/' , ".$1" , $path );
+                        symlink( $path , $tmpFile );
+                        
+                        $mime = mime_content_type( $path );
+                        error_log( 'mime = ' . $mime );
+                        //header("Content-Type: " . $mime );
+                        
+                        header('Location: ' . preg_replace( '/api.php/' , $config['tmp'] . '/' . $tmpFile , $_SERVER['REQUEST_URI']));
+                        
+                        /*
+                        header('Content-type: video/mp4');
                         header('Content-Length: '.filesize($path)); // provide file size
                         header("Expires: -1");
                         header("Cache-Control: no-store, no-cache, must-revalidate");
                         header("Cache-Control: post-check=0, pre-check=0", false);
+                        */
                         break;
                 }
                 

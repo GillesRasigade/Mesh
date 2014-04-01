@@ -169,6 +169,9 @@
                                 clearTimeout( $m.state.playTimeout );
                                 delete $m.state.playTimeout;
                             }
+
+                            if ( $m.cast ) $m.cast.stopMedia();
+
                             break;
                         case $target.closest( '.play' ).length > 0: $target = $target.closest( '.play' );
                         case $target.hasClass( 'play' ):

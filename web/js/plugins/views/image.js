@@ -229,12 +229,19 @@
                     var $splash = $('#splash-screen');
                     var path = $entry.attr('data-path');
                     var src = $m.view.image.src(path,'preview');
-                    
+
                     //$splash.fadeOut();
                     if ( !$splash.is(':visible') ) $splash.fadeIn();
                     
                     var image = new Image();
                     image.onload = function () {
+
+                        if ( $m.cast && $m.cast.isConnected() ) {
+
+                            $m.cast.loadMedia( image.src , 'image/jpeg' )
+
+                        }
+
                         $('.content',$splash).empty().show()
                             .append('<img src="'+src+'" class="entry-show" data-path="'+path+'"/>').hide().fadeIn();
                     }

@@ -74,6 +74,9 @@
                 'css/plugins/video.css',
                 
                 'js/plugins/app.js',
+
+                'js/plugins/cast.js',
+                'css/plugins/cast.css',
                 
                 // Other Javascript or stylesheets stuff:
                 'https://apis.google.com/js/plusone.js',

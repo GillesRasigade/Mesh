@@ -239,6 +239,7 @@
                     
                     var f = [
                         function ( url ) {
+                            
                             if ( $m.view.video.config.vlc ) {
 
                                 setTimeout(function(){
@@ -258,19 +259,31 @@
                             }
                         },
                         function( scale ){
-                            scale = undefined !== scale ? scale : 1;
-                            $m.api.get({ c:'video', a:'stream', scale:scale, path: path, 'max-width': window.screen.width, 'max-height': window.screen.height },function(json){
 
-                                if ( json && json.url ) {
-                                    $entry.attr('data-src',json.url);
+                            if ( $m.cast && $m.cast.isConnected() ) {
 
-                                    f[0](json.url);
-                                    
-                                    $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
-                                    
-                                }
+                                var url = window.location.href.replace( /\/[^\/]*$/ , '' ) + '/' + $m.api.utils.url( 'video' , 'access' , { path: path });
 
-                            });
+                                console.log( 'cast' , url );
+
+                                $m.cast.loadMedia( url , 'video/mp4' );
+
+                            } else {
+
+                                scale = undefined !== scale ? scale : 1;
+                                $m.api.get({ c:'video', a:'stream', scale:scale, path: path, 'max-width': window.screen.width, 'max-height': window.screen.height },function(json){
+
+                                    if ( json && json.url ) {
+                                        $entry.attr('data-src',json.url);
+
+                                        f[0](json.url);
+                                        
+                                        $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
+                                        
+                                    }
+
+                                });
+                            }
                         }
                     ];
                     
