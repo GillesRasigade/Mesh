@@ -154,6 +154,7 @@ body {
     border-top-color: #ccc;
     margin-top: 1px;
     overflow-y: auto;
+    overflow-x: hidden;
     
     -webkit-transition: left 0.3s;
     -moz-transition: left 0.3s;
