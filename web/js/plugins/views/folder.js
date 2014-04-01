@@ -180,7 +180,8 @@
                                         .prepend( $m.shared ? '' : '<li><a href="#" onClick="$m.view.folder.share(\''+p.replace(/'/g,"\\\'")+'\',\''+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'\');" class="folder-share"><i class="icon-share"></i> Share</a></li>' )
                                         .prepend( '<li><a href="#" title="Download album" class="folder-download" style="display: none;"><i class="icon-download"></i> Download</a></li>' )
                                         .prepend( !$m.state.permissions.put ? '' : '<li><a href="#" title="Rename album" class="entry-rename"><i class="icon-edit"></i> Rename</a></li>' )
-                                        .prepend( !$m.state.permissions.delete ? '' : '<li><a href="#" title="Remove album" class="delete-folder"><i class="icon-remove"></i> Remove</a></li>' );
+                                        .prepend( !$m.state.permissions.delete ? '' : '<li><a href="#" title="Remove album" class="delete-folder"><i class="icon-remove"></i> Remove</a></li>' )
+                                        .prepend( '<li><a href="javascript:void(0);" onClick="$m.view.folder.reset(\''+p+'\'); event.preventDefault(); event.stopPropagation(); $(this).closest(\'ul\').prev().click(); return false;" title="Refresh album information" class="refresh-folder"><i class="icon-refresh"></i> Reset</a></li>' )
 
                                     $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
                                     
@@ -197,20 +198,14 @@
                                                 $div.find('.album-img').css('background-image','url(\''+content+'\')');
                                                 
                                             } else if ( $m.state.thumbs[$m.state.server+'://'+ps] !== undefined ) {// Browser app memory
+                                                
                                                 $div.find('.album-img').css('background-image','url(\''+$m.state.thumbs[$m.state.server+'://'+ps]+'\')');
                                                 $m.storage.fs.set(p,'m.thumb.txt',$m.state.thumbs[$m.state.server+'://'+ps]);
                                                 
                                             } else {// Otherwise
                                                 //$div.find('.album-img').css('background-image','url(\''+$m.view.image.src(p,'thumb',true)+'\')');
                                                 
-                                                $.ajax({
-                                                    url:$m.view.image.src(ps,'thumb',true),
-                                                    dataType: 'jsonp',
-                                                    success:function(json){
-                                                        $div.find('.album-img').css('background-image','url(\''+json.base64+'\')');
-                                                        $m.state.thumbs[$m.state.server+'://'+ps] = json.base64;
-                                                        $m.storage.fs.set(ps,'m.thumb.txt',json.base64);
-                                                }});
+                                                $m.view.folder.thumb( p );
                                                 
                                             }
                                         });
@@ -261,12 +256,8 @@
                                             display( JSON.parse( content ) );
                                         } else {
                                     
-                                            $m.api.get({c:'file',a:'details',path: ps},function(details){
-                                            
-                                                $m.storage.fs.set(ps,'m.details.txt',JSON.stringify( details ));
+                                            $m.view.folder.details( p );
 
-                                                display( details );
-                                            });
                                         }
                                     });
                                 });
@@ -275,8 +266,81 @@
                         }
                     ]; f[0]();
                 },
-                
-                
+
+                reset: function ( path ) {
+
+                    var ps = path.replace(/^[^:]+:\/\//,'');
+
+                    console.log( 284 , path , ps );
+                               
+                    $m.storage.fs.remove(ps,'m.thumb.txt');
+                    $m.storage.fs.remove(ps,'m.details.txt');
+
+                    $m.state.thumbs[$m.state.server+'://'+ps] = undefined;
+
+                    $m.view.folder.thumb( path );
+                    $m.view.folder.details( path );
+
+                    return false;
+                },
+
+                thumb: function ( path ) {
+
+                    var ps = path.replace(/^[^:]+:\/\//,'');
+
+                    $.ajax({
+                        url:$m.view.image.src(ps,'thumb',true),
+                        dataType: 'jsonp',
+                        success:function(json){
+                            $('[data-path="'+path+'"]').find('.album-img').css('background-image','url(\''+json.base64+'\')');
+                            $m.state.thumbs[$m.state.server+'://'+ps] = json.base64;
+                            $m.storage.fs.set(ps,'m.thumb.txt',json.base64);
+                    
+                    }});
+
+                },
+                details: function ( path ) {
+
+                    var ps = path.replace(/^[^:]+:\/\//,'');
+
+                    var display = function ( details ) {
+                        var $details = $('[data-path="'+path+'"] .album-title.details').html('&nbsp;');
+
+                        for ( var t in details.counts ) {
+                            if ( details.counts[t] > 0 && !t.match(/(hidden)/)) {
+                                var icon = t;
+                                switch ( t ) {
+                                    case 'folder': icon = 'folder-open'; break;
+                                    case 'image': icon = 'picture'; break;
+                                    case 'video': icon = 'film'; break;
+                                    case 'card': icon = 'list-alt'; break;
+                                    case 'pdf': icon = 'book'; break;
+                                }
+                                $details.append( '<i class="icon-'+icon+'" title="'+details.counts[t]+' '+t+(details.counts[t]>1?'s':'')+'"> '+details.counts[t]+'</i> &nbsp;');
+                            }
+                        }
+                        
+//                                    $details.append('<i class="icon-info-sign" title="'+details.size+'"></i> &nbsp;')
+                        $details.append('<i class="icon-hdd" title="Total size: '+details.size+'"> '+details.size+'</i> &nbsp;')
+                        
+                        if ( details.size.match(/G$/) ) $o.closest('.album').find('.folder-download').remove();
+                        else $o.closest('.album').find('.folder-download').show();
+
+                        //if ( i < json['folder'].length-1 ) { i++; setTimeout(function(){ f[0](i); },50); }
+                        if ( $('.album .album-title.details:not(.updated)').length ) f[1]();   ;
+                    }
+
+                    $m.api.get({c:'file',a:'details',path: ps},function(details){
+                                            
+                        $m.storage.fs.set(ps,'m.details.txt',JSON.stringify( details ));
+
+                        display( details );
+
+                    });
+
+                },
+
+
                 share: function ( path , url ) {
                     if ( undefined === $m.shared ) {
                         

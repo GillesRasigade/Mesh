@@ -136,7 +136,7 @@
                             //console.log( dir );
                             
                             setTimeout(function(){
-                                if ( filename ) {
+                                if ( undefined === filename ) {
                                     
                                     dir.remove(function() {
                                         if ( typeof(callback) == 'function' ) callback();

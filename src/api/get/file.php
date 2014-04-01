@@ -489,6 +489,8 @@ class Api_Get_File {
         $path = $config['path'] . $p['path'];
         
         if ( is_dir( $path ) ) {
+
+            chdir( $path );
         
             $counts = array();
             foreach ( $config['types'] as $type => $pattern ) {
@@ -509,7 +511,7 @@ class Api_Get_File {
             }
             
             // Folder size calculation :
-            $size = Api_Utils::exec( 'du -chl | tail -n 1' );
+            $size = Api_Utils::exec( 'du -chlDL | tail -n 1' );
             $size = preg_replace( '/\t.*$/','',$size[0]);
             
             echo Api_Utils::outputJson( array(
