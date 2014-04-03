@@ -243,7 +243,9 @@
                         }
 
                         $('.content',$splash).empty().show()
-                            .append('<img src="'+src+'" class="entry-show" data-path="'+path+'"/>').hide().fadeIn();
+                            .append('<img src="'+src+'" class="entry-show" data-path="'+path+'"/>')
+                            //.append('<div style="background-image: url('+src+'); height: '+image.height+'px; width: '+image.width+'px;" class="entry-show" data-path="'+path+'"/>')
+                            .hide().fadeIn();
                     }
                     image.src = src;
                 },

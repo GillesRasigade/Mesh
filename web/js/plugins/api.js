@@ -89,6 +89,8 @@
                         'Timestamp2': undefined !== credentials && undefined !== credentials.timestamp ? credentials.timestamp : $m.storage.get( 'timestamp' ),
                         'AuthenticationHash': Sha256.hash( '' + ( undefined !== timestamp ? timestamp : '' ) + ( undefined !== hash ? hash : '' ) ) ,
                     };
+
+                    // console.log( 78 , credentials , hash , auth );
                     
                     return $m.api.utils.token( auth );
                 },
@@ -128,7 +130,8 @@
                         // Reloading page redirect to login page:
 //                                window.location = window.location;
                         if ( $('#menu-dropdown a[href*=logout]').length && $m.state.server == 'local' ) {
-                            //window.location = $('#menu-dropdown a[href*=logout]').attr('href');
+                            
+                            window.location = $('#menu-dropdown a[href*=logout]').attr('href');
                             
                             //if ( typeof(callback) == 'function' ) callback( 403 );
                         }
@@ -190,6 +193,8 @@
                     timestamp: $m.storage.get( 'timestamp' ),
                     hash: $m.storage.get( 'hash' )
                 };
+
+                console.log( 196 ,  credentials );
                 
                 if ( $m.state && $m.state.servers ) {
                     if ( $m.state.server && $m.state.servers[$m.state.server] ) {

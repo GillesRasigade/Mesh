@@ -157,6 +157,23 @@
                     } else if ( typeof(callback) == 'function' ) callback();
                     
                 },
+                clear: function ( callback ) {
+                    if ( undefined !== $m.storage.fs.instance ) {
+                    
+                        // Recursively create the hierarchical structure:
+                        $m.storage.fs.cmd.cd( $m.state.server , function( dir ){
+                            console.log( dir );
+                            
+                            setTimeout(function(){
+                                
+                                dir.removeRecursively(function() {
+                                    if ( typeof(callback) == 'function' ) callback();
+                                }, $m.storage.fs.errorHandler);
+                                
+                            },25);
+                        });
+                    }
+                },
                 cmd: {
                     // REF: http://www.html5rocks.com/en/tutorials/file/filesystem/?redirect_from_locale=fr#toc-dir-subirs
                     mkdir: function ( folders , callback , rootDirEntry ) {

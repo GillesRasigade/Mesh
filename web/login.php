@@ -32,7 +32,7 @@ session_start();
 $error = '';
 
 // Implement the OpenId for the application:
-if(isset($_GET['openid'])) {
+if( false && isset($_GET['openid'])) {
 
     # Change 'localhost' to your domain name.
     $openid = new LightOpenID( $_SERVER['HTTP_HOST'] );
@@ -202,18 +202,18 @@ if(isset($_GET['openid'])) {
             });
         </script>
         
-        <div id="credentials" style="margin: 5em auto; margin-left: auto; text-align: center;">
+        <div id="credentials" style="margin: 30% auto; margin-left: auto; text-align: center;">
             <form action="login.php" method="POST" style="display: none;">
                 <input type="hidden" name="timestamp"/>
-                <input type="text" name="login" placeholder="login" style="width: 100%; height: 2em; max-width: 15em;"/><br/>
-                <input type="password" name="password" placeholder="password" style="width: 100%; height: 2em; max-width: 15em;"/><br/>
-                <input type="submit" class="btn btn-primary" style="width: 100%; max-width: 15em; padding: 0.5em;"/><br/>
+                <input type="text" name="login" placeholder="login" style="width: 100%; height: 2em; max-width: 25em; padding: 0.5em;"/><br/>
+                <input type="password" name="password" placeholder="password" style="width: 100%; height: 2em; max-width: 25em; padding: 0.5em;"/><br/>
+                <input type="submit" class="btn btn-primary" style="width: 100%; max-width: 25em; padding: 1em;"/><br/>
                 <div class="text-error" style="text-align: center; padding-top: 1em;"><?php echo $error; ?></div>
             </form>
             
-            <form action="?openid&login" method="post">
+            <!--form action="?openid&login" method="post">
                 <input type="image" src="http://www.google.com/favicon.ico"/>
-            </form>
+            </form-->
         </div>
         
         <!--div style="position: absolute; bottom: 0.5em; width: 100%; text-align: center; max-height: 7em;">

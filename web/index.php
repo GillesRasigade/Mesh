@@ -107,10 +107,12 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
         
         <div id="splash-screen" style="display: none;">
             <div class="icon-remove close" style="color: white; text-shadow: 0px 0px 5px black; padding: 0.25em; margin-left: -100%; font-size: 3em; z-index: 1001; position: relative; right: 0.5em;">&nbsp;</div>
-            <table style="">
+            <table style="height: 100%; width: 100%;">
                 <tbody>
                     <tr>
-                        <td class="content"></td>
+                        <td>
+                            <div class="content"></div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

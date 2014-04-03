@@ -136,6 +136,43 @@
                         }
                     });
                 });
+            },
+
+            reset: function() {
+                // Remove the local storage data:
+                localStorage.clear();
+
+                // Remove the local file system data:
+                $m.storage.fs.clear();
+
+                // Bind a cache update event:
+                window.applicationCache.onupdateready = function(e) {
+                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                        $m.storage.set('state.sha',sha);
+                        // Browser downloaded a new app cache.
+                        // Swap it in and reload the page to get the new hotness.
+                        window.applicationCache.swapCache();
+                        //if (confirm('New version available:\n'+releases+'\nLoad it?')) {
+                            window.location.reload();
+                        //}
+                    }
+
+                    if (confirm('Restart application?')) {
+                        // Clear the application cache:
+                        window.location.reload();
+                    }
+
+                };
+
+                window.applicationCache.onchecking = function(e) {
+                    window.location.reload();
+                }
+
+
+                // Clear the application cache:
+                window.applicationCache.update();
+                
+
             }
         },
     });   

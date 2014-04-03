@@ -177,12 +177,16 @@
                         case $target.hasClass( 'play' ):
                             $target.find('i').toggleClass('icon-play').toggleClass('icon-pause');
                             if ( $m.state.playTimeout !== undefined ) {
+
                                 clearTimeout( $m.state.playTimeout );
                                 delete $m.state.playTimeout;
+                            
                             } else {
                                 
                                 $m.state.playTimeout = setTimeout(function() {
-                                    $target.next().click();
+
+                                    $('#splash-screen .btn-next').click();
+                                
                                 },4000);
                             }
                             break;
@@ -197,9 +201,11 @@
                                 }
                                 $loader.fadeOut();
                                 
+                                console.log( 204 , $m.state.playTimeout );
+
                                 // Continue the 4s slideshow:
                                 if ( $m.state.playTimeout !== undefined ) {
-                                    $m.state.playTimeout = setTimeout(function(){ $target.next().click(); },4000);
+                                    $m.state.playTimeout = setTimeout(function(){ $('#splash-screen .btn-next').click(); },4000);
                                 }
                             });
                             break;
@@ -558,7 +564,7 @@
                                 $folder.removeClass('fadein');
                                 
                                 if ( $('.content > * .entry',$folder).length === 0 ) $m.explorer.events.scroll();
-                            },10);
+                            },100);
                             /*$folder.siblings('.active').fadeOut(1000,function(){
 
                             })*/
@@ -589,6 +595,7 @@
                                         $('a[data-path="'+path+'"]',$m.explorer.elt).removeClass('loading');
 
                                         $folder.siblings('.'+outgoing).removeClass('active').removeClass(outgoing);
+
                                     },1000);
                                 }, 150);
 

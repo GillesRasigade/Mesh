@@ -262,7 +262,7 @@
                                     });
                                 });
                             
-                            },50);
+                            },100);
                         }
                     ]; f[0]();
                 },
@@ -325,8 +325,8 @@
 //                                    $details.append('<i class="icon-info-sign" title="'+details.size+'"></i> &nbsp;')
                         $details.append('<i class="icon-hdd" title="Total size: '+details.size+'"> '+details.size+'</i> &nbsp;')
                         
-                        if ( details.size.match(/G$/) ) $o.closest('.album').find('.folder-download').remove();
-                        else $o.closest('.album').find('.folder-download').show();
+                        if ( details.size.match(/G$/) ) $details.closest('.album').find('.folder-download').remove();
+                        else $details.closest('.album').find('.folder-download').show();
 
                         //if ( i < json['folder'].length-1 ) { i++; setTimeout(function(){ f[0](i); },50); }
                         if ( $('.album .album-title.details:not(.updated)').length ) f[1]();   ;

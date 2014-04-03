@@ -36,6 +36,26 @@ if ( isset($_REQUEST['m']) ) $method = $_REQUEST['m'];
 
 switch ( $method ) {
     case 'GET':
+
+        if ( isset($_GET['state']) ) {
+            echo json_encode(array(
+                'typesOrder' => array( 'folder' , 'music' , 'card' , 'video' , 'pdf' ),
+                'server' => 'local',
+                'servers' => array(
+                    'local' => array(
+                        'name' => 'local',
+                        'url' => $config['servers']['local'],
+                        'login' => $_SESSION['login'],
+                        'timestamp' => $_SESSION['timestamp'],
+                        'hash' => hash( 'sha256' , $_SESSION['timestamp'] . '|' . $_SESSION['login'] . '|' . $config['users'][$_SESSION['login']] ),
+                        'share' => hash( 'sha256' , 0 . '|' . $_SESSION['login'] . '|' . $config['users'][$_SESSION['login']] ),
+                    )
+                )
+            ));
+            die();
+            break;
+        }
+
     case 'POST':
     case 'PUT':
     case 'DELETE':

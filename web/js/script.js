@@ -121,6 +121,18 @@
         
             // Asynchronous initialization process :
             var i = 0, f = [
+                function() {
+                    $.getJSON('api.php?state',function(json){
+
+                        console.log( 127 , json );
+
+                        $m.state = $.extend( true , $m.state , json );
+
+                        console.log( 127 , $m.state );
+
+                        f[++i]();
+                    });
+                },
                 // External resources loading :
                 function () {
                     if ( $m.state.loading.length > 0 ) {
