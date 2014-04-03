@@ -130,8 +130,9 @@
                                 $('.git-sha').text( sha ).attr('title',sha);
                                 
                                 // Reset all cache data then reload:
-                                window.applicationCache.update(); // Attempt to update the user's cache.
-                                
+                                try {
+                                    window.applicationCache.update(); // Attempt to update the user's cache.
+                                } catch ( e ) {}
                             });
                         }
                     });
@@ -139,39 +140,44 @@
             },
 
             reset: function() {
-                // Remove the local storage data:
-                localStorage.clear();
 
-                // Remove the local file system data:
-                $m.storage.fs.clear();
+                if (confirm('Reset application data?')) {
 
-                // Bind a cache update event:
-                window.applicationCache.onupdateready = function(e) {
-                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-                        $m.storage.set('state.sha',sha);
-                        // Browser downloaded a new app cache.
-                        // Swap it in and reload the page to get the new hotness.
-                        window.applicationCache.swapCache();
-                        //if (confirm('New version available:\n'+releases+'\nLoad it?')) {
+                    // Remove the local storage data:
+                    localStorage.clear();
+
+                    // Remove the local file system data:
+                    $m.storage.fs.clear(function(){
+
+                        // Bind a cache update event:
+                        window.applicationCache.onupdateready = function(e) {
+                            if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                                $m.storage.set('state.sha',sha);
+                                // Browser downloaded a new app cache.
+                                // Swap it in and reload the page to get the new hotness.
+                                window.applicationCache.swapCache();
+                                //if (confirm('New version available:\n'+releases+'\nLoad it?')) {
+                                    window.location.reload();
+                                //}
+                            }
+
                             window.location.reload();
-                        //}
-                    }
 
-                    if (confirm('Restart application?')) {
-                        // Clear the application cache:
-                        window.location.reload();
-                    }
+                        };
 
-                };
+                        window.applicationCache.onchecking = function(e) {
+                            window.location.reload();
+                        }
 
-                window.applicationCache.onchecking = function(e) {
-                    window.location.reload();
+
+                        try {
+                            // Clear the application cache:
+                            window.applicationCache.update();
+                        } catch ( e ) {
+                            window.location.reload();
+                        }
+                    });
                 }
-
-
-                // Clear the application cache:
-                window.applicationCache.update();
-                
 
             }
         },

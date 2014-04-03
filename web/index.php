@@ -180,6 +180,7 @@ if ( empty($_SESSION['timestamp']) || mktime() - round(floatval($_SESSION['times
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh" target="_blank">Fork us on Github!</a></li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh/issues/new" target="_blank">Found a bug ?</a></li>
                         <li class="application-details" style="text-align: center;"><a href="https://github.com/billou-fr/Mesh/commits/" target="_blank" title="<?php echo $git; ?>" class="git-sha" ><?php echo substr($git,0,10); ?></a></li>
+                        <li class="application-details" style="text-align: center;"><a href="#" onClick="$m.app.reset();">Reset</a></li>
                     </ul>
                 </div>
                 

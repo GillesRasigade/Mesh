@@ -316,7 +316,8 @@
                     var path = $m.state.path; //$m.state.path = '';
                     
                     setTimeout(function(){
-                        $m.explorer.path( path );
+
+                        
                         
                         if ( $('#menu-dropdown a[href*=logout]').length ) {
                     
@@ -324,8 +325,11 @@
                             $m.app.update();
                             
                         }
-                    },0);
-                
+
+                        $m.explorer.path( path );
+
+                    },150);
+
                 }
             ]; f[i]();
         },

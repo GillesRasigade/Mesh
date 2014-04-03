@@ -174,7 +174,7 @@
                                             '</span>'+
                                             '<span title="'+json[i]+'" class="album-title entry-name">'+title.replace(/.*\//,'')+'</span>'+
                                             '<span class="album-title details" data-title="&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'">&nbsp;'+( details.length ? details.join(' - ') + ' &nbsp;' : '' ) +'</span>'+
-                                        '</a>');
+                                        '</a>').css('visibility','hidden');
                                     
                                     $div.find('.dropdown-menu')
                                         .prepend( $m.shared ? '' : '<li><a href="#" onClick="$m.view.folder.share(\''+p.replace(/'/g,"\\\'")+'\',\''+$m.state.servers[ $m.state.server ].url.replace(/api.php.*$/,'index.php')+'?link='+sharedToken+'\');" class="folder-share"><i class="icon-share"></i> Share</a></li>' )
@@ -184,7 +184,7 @@
                                         .prepend( '<li><a href="javascript:void(0);" onClick="$m.view.folder.reset(\''+p+'\'); event.preventDefault(); event.stopPropagation(); $(this).closest(\'ul\').prev().click(); return false;" title="Refresh album information" class="refresh-folder"><i class="icon-refresh"></i> Reset</a></li>' )
 
                                     $folder.find('.folders > .column:nth-child('+column+') > .column-content').append($div);
-                                    
+
                                     (function(p){
                                     
                                         var ps = p.replace(/^[^:]+:\/\//,'');
@@ -208,6 +208,8 @@
                                                 $m.view.folder.thumb( p );
                                                 
                                             }
+
+                                            $div.css('visibility','visible')
                                         });
                                     })(p);
                                 }

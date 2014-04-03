@@ -27,34 +27,34 @@ images/default-album.gif
 
 
 
-css/stylesheet.css
-css/plugins/card.css
-css/plugins/explorer.css
-css/plugins/folder.css
-css/plugins/image.css
-css/plugins/music.css
-css/plugins/pdf.css
-css/plugins/video.css
+#css/stylesheet.css
+#css/plugins/card.css
+#css/plugins/explorer.css
+#css/plugins/folder.css
+#css/plugins/image.css
+#css/plugins/music.css
+#css/plugins/pdf.css
+#css/plugins/video.css
 
 
 
 
-js/script.js
-js/utils/utils.js
+#js/script.js
+#js/utils/utils.js
 
-js/plugins/api.js
-js/plugins/app.js
-js/plugins/events.js
-js/plugins/explorer.js
-js/plugins/storage.js
-js/plugins/utils.js
+#js/plugins/api.js
+#js/plugins/app.js
+#js/plugins/events.js
+#js/plugins/explorer.js
+#js/plugins/storage.js
+#js/plugins/utils.js
 
-js/plugins/views/card.js
-js/plugins/views/folder.js
-js/plugins/views/image.js
-js/plugins/views/music.js
-js/plugins/views/pdf.js
-js/plugins/views/video.js
+#js/plugins/views/card.js
+#js/plugins/views/folder.js
+#js/plugins/views/image.js
+#js/plugins/views/music.js
+#js/plugins/views/pdf.js
+#js/plugins/views/video.js
 
 NETWORK:
 *
