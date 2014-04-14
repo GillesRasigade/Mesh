@@ -239,6 +239,13 @@
                     
                     var f = [
                         function ( url ) {
+
+                            $('.content',$splash).empty().show()
+                                .append('<video class="video-player entry-show" preload controls autoplay data-path="'+path+'" width="100%" height="100%">'+
+                                        '<source src="'+url+'" />'+
+                                    '</video>');
+                            
+                            return;
                             
                             if ( $m.view.video.config.vlc ) {
 
@@ -260,15 +267,21 @@
                         },
                         function( scale ){
 
+                            var url = window.location.href.replace( /\/[^\/]*$/ , '' ) + '/' + $m.api.utils.url( 'video' , 'access' , { path: path });
+
                             if ( $m.cast && $m.cast.isConnected() ) {
-
-                                var url = window.location.href.replace( /\/[^\/]*$/ , '' ) + '/' + $m.api.utils.url( 'video' , 'access' , { path: path });
-
-                                console.log( 'cast' , url );
-
+                                
                                 $m.cast.loadMedia( url , 'video/mp4' );
 
                             } else {
+
+                                f[0](url);
+
+                            }
+
+                            return;
+
+                            if ( false) {
 
                                 scale = undefined !== scale ? scale : 1;
                                 $m.api.get({ c:'video', a:'stream', scale:scale, path: path, 'max-width': window.screen.width, 'max-height': window.screen.height },function(json){
@@ -327,11 +340,11 @@
                 stop: function ( $entry ) {
                     var $player = $('.video-player');
                     
-                    $m.api.get({ c:'video', a:'stop', stream: $entry.attr('data-src') },function(json){
+                    // $m.api.get({ c:'video', a:'stop', stream: $entry.attr('data-src') },function(json){
                         $entry.attr('data-src','');
                         $player.remove();
                         $entry.find('.video-play i').toggleClass('icon-facetime-video').toggleClass('icon-stop');
-                    });
+                    // });
                 },
                 
                 // Stream video file with VLC and display result :
