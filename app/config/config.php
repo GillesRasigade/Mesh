@@ -21,7 +21,7 @@
 
 // Parse the main ini file :
 $config = parse_ini_file('config.ini') + array(
-    'limit' => 25,
+    'limit' => 50,
     
 );
 

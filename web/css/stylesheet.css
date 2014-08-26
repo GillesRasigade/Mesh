@@ -601,7 +601,7 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
     
-    font-size: 0.9em;
+    font-size: 1em;
     
     background-color: white;
 }
